@@ -1,0 +1,9 @@
+#if($currentForm.message.hasError())
+<div id="errorMessage">
+  #foreach($property in $currentForm.message.properties)
+    #foreach($msg in $currentForm.message.get($property))
+    $msg<br>
+    #end  
+  #end
+</div>  
+#end

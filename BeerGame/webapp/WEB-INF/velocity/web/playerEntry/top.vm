@@ -1,0 +1,44 @@
+#parse("web/header.vm")
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="./css/style.css" type="text/css" />
+  <title>ƒr[ƒ‹ƒQ[ƒ€Q‰Á“o˜^</title>
+</head>
+<body>
+  <div id="main">
+#parse("web/errorList.vm")
+#set($list = $!currentForm.getTeamList())
+#if($list.size() == 0)
+    <h2>ƒŠƒXƒg‚ªæ“¾‚³‚ê‚Ä‚È‚¢‚æ</h2>
+#else
+    <table border=4 width=250 align=center>
+      <tr align=center>
+        <td>ƒ`[ƒ€–¼</td>
+        <td>
+          <select name="kamoku1">
+#foreach($entity in $list)
+            <option value="$entity.teamName">$entity.teamName</option>
+#end
+          </select>
+        </td>
+      </tr>
+      <tr align=center>
+        <td>ƒvƒŒƒCƒ„–¼</td>
+        <td><INPUT type="text" name="namae"></td>
+      </tr>
+      <tr align=center>
+        <td>ƒ[ƒ‹</td>
+        <td>
+          <select name="kamoku1">
+            <option value="‘Œê">‘Œê</option>
+            <option value="Z”">Z”</option>
+            <option value="—‰È" selected="selected">—‰È</option>
+            <option value="Ğ‰ï">Ğ‰ï</option>
+            <option value="‘Ìˆç">‘Ìˆç</option>
+            <option value="}H">}H</option>
+            <option value="‰Æ’ë‰È">‰Æ’ë‰È</option>
+          </select>
+        </td>
+      </tr>
+#end
+#parse("web/footer.vm")

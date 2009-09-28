@@ -1,0 +1,17 @@
+#parse("web/header.vm")
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="./css/style.css" type="text/css" />
+  <title>ビールゲーム</title>
+</head>
+<body>
+<div id="cnt">
+  <div id="header">
+    <h1>ビールゲーム</h1>
+  </div>
+  <div id="main">
+   <ul>
+     <li><a href="$link.setAction('/preGame').addQueryData('command','init')">新規ゲームの設定</a></li>
+     <li><a href="$link.setAction('/playerEntry').addQueryData('command','init')">ビールゲーム参加登録</a></li>
+   </ul>
+#parse("web/footer.vm")

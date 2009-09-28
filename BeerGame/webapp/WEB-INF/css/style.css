@@ -1,0 +1,179 @@
+@import "http://";
+@charset "utf-8";
+
+body {
+	font-size: 13px;
+	*font-size: small; /* IE7 */
+	*font: x-small; /* IE6 */
+}
+
+* {line-height: 1.6;font-size: 100%;}
+
+html {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	text-align: center;
+	margin:0 auto;
+	background-color:#ccccdd;
+	padding:0;
+}
+
+
+p {
+	line-height: 1.8;
+}
+
+
+p, ul, table {
+	font-size: 100%;
+}
+
+#cnt a {text-decoration: none;}
+
+#cnt a:link {
+	color:#111144;
+	border-bottom: 1px solid #111144;
+}
+
+#cnt a:visited {
+	color: #551133;
+	border-bottom: 1px solid #551133;
+}
+
+#cnt a:hover {
+	color: #551133;
+	border-bottom: 1px solid #551133;
+}
+
+#cnt {
+	margin:0 auto 10px auto;
+	text-align: left;
+	width:1100px;
+	border-right: 1px solid #cccccc;
+	border-left: 1px solid #cccccc;
+	background-color:#FFFFFF;
+}
+
+#header {
+	text-align: left;
+	margin:0px auto 20px auto;
+	padding:30px;
+	border-bottom: 1px solid #cccccc;
+	background-color:#FFFFFF;
+}
+
+#menu  {
+	text-align:right;
+	font-size:87%;
+	color:#CCCCCC;
+}
+
+
+#main{
+	font-size: 110%;
+	margin:0 3em;
+	line-height: 1.9;
+}
+
+#main ul {
+	margin:0 5px 5px 0;
+	padding: 3px;
+	list-style: circle;
+}
+
+#main li {
+	margin: 0.5em 0 0.5em 1.5em;
+	letter-spacing: 0.02em;
+	padding: 0.3em 0 0.3em 0.1em;
+}
+
+
+#footer {
+	margin: 60px 0 0 0;
+	padding: 40px 0;
+	border-top: 1px solid #cccccc;
+	line-height: 1.9;
+	text-align: center;
+	letter-spacing: 0.1em;
+}
+
+h1 {
+	font-size: 160%;
+	font-weight:normal;
+	/*color:white;*/
+	margin:0 0 5px 0;
+	padding:0;
+}
+
+h2 {
+	font-size: 100%;
+	font-weight:normal;
+	margin:0;
+	padding:0;
+}
+
+h3 {
+	font-size: 130%;
+	font-weight:normal;
+	margin:2.5em 0 1em 0;
+	padding:0 0 0 10px;
+	border-left: 3px solid #cccccc;
+}
+
+h4 {
+	font-size: 130%;
+	font-weight:normal;
+	margin:2.5em 0 1em 0;
+	padding:0 0 5px 10px;
+	border-bottom: 1px solid #cccccc;
+}
+
+table#param {
+    width: 900px;
+    border: 1px #E3E3E3 solid;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+table#param th {
+    padding: 2px;
+    border: #E3E3E3 solid;
+    border-width: 0 0 1px 1px;
+    background: #F5F5F5;
+    font-weight: bold;
+    line-height: 120%;
+    text-align: center;
+    white-space: nowrap; 
+}
+table#param td {
+    padding: 2px;
+    border: 1px #E3E3E3 solid;
+    border-width: 0 0 1px 1px;
+    text-align: center;
+}
+
+
+table#project {
+    width: 600px;
+    border: 1px #E3E3E3 solid;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+table#project th {
+    padding: 5px;
+    border: #E3E3E3 solid;
+    border-width: 0 0 1px 1px;
+    background: #F5F5F5;
+    font-weight: bold;
+    line-height: 120%;
+    text-align: center;
+    white-space: nowrap; 
+}
+table#project td {
+    padding: 5px;
+    border: 1px #E3E3E3 solid;
+    border-width: 0 0 1px 1px;
+    text-align: center;
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="windows-31j"?>
+
+<project name="BeerGame" basedir="." default="makeConfig">
+  <property name="src.encoding"                   value="windows-31j" />
+  <property name="lib.dir"                        value="./webapp/WEB-INF/lib" />
+  <property name="bean.def.xml"                   value="./etc/beanDef/beanDef.xml" />
+
+  <import file="../framework/build-common.xml" />
+  <property name="hibernate.fileset.dirs"         value="${src.dir};../framework/src/java" />
+
+  <!-- RDF CoreのSQL定義分を取得してからDB-initを実行する -->
+  <target name="DB-init" depends="init-task" description="自動生成されたCreate Table文を実行する">
+    <property file="./middlegen.properties" />
+    <copy todir="${torque.sql.dir}" overwrite="true">
+      <fileset dir="${framework.root}/etc/sql/${torque.database.type}">
+        <include name="*.sql" />
+      </fileset>
+    </copy>
+    <antcall target="DB-clear-1" />
+    <antcall target="DB-clear-2" />
+  </target>
+
+  <target name="makeConfig" depends="init-task, filter-check, filter-exists, makeConfigBase" if="filtering.filename.present" description="EIを実行する">
+    <copy file="${conf.dir}/template/beans.xml" tofile="${src.dir}/beans.xml" filtering="true" overwrite="true" encoding="windows-31j" />
+    <copy file="${conf.dir}/template/beans-domain.xml" tofile="${src.dir}/beans-domain.xml" filtering="true" overwrite="true" encoding="windows-31j" />
+    <copy file="${conf.dir}/template/log4j.properties" tofile="${src.dir}/log4j.properties" filtering="true" overwrite="true" encoding="windows-31j" />
+    <native2ascii src="${resource.dir}" dest="${src.dir}" includes="**/*.properties" encoding="windows-31j" />
+    <echo message="Eclipse上で実行している場合は、F5を押して最新状態にしてください。" />
+  </target>
+</project>

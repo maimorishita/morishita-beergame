@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping
+>
+
+    <class
+        name="jp.co.isken.beerGame.entity.TradeTransaction"
+        table="TRADE_TRANSACTION"
+    >
+
+        <id
+            name="id"
+            column="ID"
+            type="java.lang.Long"
+        >
+            <generator class="assigned">
+              <!--  
+                  To add non XDoclet generator parameters, create a file named 
+                  hibernate-generator-params-BaseTradeTransaction.xml 
+                  containing the additional parameters and place it in your merge dir. 
+              --> 
+            </generator>
+        </id>
+
+        <property
+            name="transactionId"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="TRANSACTION_ID"
+            length="64"
+            not-null="true"
+        />
+
+        <property
+            name="week"
+            type="java.lang.Long"
+            update="true"
+            insert="true"
+            column="WEEK"
+            length="20"
+            not-null="true"
+        />
+
+        <property
+            name="amount"
+            type="java.lang.Long"
+            update="true"
+            insert="true"
+            column="AMOUNT"
+            length="20"
+            not-null="true"
+        />
+
+        <property
+            name="roleId"
+            type="java.lang.Long"
+            update="true"
+            insert="true"
+            column="ROLE_ID"
+            not-null="true"
+        />
+
+        <!--
+            To add non XDoclet property mappings, create a file named
+                hibernate-properties-BaseTradeTransaction.xml
+            containing the additional properties and place it in your merge dir.
+        -->
+
+        <joined-subclass
+            name="jp.co.isken.beerGame.entity.CustmerTransaction"
+            table="CUSTMER_TRANSACTION"
+        >
+            <key
+                column="TRADE_TRANSACTION_ID"
+            />
+
+        </joined-subclass>
+
+    </class>
+
+</hibernate-mapping>

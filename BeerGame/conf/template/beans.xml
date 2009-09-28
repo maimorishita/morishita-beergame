@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="windows-31j"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+    "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans default-lazy-init="true">
+  <import resource="beans-domain.xml" />
+
+  <bean id="connectionManager" class="jp.rough_diamond.framework.transaction.hibernate.HibernateConnectionManager">
+    <description>Hibernate用のトランザクションマネージャ</description>
+    <property name="interceptor"><bean class="jp.rough_diamond.commons.service.hibernate.BasicServiceInterceptor" /></property>
+    <property name="listenersMap">
+      <map>
+        <entry key="load">
+          <list>
+            <value>jp.rough_diamond.commons.service.hibernate.LoadEventListenerExt</value>
+          </list>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+
+  <bean id="serviceFinder" class="jp.rough_diamond.framework.service.ServiceFinderChain">
+    <description>ServiceFinder</description>
+    <constructor-arg index="0">
+      <list>
+        <bean class="jp.rough_diamond.framework.transaction.ServiceFinder" />
+        <bean class="jp.rough_diamond.framework.service.SimpleServiceFinder" />
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <bean id="transactionInterceptor" class="jp.rough_diamond.framework.transaction.hibernate.HibernateAnotationTransactionManager">
+    <description>アノテーションによってトランザクションを制御するInterceptor</description>
+  </bean>
+
+  <!-- 
+    Webの場合はLocaleControllerByThreadLocalにすること
+    SimpleLocaleControllerは、動作ＯＳ上の言語情報からローケルを特定するのでまずい
+  -->
+  <bean id="localeController" class="jp.rough_diamond.commons.resource.LocaleControllerByThreadLocal">
+    <description>どのレイヤからも透過的にローケルに対してアクセス可能なインタフェース</description>
+  </bean>
+
+  <bean id="resourceName" class="java.lang.String">
+    <description>リソースファイル名</description>
+    <constructor-arg index="0" type="java.lang.String">
+      <value>
+        messageResource,
+        schemaResources
+      </value>
+    </constructor-arg>
+  </bean>
+  
+  <!-- 
+    Webの場合はUserControllerByThreadLocalにすること
+    SimpleUserControllerは、ＶＭで一意のユーザー管理となるのでまずい
+  -->
+  <bean id="userController" class="jp.rough_diamond.framework.user.UserControllerByThreadLocal">
+    <description>どのレイヤからも透過的にユーザーに対してアクセス可能なインタフェース</description>
+  </bean>
+
+  <bean id="velocityWrapper" class="jp.rough_diamond.commons.velocity.VelocityWrapper">
+    <description>VelocityWrapper</description>
+    <constructor-arg index="0"><ref bean="velocityProperties" /></constructor-arg>
+    <constructor-arg index="1"><ref bean="velocityContext" /></constructor-arg>
+  </bean>
+</beans>
