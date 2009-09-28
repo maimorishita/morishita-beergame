@@ -4,8 +4,6 @@ package jp.co.isken.beerGame.presentation;
 import java.util.List;
 
 import jp.co.isken.beerGame.entity.Player;
-import jp.co.isken.beerGame.mq.Receiver;
-import jp.co.isken.beerGame.mq.Sender;
 import jp.rough_diamond.commons.resource.Message;
 import jp.rough_diamond.commons.resource.Messages;
 import jp.rough_diamond.commons.resource.MessagesIncludingException;
@@ -34,7 +32,7 @@ public class PreGameForm extends
 			return false;
 		}
 		try {
-			//‰i‘±‰»{
+			//ï¿½iï¿½ï¿½ï¿½ï¿½{
 			for(Player p : players){
 				p.save();
 			}

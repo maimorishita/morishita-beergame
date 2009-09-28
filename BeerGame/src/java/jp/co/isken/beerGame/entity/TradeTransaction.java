@@ -1,9 +1,46 @@
 
 package jp.co.isken.beerGame.entity;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import jp.rough_diamond.commons.extractor.Condition;
+import jp.rough_diamond.commons.extractor.ExtractValue;
+import jp.rough_diamond.commons.extractor.Extractor;
+import jp.rough_diamond.commons.extractor.Property;
+import jp.rough_diamond.commons.extractor.Sum;
+import jp.rough_diamond.commons.service.BasicService;
+
 /**
- * æˆø‹L˜^‚ÌHibernateƒ}ƒbƒsƒ“ƒOƒNƒ‰ƒX
+ * ï¿½ï¿½ï¿½Lï¿½^ï¿½ï¿½Hibernateï¿½}ï¿½bï¿½sï¿½ï¿½ï¿½Oï¿½Nï¿½ï¿½ï¿½X
 **/
 public class TradeTransaction extends jp.co.isken.beerGame.entity.base.BaseTradeTransaction {
     private static final long serialVersionUID = 1L;
+
+	public int calcAmountStock(int week, Role role) {
+		return calcAmount(week, role, "å…¥è·") - calcAmount(week, role, "å‡ºè·");
+	}
+	
+	public int calcAmount(int week, Role role, String typeName) {
+		Extractor ext = new Extractor(TradeTransaction.class);
+		ext.addExtractValue(new ExtractValue(
+				"sum", new Sum(new Property(TradeTransaction.AMOUNT))));
+		ext.add(Condition.eq(new Property(TradeTransaction.ROLE_ID), role.getId()));
+		ext.add(Condition.le(new Property(TradeTransaction.WEEK), week));
+		ext.add(Condition.eq(new Property(TradeTransaction.TRANSACTION_ID), typeName));
+		List<Map<String, Long>> list = BasicService.getService().findByExtractor(ext);
+		return list.get(0).get("sum").intValue();	
+	}
+
+	public int calcAmountRemain(int week, Role role) {
+		return calcAmount(week, role, "å—æ³¨") - calcAmount(week, role, "å‡ºè·");	}
+
+	public Map<Integer, Integer> getStockList(int week, Role role) {
+		Map<Integer, Integer> ret = new HashMap<Integer, Integer>();
+		for(int i = 1 ; i <= week ; i++){
+			ret.put(i, calcAmountStock(i, role));
+		}
+		return ret;
+	}
 }

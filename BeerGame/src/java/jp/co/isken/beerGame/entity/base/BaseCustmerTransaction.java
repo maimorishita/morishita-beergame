@@ -1,9 +1,7 @@
 package jp.co.isken.beerGame.entity.base;
 
-
-
-
 import  java.io.Serializable;
+
 
 
 /**
@@ -15,6 +13,10 @@ import  java.io.Serializable;
  *    column="TRADE_TRANSACTION_ID"
 **/
 public abstract class BaseCustmerTransaction extends jp.co.isken.beerGame.entity.TradeTransaction implements Serializable {
+   private static final long serialVersionUID = 1L;
+    /**
+     * デフォルトコンストラクタ
+    **/
     public BaseCustmerTransaction() {
     }
 
@@ -22,7 +24,6 @@ public abstract class BaseCustmerTransaction extends jp.co.isken.beerGame.entity
      * OID
     **/ 
     private Long id;
-
     public final static String ID = "id";
     /**
      * OIDを取得する
@@ -32,7 +33,6 @@ public abstract class BaseCustmerTransaction extends jp.co.isken.beerGame.entity
      *    not-null="true"
      * @return OID
     **/
-
     public Long getId() {
         return id;
     }
@@ -45,7 +45,7 @@ public abstract class BaseCustmerTransaction extends jp.co.isken.beerGame.entity
         this.id = id;
         isLoaded = false;
     }
-    
+
     public int hashCode() {
         if(getId() == null) {
             return super.hashCode();
@@ -66,23 +66,8 @@ public abstract class BaseCustmerTransaction extends jp.co.isken.beerGame.entity
         }
         return false;
     }
-
-    private boolean isLoaded;
-    @jp.rough_diamond.commons.service.annotation.PostLoad
-    @jp.rough_diamond.commons.service.annotation.PostPersist
-    public void setLoadingFlag() {
-        isLoaded = true;
-    }
-
-    public void save() throws jp.rough_diamond.framework.transaction.VersionUnmuchException, jp.rough_diamond.commons.resource.MessagesIncludingException {
-        if(isLoaded) {
-            jp.rough_diamond.commons.service.BasicService.getService().update(this);
-        } else {
-            jp.rough_diamond.commons.service.BasicService.getService().insert(this);
-        }
-    }
-
+//ForeignProperties.vm start.
 
     
-    private static final long serialVersionUID = 1L;
+//ForeignProperties.vm finish.
 }

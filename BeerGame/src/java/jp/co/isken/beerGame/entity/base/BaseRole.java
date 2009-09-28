@@ -1,9 +1,7 @@
 package jp.co.isken.beerGame.entity.base;
 
-
-
-
 import  java.io.Serializable;
+
 
 
 /**
@@ -13,6 +11,10 @@ import  java.io.Serializable;
  *    realClass="jp.co.isken.beerGame.entity.Role"
 **/
 public abstract class BaseRole  implements Serializable {
+   private static final long serialVersionUID = 1L;
+    /**
+     * デフォルトコンストラクタ
+    **/
     public BaseRole() {
     }
 
@@ -20,7 +22,6 @@ public abstract class BaseRole  implements Serializable {
      * OID
     **/ 
     private Long id;
-
     public final static String ID = "id";
     /**
      * OIDを取得する
@@ -30,7 +31,6 @@ public abstract class BaseRole  implements Serializable {
      *    not-null="true"
      * @return OID
     **/
-
     public Long getId() {
         return id;
     }
@@ -43,7 +43,7 @@ public abstract class BaseRole  implements Serializable {
         this.id = id;
         isLoaded = false;
     }
-    
+
     public int hashCode() {
         if(getId() == null) {
             return super.hashCode();
@@ -65,21 +65,50 @@ public abstract class BaseRole  implements Serializable {
         return false;
     }
 
-    private boolean isLoaded;
+    protected boolean isLoaded;
     @jp.rough_diamond.commons.service.annotation.PostLoad
     @jp.rough_diamond.commons.service.annotation.PostPersist
     public void setLoadingFlag() {
         isLoaded = true;
     }
 
+    /**
+     * オブジェクトを永続化する
+     * 永続化ルールは以下の通りです。
+     * <ul>
+     *   <li>newした直後のオブジェクトの場合はinsert</li>
+     *   <li>loadされたオブジェクトの場合はupdate</li>
+     *   <li>loadされたオブジェクトでも主キーを差し替えた場合はinsert</li>
+     *   <li>insertしたオブジェクトを再度saveした場合はupdate</li>
+     *   <li>setLoadingFlagメソッドを呼び出した場合は強制的にupdate（非推奨）</li>
+     * </ul>
+     * @throws VersionUnmuchException   楽観的ロッキングエラー
+     * @throws MessagesIncludingException 検証例外
+    **/
     public void save() throws jp.rough_diamond.framework.transaction.VersionUnmuchException, jp.rough_diamond.commons.resource.MessagesIncludingException {
         if(isLoaded) {
-            jp.rough_diamond.commons.service.BasicService.getService().update(this);
+            update();
         } else {
-            jp.rough_diamond.commons.service.BasicService.getService().insert(this);
+            insert();
         }
     }
 
+    /**
+     * オブジェクトを永続化する
+     * @throws MessagesIncludingException 検証例外
+    **/
+    protected void insert() throws jp.rough_diamond.commons.resource.MessagesIncludingException {
+        jp.rough_diamond.commons.service.BasicService.getService().insert(this);
+    }
+
+    /**
+     * 永続化オブジェクトを更新する
+     * @throws MessagesIncludingException 検証例外
+     * @throws VersionUnmuchException   楽観的ロッキングエラー
+    **/
+    protected void update() throws jp.rough_diamond.framework.transaction.VersionUnmuchException, jp.rough_diamond.commons.resource.MessagesIncludingException {
+        jp.rough_diamond.commons.service.BasicService.getService().update(this);
+    }
     /**
      * ロール名
     **/ 
@@ -107,8 +136,6 @@ public abstract class BaseRole  implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
-
     /**
      * Cookie
     **/ 
@@ -135,9 +162,8 @@ public abstract class BaseRole  implements Serializable {
     public void setCookie(String cookie) {
         this.cookie = cookie;
     }
-
-
+//ForeignProperties.vm start.
 
     
-    private static final long serialVersionUID = 1L;
+//ForeignProperties.vm finish.
 }
