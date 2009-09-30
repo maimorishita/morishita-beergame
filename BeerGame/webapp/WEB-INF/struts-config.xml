@@ -61,20 +61,12 @@
         <forward name="input"              path="web/preGame/input.vm"    redirect="false" />
       </action>
       <action
-          path="/joinGame" parameter="command"
-          type="jp.co.isken.beerGame.presentation.action.JoinGameAction"
-          name="JoinGameForm"
-          validate="false"
-          scope="session">
-        <forward name="top"                path="web/joinGame/top.vm"              redirect="false" />
-      </action>
-      <action
           path="/playerEntry" parameter="command"
           type="jp.co.isken.beerGame.presentation.action.PlayerEntryAction"
           name="PlayerEntryForm"
           validate="false"
           scope="session">
-        <forward name="top"                path="web/playerEntry/top.vm"           redirect="false" />
+        <forward name="top"                path="web/top.vm"           redirect="false" />
       </action>
     </action-mappings>
 

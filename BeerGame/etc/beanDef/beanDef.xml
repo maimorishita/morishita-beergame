@@ -25,15 +25,13 @@
 <beans>
   <bean className="jp.co.isken.beerGame.presentation.NullForm" extends="jp.rough_diamond.framework.web.struts.BaseForm" description="NullForm">
   </bean>
-  <bean className="jp.co.isken.beerGame.presentation.PreGameForm" extends="jp.rough_diamond.framework.web.struts.BaseForm" description="ゲームの準備">
+  
+  <bean className="jp.co.isken.beerGame.presentation.PreGameForm" extends="jp.rough_diamond.framework.web.struts.BaseForm" description="ゲームを登録する。">
     <property name="teamName"   type="String"                                 description="チーム名" />
     <property name="ownerName"  type="String"                                 description="オーナー名" />
   </bean>
-  <bean className="jp.co.isken.beerGame.presentation.JoinGameForm" extends="jp.rough_diamond.framework.web.struts.BaseForm" description="ゲームの準備">
-    <property name="name"       type="String"                                                        description="名前" />
-    <property name="stream"     type="java.io.InputStream"  transient="true"  description="ストリーム" />
-  </bean>
-  <bean className="jp.co.isken.beerGame.presentation.PlayerEntryForm" extends="jp.rough_diamond.framework.web.struts.BaseForm" description="ゲームに登録する">
-    <property name="player"     type="jp.co.isken.beerGame.entity.Player"     description="プレイヤー" />
+  
+  <bean className="jp.co.isken.beerGame.presentation.PlayerEntryForm" extends="jp.rough_diamond.framework.web.struts.BaseForm" description="プレイヤーを登録する">
+    <property name="playerName"  type="String"                                 description="プレイヤー名" />
   </bean>
 </beans>

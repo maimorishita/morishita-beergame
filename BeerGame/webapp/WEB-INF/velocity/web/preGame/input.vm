@@ -9,24 +9,31 @@
       formObj.command.value='addGame';
       formObj.submit();
     }
+    -->
   </script>
 </head>
 <body>
-
-<div id="cnt">
-  <div id="header">
-    <h1>新規ゲームの設定</h1>
-  </div>
-  <div id="main">
 #parse("web/errorList.vm")
-<br />
- <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
- <input type="hidden" name="command" />
-  
-  チーム名<input type="text" name="teamName" value="$!{currentForm.teamName}" /><br/>
-  オーナー名<input type="text" name="ownerName" value="$!{currentForm.ownerName}" /><br/>
-  
- <input type="button" value="登録"      onClick="javascript:addGame(this.form);" />      
-
-</form>
+  <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
+  <input type="hidden" name="command" />
+  <div id="cnt">
+    <div id="header">
+      <h1>新規ゲームの設定</h1>
+    </div>
+  <div id="main">
+    <table border=4>
+      <tr>
+        <td>チーム名</td>
+        <td><input type="text" name="teamName" value="$!{currentForm.teamName}" /></td>
+      </tr>
+      <tr>
+        <td>オーナー名</td>
+        <td><input type="text" name="ownerName" value="$!{currentForm.ownerName}" /></td>
+      </tr>
+      <tr>
+        <td colspan=2 align=center><input type="button" value="登録" onClick="javascript:addGame(this.form);" /></td>
+      </tr>
+    </table>
+  </div>
+  </form>
 #parse("web/footer.vm")

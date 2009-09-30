@@ -25,4 +25,14 @@ public class PlayerEntryAction extends BaseAction {
 		form.init();
 		return arg0.findForward("top");
 	}
+	
+	public ActionForward entryPlayer(ActionMapping arg0, ActionForm arg1,
+			HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
+		PlayerEntryForm form = (PlayerEntryForm) arg1;
+		if (form.EntryPlayer()) {
+			return arg0.findForward("top");
+		} else {
+			return arg0.findForward("top");
+		}
+	}
 }

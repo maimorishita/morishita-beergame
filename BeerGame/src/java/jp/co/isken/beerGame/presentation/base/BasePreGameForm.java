@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * ƒQ[ƒ€‚Ì€”õ
+ * ƒQ[ƒ€‚ğ“o˜^‚·‚éB
 **/
 @SuppressWarnings("all")
 abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.struts.BaseForm implements Serializable {

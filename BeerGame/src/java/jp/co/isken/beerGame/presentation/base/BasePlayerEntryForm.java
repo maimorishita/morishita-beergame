@@ -5,36 +5,36 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * ゲームに登録する
+ * プレイヤーを登録する
 **/
 @SuppressWarnings("all")
 abstract public class BasePlayerEntryForm extends jp.rough_diamond.framework.web.struts.BaseForm implements Serializable {
     /**
-     * プレイヤー
+     * プレイヤー名
     **/
-    private  jp.co.isken.beerGame.entity.Player   player;
+    private  String   playerName;
 
     /**
-     * プレイヤーを取得する
-     * @return プレイヤー
+     * プレイヤー名を取得する
+     * @return プレイヤー名
     **/
-    public jp.co.isken.beerGame.entity.Player getPlayer() {
-        return this.player;
+    public String getPlayerName() {
+        return this.playerName;
     }
 
 
     /**
-     * プレイヤーを設定する
-     * @param player プレイヤー
+     * プレイヤー名を設定する
+     * @param playerName プレイヤー名
     **/
-    public void setPlayer(jp.co.isken.beerGame.entity.Player player) {
-        this.player = player;
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 
     public String toString() {
       StringBuffer buf = new StringBuffer();
-      buf.append("[プレイヤー:");
-      buf.append(player + "]");
+      buf.append("[プレイヤー名:");
+      buf.append(playerName + "]");
       return buf.toString();
     }
 

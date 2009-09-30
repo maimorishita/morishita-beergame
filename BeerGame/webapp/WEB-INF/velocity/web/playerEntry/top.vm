@@ -3,42 +3,49 @@
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" href="./css/style.css" type="text/css" />
   <title>ƒr[ƒ‹ƒQ[ƒ€Q‰Á“o˜^</title>
+  <script type="text/javascript" language="javascript">
+  <!--
+    function entryPlayer(formObj) {
+      formObj.command.value='entryPlayer';
+      formObj.submit();
+    }
+  -->
+  </script>
 </head>
 <body>
+  <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
+  <input type="hidden" name="command" />
   <div id="main">
 #parse("web/errorList.vm")
-#set($list = $!currentForm.getTeamList())
-#if($list.size() == 0)
-    <h2>ƒŠƒXƒg‚ªæ“¾‚³‚ê‚Ä‚È‚¢‚æ</h2>
-#else
-    <table border=4 width=250 align=center>
-      <tr align=center>
+    <table border=4>
+      <tr>
         <td>ƒ`[ƒ€–¼</td>
         <td>
           <select name="kamoku1">
-#foreach($entity in $list)
-            <option value="$entity.teamName">$entity.teamName</option>
+#foreach($game in $!currentForm.getWaitingGameList())
+            <option value="$game.name">$game.name</option>
 #end
           </select>
         </td>
       </tr>
-      <tr align=center>
+      <tr>
         <td>ƒvƒŒƒCƒ„–¼</td>
-        <td><INPUT type="text" name="namae"></td>
+        <td><input type="text" name="playerName" value="$!{currentForm.playerName}" /></td>
       </tr>
-      <tr align=center>
+      <tr>
         <td>ƒ[ƒ‹</td>
         <td>
           <select name="kamoku1">
-            <option value="‘Œê">‘Œê</option>
-            <option value="Z”">Z”</option>
-            <option value="—‰È" selected="selected">—‰È</option>
-            <option value="Ğ‰ï">Ğ‰ï</option>
-            <option value="‘Ìˆç">‘Ìˆç</option>
-            <option value="}H">}H</option>
-            <option value="‰Æ’ë‰È">‰Æ’ë‰È</option>
+#foreach($role in $!currentForm.getWaitingRoleList())
+            <option value="$role.name">$role.name</option>
+#end
           </select>
         </td>
       </tr>
-#end
+      <tr>
+        <td colspan=2 align=center><input type="button" value="“o˜^" onClick="javascript:entryPlayer(this.form);" /></td>
+      </tr>
+    </table>
+  </div>
+  </form>
 #parse("web/footer.vm")

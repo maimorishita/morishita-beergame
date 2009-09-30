@@ -35,5 +35,4 @@ public class PreGameAction extends BaseAction {
 			return arg0.findForward("input");
 		}
 	}
-
 }
