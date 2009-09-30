@@ -136,33 +136,6 @@ public abstract class BasePlayer  implements Serializable {
         this.name = name;
     }
     /**
-     * チーム名
-    **/ 
-    private String teamName;
-    public final static String TEAM_NAME = "teamName";
-
-    /**
-     * チーム名を取得する
-     * @hibernate.property
-     *    column="TEAM_NAME"
-     *    not-null="true"
-     *    length="64"
-     * @return チーム名
-    **/
-    @jp.rough_diamond.commons.service.annotation.MaxLength(length=64, property="Player.teamName")
-    @jp.rough_diamond.commons.service.annotation.NotNull(property="Player.teamName")
-    public String getTeamName() {
-        return teamName;
-    }
-
-    /**
-     * チーム名を設定する
-     * @param teamName  チーム名
-    **/
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
-    }
-    /**
      * オーナーの場合はT。他はN
     **/ 
     private Boolean isOwner = Boolean.FALSE;
@@ -247,6 +220,41 @@ public abstract class BasePlayer  implements Serializable {
             Long pk = role.getId();
             setRole(
                     jp.rough_diamond.commons.service.BasicService.getService().findByPK(jp.co.isken.beerGame.entity.Role.class, pk)
+            );
+        }
+    }
+
+    private jp.co.isken.beerGame.entity.Game game;
+    public final static String GAME = "game";
+
+    /**
+     * Get the associated Game object
+     * @hibernate.many-to-one
+     *   outer-join = "true"
+     * @hibernate.column name = "GAME_ID"
+     *
+     * @return the associated Game object
+     */
+    public jp.co.isken.beerGame.entity.Game getGame() {
+        return this.game;
+    }
+
+    /**
+     * Declares an association between this object and a Game object
+     *
+     * @param v Game
+     */
+    public void setGame(jp.co.isken.beerGame.entity.Game v) {
+        this.game = v;
+    }
+
+    @jp.rough_diamond.commons.service.annotation.PostLoad
+    public void loadGame() {
+        jp.co.isken.beerGame.entity.Game game = getGame();
+        if(game != null) {
+            Long pk = game.getId();
+            setGame(
+                    jp.rough_diamond.commons.service.BasicService.getService().findByPK(jp.co.isken.beerGame.entity.Game.class, pk)
             );
         }
     }

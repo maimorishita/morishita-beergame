@@ -23,7 +23,7 @@ public class Player extends jp.co.isken.beerGame.entity.base.BasePlayer {
 		List<Player> ret = new ArrayList<Player>();
 		for (int i = 0 ; i < 4 ;i++) {
 			Player p = new Player();
-			p.setTeamName(teamName);
+			//p.setTeamName(teamName);
 			p.setName("");
 			ret.add(p);
 		}
@@ -35,7 +35,7 @@ public class Player extends jp.co.isken.beerGame.entity.base.BasePlayer {
 	private static boolean isDuplicatedTeamName(String teamName) {
 		BasicService service = BasicService.getService();
 		Extractor extractor = new Extractor(Player.class);
-		extractor.add(Condition.eq(new Property(Player.TEAM_NAME), teamName));
+		//extractor.add(Condition.eq(new Property(Player.TEAM_NAME), teamName));
 		List<Player> p = service.findByExtractor(extractor);
 		if(p.size() == 0){
 			return true;

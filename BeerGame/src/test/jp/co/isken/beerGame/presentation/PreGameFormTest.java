@@ -8,31 +8,24 @@ import junit.framework.TestCase;
 
 public class PreGameFormTest extends TestCase {
 
+	private PreGameForm form;
+	
 	protected void setUp() throws Exception {
 		MasterLoader.init();
 		BusinessMasterLoader.init();
 		TransactionLoader.init();
 		NumberingLoader.init();
-	}
-
-	public void testAddGame() {
-		// ï¿½ï¿½ï¿½ï¿½n
-		PreGameForm form = new PreGameForm();
-		form.setTeamName("ï¿½kï¿½Cï¿½ï¿½");
-		form.setOwnerName("ï¿½ï¿½Ø‘ï¿½ï¿½Y");
-		assertTrue("ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B", form.addGame());
-		// ï¿½Ùï¿½nï¿½iï¿½dï¿½ï¿½ï¿½j
 		form = new PreGameForm();
-		form.setTeamName("ï¿½kï¿½Cï¿½ï¿½");
-		form.setOwnerName("ï¿½ï¿½Øuï¿½Y");
-		assertFalse("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B", form.addGame());
 	}
 
-	public void testActiveMq() {
-		// Activemq/binï¿½ï¿½ï¿½ï¿½ï¿½ï¿½batï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-		//ï¿½yD:\workspace\BeerGame\webapp\WEB-INF\lib\apache-activemq-5.2.01\bin\activemq.batï¿½z
-//		Sender.main(null);
-//		Receiver.main(null);
+	public void testV‹KƒQ[ƒ€‚ğ’Ç‰Á‚·‚é() {
+		form.setTeamName("Alliance of Valiant Arms");
+		form.setOwnerName("Ryoji Yoshioka");
+		assertTrue(form.addGame());
+		
+		//form = new PreGameForm();
+		//form.setTeamName("Alliance of Valiant Arms");
+		//form.setOwnerName("Ryoji Yoshioka");
+		//assertFalse(form.addGame());
 	}
-
 }

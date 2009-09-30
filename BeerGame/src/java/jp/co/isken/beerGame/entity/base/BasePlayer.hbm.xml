@@ -37,16 +37,6 @@
         />
 
         <property
-            name="teamName"
-            type="java.lang.String"
-            update="true"
-            insert="true"
-            column="TEAM_NAME"
-            length="64"
-            not-null="true"
-        />
-
-        <property
             name="isOwnerInDB"
             type="java.lang.String"
             update="true"
@@ -65,6 +55,19 @@
         >
             <column
                 name="ROLE_ID" 
+            />
+        </many-to-one>
+
+        <many-to-one
+            name="game"
+            class="jp.co.isken.beerGame.entity.Game"
+            cascade="none"
+            outer-join="true"
+            update="true"
+            insert="true"
+        >
+            <column
+                name="GAME_ID" 
             />
         </many-to-one>
 
