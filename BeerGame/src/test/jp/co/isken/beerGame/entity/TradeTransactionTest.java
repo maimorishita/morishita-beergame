@@ -1,13 +1,7 @@
 package jp.co.isken.beerGame.entity;
 
-import java.util.List;
 import java.util.Map;
 
-import jp.rough_diamond.commons.extractor.Condition;
-import jp.rough_diamond.commons.extractor.ExtractValue;
-import jp.rough_diamond.commons.extractor.Extractor;
-import jp.rough_diamond.commons.extractor.Property;
-import jp.rough_diamond.commons.extractor.Sum;
 import jp.rough_diamond.commons.service.BasicService;
 import junit.framework.TestCase;
 
@@ -57,5 +51,4 @@ public class TradeTransactionTest extends TestCase {
 		assertEquals("累計在庫が間違っています。",10, rltStock.get(1).intValue());
 		assertEquals("累計在庫が間違っています。",20, rltStock.get(2).intValue());
 	}
-	
 }
