@@ -66,7 +66,7 @@
           name="PlayerEntryForm"
           validate="false"
           scope="session">
-        <forward name="top"                path="web/top.vm"           redirect="false" />
+        <forward name="top"                path="web/playerEntry/top.vm"           redirect="false" />
       </action>
     </action-mappings>
 

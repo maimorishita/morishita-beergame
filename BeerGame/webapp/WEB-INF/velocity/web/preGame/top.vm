@@ -1,0 +1,34 @@
+#parse("web/header.vm")
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="./css/style.css" type="text/css" />
+  <title>BeerGame</title>
+  <script type="text/javascript" language="javascript">
+    <!--
+    function addGame(formObj) {
+      formObj.command.value='addGame';
+      formObj.submit();
+    }
+    -->
+  </script>
+</head>
+<body>
+#parse("web/errorList.vm")
+  <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
+  <input type="hidden" name="command" />
+  <div id="main">
+    <table border=4>
+      <tr>
+        <td colspan=2><input type="radio" name="q1" value="はい">&nbsp;新規ゲームの設定</td>
+      </tr>
+      <tr>
+        <td colspan=2><input type="radio" name="q1" value="いいえ">&nbsp;既存ゲームに参加</td>
+      </tr>
+      <tr>
+        <td><input type="button" value="実行" onClick="javascript:addGame(this.form);" /></td>
+        <td><input type="button" value="ｷｬﾝｾﾙ" onClick="javascript:addGame(this.form);" /></td>
+      </tr>
+    </table>
+  </div>
+  </form>
+#parse("web/footer.vm")
