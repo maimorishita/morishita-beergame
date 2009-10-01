@@ -5,13 +5,22 @@
   <title>ビールゲーム</title>
 </head>
 <body>
-<div id="cnt">
-  <div id="header">
-    <h1>ビールゲーム</h1>
-  </div>
   <div id="main">
-   <ul>
-     <li><a href="$link.setAction('/preGame').addQueryData('command','init')">新規ゲームの設定</a></li>
-     <li><a href="$link.setAction('/playerEntry').addQueryData('command','init')">ビールゲーム参加登録</a></li>
-   </ul>
+    <h1>ビールゲーム</h1>
+    <h2><a href="$link.setAction('/preGame').addQueryData('command','init')">ゲームを始めてみる？</a></h2>
+    <h2><a href="$link.setAction('/playerEntry').addQueryData('command','init')">プレイヤー登録してみる？</a></h2>
+　　 _,,....,,_　 ＿人人人人人人人人人人人人人人人＿ <br> 
+-''":::::::::::::｀''＞　　　ゆっくりしていってね！！！　　　＜ <br> 
+ヽ:::::::::::::::::::::￣^Ｙ^Ｙ^Ｙ^Ｙ^Ｙ^Ｙ^Ｙ^Ｙ^Ｙ^Ｙ^Ｙ^Ｙ^Ｙ^Ｙ^￣ <br> 
+　|::::::;ノ´￣＼:::::::::::＼_,. -‐ｧ　　　　　＿_　　 _____　　 ＿_____ <br> 
+　|::::ﾉ　　　ヽ､ヽr-r'"´　　（.__　　　　,´　_,, '-´￣￣｀-ゝ 、_ イ、 <br> 
+_,.!イ_　　_,.ﾍｰｧ'二ﾊ二ヽ､へ,_7　　　'r ´　　　　　　　　　　ヽ、ﾝ、 <br> 
+::::::rｰ''7ｺ-‐'"´　 　 ;　 ',　｀ヽ/｀7　,'＝=─-　　　 　 -─=＝',　i <br> 
+r-'ｧ'"´/　 /!　ﾊ 　ハ　 !　　iヾ_ﾉ　i　ｲ　iゝ、ｲ人レ／_ルヽｲ i　| <br> 
+!イ´ ,' |　/__,.!/　V　､!__ﾊ　 ,'　,ゝ　ﾚﾘｲi (ﾋ_] 　　 　ﾋ_ﾝ ).| .|、i .|| <br> 
+`! 　!/ﾚi'　(ﾋ_] 　　 　ﾋ_ﾝ ﾚ'i　ﾉ　　　!Y!""　 ,＿__, 　 "" 「 !ﾉ i　| <br> 
+,'　 ﾉ 　 !'"　 　 ,＿__,　 "' i .ﾚ'　　　　L.',.　 　ヽ _ﾝ　　　　L」 ﾉ| .| <br> 
+　（　　,ﾊ　　　　ヽ _ﾝ　 　人! 　　　　 | ||ヽ、　　　　　　 ,ｲ| ||ｲ| / <br> 
+,.ﾍ,）､　　）＞,､ _____,　,.イ　 ハ　　　　レ ル｀ ー--─ ´ルﾚ　ﾚ´ <br> 
+  </div>
 #parse("web/footer.vm")

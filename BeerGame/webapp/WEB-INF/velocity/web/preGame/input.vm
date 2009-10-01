@@ -9,6 +9,10 @@
       formObj.command.value='addGame';
       formObj.submit();
     }
+    function init(formObj) {
+      formObj.command.value='init';
+      formObj.submit();
+    }
     -->
   </script>
 </head>
@@ -28,10 +32,21 @@
       </tr>
       <tr>
         <td></td>
-        <td><input type="button" value="登録" onClick="javascript:addGame(this.form);" /></td>
-        <td><input type="button" value="ｷｬﾝｾﾙ" onClick="javascript:addGame(this.form);" /></td>
+        <td align=center><input type="button" value="登録" onClick="javascript:addGame(this.form);" /></td>
+        <td align=center><input type="button" value="ｷｬﾝｾﾙ" onClick="javascript:init(this.form);" /></td>
       </tr>
     </table>
+<p>　　　　　　　 ＿＿＿<br />
+　 　 　 　 ／　　　　　＼　　　　　ああああ！！<br />
+　　　　 ／ u　::::＼:::／:: ＼　　　名前が決まらないお！！<br />
+　　　／　 　 &lt;○>::::::&lt;○> ＼<br />
+　 　 |　　u　 　 （__人__）　u　|　　　　_＿＿＿＿＿＿＿＿＿_<br />
+　　　＼　 　 　 ｡｀ ⌒ﾟ:j´　,／　jﾞ~~| | |　　　　　　　　　　　　　|<br />
+＿＿／　　　　　　　　　　＼　 |_＿| | |　　　　　　　　　　　　　|<br />
+| |　/　　 ,　 　 　 　 　 　 　 ＼ｎ||　 | |　　　　　　　　　　　　　|<br />
+| | /　　 /　　　　　　　　　r.　 （ こ） | |　　　　　　　　　　　　　|<br />
+| | |　⌒ ーnｎｎ 　 　 　 　|＼ (⊆ｿ .|_|_＿＿＿＿_＿＿＿＿_|<br />
+￣ ＼＿_､("二）￣￣￣￣￣ｌ二二ｌ二二　 ＿|_|＿_|＿</p>
   </div>
   </form>
 #parse("web/footer.vm")

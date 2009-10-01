@@ -57,8 +57,9 @@
           name="PreGameForm"
           validate="false"
           scope="session">
-        <forward name="top"                path="web/top.vm"              redirect="false" />
+        <forward name="top"                path="web/preGame/top.vm"      redirect="false" />
         <forward name="input"              path="web/preGame/input.vm"    redirect="false" />
+        <forward name="player"             path="web/playerEntry/top.vm"  redirect="false" />
       </action>
       <action
           path="/playerEntry" parameter="command"
@@ -66,7 +67,7 @@
           name="PlayerEntryForm"
           validate="false"
           scope="session">
-        <forward name="top"                path="web/playerEntry/top.vm"           redirect="false" />
+        <forward name="top"                path="web/playerEntry/top.vm"  redirect="false" />
       </action>
     </action-mappings>
 

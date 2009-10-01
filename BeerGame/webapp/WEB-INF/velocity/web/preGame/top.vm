@@ -5,8 +5,8 @@
   <title>BeerGame</title>
   <script type="text/javascript" language="javascript">
     <!--
-    function addGame(formObj) {
-      formObj.command.value='addGame';
+    function makeGame(formObj) {
+      formObj.command.value='makeGame';
       formObj.submit();
     }
     -->
@@ -25,10 +25,16 @@
         <td colspan=2><input type="radio" name="q1" value="いいえ">&nbsp;既存ゲームに参加</td>
       </tr>
       <tr>
-        <td><input type="button" value="実行" onClick="javascript:addGame(this.form);" /></td>
-        <td><input type="button" value="ｷｬﾝｾﾙ" onClick="javascript:addGame(this.form);" /></td>
+        <td align=center><input type="button" value="実行" onClick="javascript:makeGame(this.form);" /></td>
+        <td align=center><input type="button" value="ｷｬﾝｾﾙ" onClick="location = '$link.setAction('/top')'" /></td>
       </tr>
     </table>
+<p>. 　　∩_＿＿_∩゜.:+＿＿_∩:　:.+　 <br />
+ﾜｸ.　| ノ 　　 　　ヽノ　　 　　ヽ+.:　　 <br />
+:.ﾜｸ/　　●　　 ● | ●　　 ● | ｸﾏ 　　 <br />
+　　ミ 　''　( _●_)''ミ''　( _●_)''ミ　ｸﾏ　 <br />
+.　/ 　.＿　 |_/__ノヽ__　 |_/__ノヽ <br />
+　-(＿＿_.)─(＿＿)__.)─(＿＿)─ </p>
   </div>
   </form>
 #parse("web/footer.vm")

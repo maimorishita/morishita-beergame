@@ -20,12 +20,11 @@ public class PreGameForm extends
 		this.setTeamName("");
 	}
 
-	/**
-	 * ƒQ[ƒ€‚ğ’Ç‰Á‚·‚éB
-	 * 
-	 * @return Boolean
-	 * @author Ryoji
-	 */
+	public boolean makeGame() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	public boolean addGame() {
 		Game game = new Game();
 		game.setName(getTeamName());

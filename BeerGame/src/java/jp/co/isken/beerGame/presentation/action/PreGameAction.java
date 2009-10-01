@@ -23,6 +23,13 @@ public class PreGameAction extends BaseAction {
 			HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
 		PreGameForm form = (PreGameForm) arg1;
 		form.init();
+		return arg0.findForward("top");
+	}
+
+	public ActionForward makeGame(ActionMapping arg0, ActionForm arg1,
+			HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
+		PreGameForm form = (PreGameForm) arg1;
+		form.makeGame();
 		return arg0.findForward("input");
 	}
 
