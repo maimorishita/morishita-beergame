@@ -43,15 +43,20 @@
 -->
   <external-schema filename="../../../framework/etc/schema/framework-schema.xml" />
   
+  <table name="GAME" description="ゲーム">
+    <column name="ID"           primaryKey="true" required="true"   domain="oid"                    description="OID" />
+    <column name="NAME"                           required="true"   type="VARCHAR"  size="64"       description="ゲーム名" />
+  </table>
+
   <table name="ROLE" description="ロール">
     <column name="ID"           primaryKey="true" required="true"   domain="oid"                    description="OID" />
     <column name="NAME"                           required="true"   type="VARCHAR"  size="64"       description="ロール名" />
     <column name="COOKIE"                         required="false"  type="VARCHAR"  size="256"      description="Cookie" />     
- </table>
+  </table>
 
- <table name="CUSTMER_TRANSACTION" baseClass="TradeTransaction" description="顧客取引">
-    <column name="ID"         primaryKey="true" required="true"   domain="oid"                    description="OID" />
-    <column name="TRADE_TRANSACTION_ID"         required="true"   domain="oid"                    description="ロールID" />  
+  <table name="CUSTMER_TRANSACTION" baseClass="TradeTransaction" description="顧客取引">
+    <column name="ID"           primaryKey="true" required="true"   domain="oid"                    description="OID" />
+    <column name="TRADE_TRANSACTION_ID"           required="true"   domain="oid"                    description="ロールID" />  
     <foreign-key foreignTable="TRADE_TRANSACTION" name="tradeTransaction" onUpdate="cascade" onDelete="cascade">
       <reference local="TRADE_TRANSACTION_ID" foreign="ID" />
     </foreign-key>
@@ -67,10 +72,10 @@
 
   <table name="PLAYER" description="プレイヤー">
     <column name="ID"           primaryKey="true" required="true"   domain="oid"                    description="OID" />
-    <column name="NAME"                           required="false"  type="VARCHAR"  size="64"       description="プレイヤー名" />
-    <column name="IS_OWNER"                       required="false"  type="BOOLEANCHAR"              description="オーナーの場合はT。他はN" />
-    <column name="ROLE_ID"                        required="false"  domain="oid"                    description="ロールID" />
-    <column name="GAME_ID"                        required="false"  domain="oid"                    description="ゲームID" />
+    <column name="NAME"                           required="true"   type="VARCHAR"  size="64"       description="プレイヤー名" />
+    <column name="IS_OWNER"                       required="true"   type="BOOLEANCHAR"              description="オーナーの場合はT。他はN" />
+    <column name="ROLE_ID"                        required="true"   domain="oid"                    description="ロールID" />
+    <column name="GAME_ID"                        required="true"   domain="oid"                    description="ゲームID" />
     <foreign-key foreignTable="ROLE" name="role" onUpdate="cascade" onDelete="cascade">
       <reference local="ROLE_ID" foreign="ID" />
     </foreign-key>
@@ -78,10 +83,5 @@
       <reference local="GAME_ID" foreign="ID" />
     </foreign-key>
   </table>
-  
-  <table name="GAME" description="ゲーム">
-    <column name="ID"           primaryKey="true" required="true"   domain="oid"                    description="OID" />
-    <column name="NAME"                           required="false"  type="VARCHAR"  size="64"       description="ゲーム名" />
-  </table>
- 
+
 </database>

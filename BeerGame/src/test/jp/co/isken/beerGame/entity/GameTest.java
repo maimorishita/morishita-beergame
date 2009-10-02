@@ -17,5 +17,4 @@ public class GameTest extends TestCase {
 		List<Game> list = Game.getWaitingGameList();
 		assertEquals(2, list.size());
 	}
-
 }

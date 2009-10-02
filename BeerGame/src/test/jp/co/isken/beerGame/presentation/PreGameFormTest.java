@@ -18,14 +18,18 @@ public class PreGameFormTest extends TestCase {
 		form = new PreGameForm();
 	}
 
-	public void testV‹KƒQ[ƒ€‚ğ’Ç‰Á‚·‚é() {
+	public void testƒQ[ƒ€‚ğ“o˜^‚·‚é() {
 		form.setTeamName("Alliance of Valiant Arms");
 		form.setOwnerName("Ryoji Yoshioka");
 		assertTrue(form.addGame());
 		
-		//form = new PreGameForm();
-		//form.setTeamName("Alliance of Valiant Arms");
-		//form.setOwnerName("Ryoji Yoshioka");
-		//assertFalse(form.addGame());
+		form = new PreGameForm();
+		form.setTeamName("Alliance of Valiant Arms");
+		assertFalse(form.addGame());
+	}
+	
+	public void testƒvƒŒƒCƒ„[‚ğ“o˜^‚·‚é() throws Exception {
+		form.setPlayerName("¡ˆä’q–¾");
+		assertTrue("ƒQ[ƒ€‚É“o˜^‚·‚é‚Ì‚É¸”s‚µ‚Ü‚µ‚½B", form.addPlayer());
 	}
 }

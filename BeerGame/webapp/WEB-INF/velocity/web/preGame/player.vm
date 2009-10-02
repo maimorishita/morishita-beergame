@@ -1,0 +1,71 @@
+#parse("web/header.vm")
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="./css/style.css" type="text/css" />
+  <title>ビールゲーム参加登録</title>
+  <script type="text/javascript" language="javascript">
+  <!--
+    function addPlayer(formObj) {
+      formObj.command.value='addPlayer';
+      formObj.submit();
+    }
+  -->
+  </script>
+</head>
+<body>
+#parse("web/errorList.vm")
+  <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
+  <input type="hidden" name="command" />
+  <div id="main">
+    <h1>花京院、きさまこのゲームやり込んでいるなッ！</h1>
+    <table border=4>
+      <tr>
+        <td>チーム名</td>
+        <td colspan=2>
+          <select name="kamoku1">
+#foreach($game in $!currentForm.getWaitingGameList())
+            <option value="$game.name">$game.name</option>
+#end
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>プレイヤ名</td>
+        <td colspan=2><input type="text" name="playerName" value="$!{currentForm.playerName}" /></td>
+      </tr>
+      <tr>
+        <td>ロール</td>
+        <td colspan=2>
+          <select name="kamoku1">
+#foreach($role in $!currentForm.getWaitingRoleList())
+            <option value="$role.name">$role.name</option>
+#end
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td align=center><input type="button" value="登録" onClick="javascript:addPlayer(this.form);" /></td>
+        <td align=center><input type="button" value="ｷｬﾝｾﾙ" onClick="location = '$link.setAction('/top')'" /></td>
+      </tr>
+    </table>
+<p>┃┌┬┐　 　 　 　 　 　 ┃　　　┏ ＮＥＸＴ┓<br />
+┃├┼┤┌┐　 　 　 　 ┃ 　　..┃┌┬┐┃<br />
+┃└┴┘├┤┌┬┬┬┨ 　　..┃├┼┤┃<br />
+┃┌┐┌┼┤├┼┴┴┨ 　　..┃└┴┘┃<br />
+┠┼┼┼┼┼┼┼┬┐┃　　　┗━━━┛<br />
+┠┼┼┼┼┼┼┼┼┤┃<br />
+┠┼┼┼┼┼┼┼┼┤┃ 　　　.　. .... ..: : :: :: ::: :::::: ::::<br />
+┠┼┼┼┼┼┼┼┼┤┃ 　　　　　　　 Λ＿Λ . . . .: : :<br />
+┠┼┼┼┼┼┼┼┼┤┃ 　　　　　 　/:彡ミ゛ヽ;）ー､　. ::<br />
+┠┼┼┼┼┼┼┼┼┤┃ 　　　　　 / :::/:: ヽ、ヽ、 ::i . .::<br />
+┠┼┼┼┼┼┼┼┼┤┃ 　　 　　 / :::/;;: 　 ヽ　ヽ ::ｌ　.<br />
+┠┼┼┼┼┼┼┼┼┤┃ ￣￣￣（_,ノ ￣￣￣ヽ､_ノ￣￣<br />
+┠┼┼┼┼┼┼┼┼┤┃<br />
+┠┼┼┼┼┼┼┼┼┤┃<br />
+┠┼┼┼┼┼┼┼┼┤┃<br />
+┠┼┼┼┼┼┼┼┼┤┃<br />
+┗┷┷┷┷┷┷┷┷┷┛</p>
+  </div>
+  </form>
+#parse("web/footer.vm")

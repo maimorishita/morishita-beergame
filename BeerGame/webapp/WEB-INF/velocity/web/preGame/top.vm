@@ -22,7 +22,7 @@
         <td colspan=2><input type="radio" name="q1" value="はい">&nbsp;新規ゲームの設定</td>
       </tr>
       <tr>
-        <td colspan=2><input type="radio" name="q1" value="いいえ">&nbsp;既存ゲームに参加</td>
+        <td colspan=2><input type="radio" name="q1" value="はい">&nbsp;既存ゲームへ参加</td>
       </tr>
       <tr>
         <td align=center><input type="button" value="実行" onClick="javascript:makeGame(this.form);" /></td>

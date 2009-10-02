@@ -15,6 +15,11 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     private  String   ownerName;
 
     /**
+     * プレイヤー名
+    **/
+    private  String   playerName;
+
+    /**
      * チーム名
     **/
     private  String   teamName;
@@ -25,6 +30,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     **/
     public String getOwnerName() {
         return this.ownerName;
+    }
+
+    /**
+     * プレイヤー名を取得する
+     * @return プレイヤー名
+    **/
+    public String getPlayerName() {
+        return this.playerName;
     }
 
     /**
@@ -45,6 +58,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     }
 
     /**
+     * プレイヤー名を設定する
+     * @param playerName プレイヤー名
+    **/
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    /**
      * チーム名を設定する
      * @param teamName チーム名
     **/
@@ -56,6 +77,8 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
       StringBuffer buf = new StringBuffer();
       buf.append("[オーナー名:");
       buf.append(ownerName + "]");
+      buf.append("[プレイヤー名:");
+      buf.append(playerName + "]");
       buf.append("[チーム名:");
       buf.append(teamName + "]");
       return buf.toString();

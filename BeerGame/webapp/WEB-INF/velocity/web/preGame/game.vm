@@ -1,0 +1,52 @@
+#parse("web/header.vm")
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="./css/style.css" type="text/css" />
+  <title>BeerGame</title>
+  <script type="text/javascript" language="javascript">
+    <!--
+    function addGame(formObj) {
+      formObj.command.value='addGame';
+      formObj.submit();
+    }
+    function init(formObj) {
+      formObj.command.value='init';
+      formObj.submit();
+    }
+    -->
+  </script>
+</head>
+<body>
+#parse("web/errorList.vm")
+  <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
+  <input type="hidden" name="command" />
+  <div id="main">
+    <table border=4>
+      <tr>
+        <td>チーム名</td>
+        <td colspan=2><input type="text" name="teamName" value="$!{currentForm.teamName}" /></td>
+      </tr>
+      <tr>
+        <td>オーナー名</td>
+        <td colspan=2><input type="text" name="ownerName" value="$!{currentForm.ownerName}" /></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td align=center><input type="button" value="登録" onClick="javascript:addGame(this.form);" /></td>
+        <td align=center><input type="button" value="ｷｬﾝｾﾙ" onClick="javascript:init(this.form);" /></td>
+      </tr>
+    </table>
+<p>　　　　　　　 ＿＿＿<br />
+　 　 　 　 ／　　　　　＼　　　　　ああああ！！<br />
+　　　　 ／ u　::::＼:::／:: ＼　　　名前が決まらないお！！<br />
+　　　／　 　 &lt;○>::::::&lt;○> ＼<br />
+　 　 |　　u　 　 （__人__）　u　|　　　　_＿＿＿＿＿＿＿＿＿_<br />
+　　　＼　 　 　 ｡｀ ⌒ﾟ:j´　,／　jﾞ~~| | |　　　　　　　　　　　　　|<br />
+＿＿／　　　　　　　　　　＼　 |_＿| | |　　　　　　　　　　　　　|<br />
+| |　/　　 ,　 　 　 　 　 　 　 ＼ｎ||　 | |　　　　　　　　　　　　　|<br />
+| | /　　 /　　　　　　　　　r.　 （ こ） | |　　　　　　　　　　　　　|<br />
+| | |　⌒ ーnｎｎ 　 　 　 　|＼ (⊆ｿ .|_|_＿＿＿＿_＿＿＿＿_|<br />
+￣ ＼＿_､("二）￣￣￣￣￣ｌ二二ｌ二二　 ＿|_|＿_|＿</p>
+  </div>
+  </form>
+#parse("web/footer.vm")
