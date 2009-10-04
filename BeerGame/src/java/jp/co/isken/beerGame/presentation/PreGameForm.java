@@ -25,10 +25,8 @@ public class PreGameForm extends
 		this.setPlayerName(null);
 	}
 
-	public boolean makeGame() {
-		// TODO ‚±‚±‚Ìˆ—‚ª‚Ü‚¾o—ˆ‚Ä‚¢‚È‚¢B
-		// return‚ªTrue‚È‚çGameì¬AFalse‚È‚çPlayerì¬
-		return true;
+	public boolean judgeGameMode() {
+		return this.isNewGame();
 	}
 
 	public boolean addGame() {
@@ -65,7 +63,7 @@ public class PreGameForm extends
 		Game game = BasicService.getService().findByPK(Game.class, 1L);
 		Role role = new Role();
 		role.setName("‰µ‚P");
-		
+
 		Player player = new Player();
 		player.setName(getPlayerName());
 		player.setIsOwner(false);

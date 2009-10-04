@@ -26,13 +26,13 @@ public class PreGameAction extends BaseAction {
 		return arg0.findForward("top");
 	}
 
-	public ActionForward makeGame(ActionMapping arg0, ActionForm arg1,
+	public ActionForward judgeGameMode(ActionMapping arg0, ActionForm arg1,
 			HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
 		PreGameForm form = (PreGameForm) arg1;
-		if (form.makeGame()) {
+		if (form.judgeGameMode()) {
 			return arg0.findForward("game");
 		} else {
-			return arg0.findForward("player");	
+			return arg0.findForward("player");
 		}
 	}
 
@@ -45,7 +45,7 @@ public class PreGameAction extends BaseAction {
 			return arg0.findForward("game");
 		}
 	}
-	
+
 	public ActionForward addPlayer(ActionMapping arg0, ActionForm arg1,
 			HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
 		PreGameForm form = (PreGameForm) arg1;

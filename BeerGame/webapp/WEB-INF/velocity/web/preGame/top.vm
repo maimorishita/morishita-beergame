@@ -5,8 +5,8 @@
   <title>BeerGame</title>
   <script type="text/javascript" language="javascript">
     <!--
-    function makeGame(formObj) {
-      formObj.command.value='makeGame';
+    function judgeGameMode(formObj) {
+      formObj.command.value='judgeGameMode';
       formObj.submit();
     }
     -->
@@ -19,13 +19,13 @@
   <div id="main">
     <table border=4>
       <tr>
-        <td colspan=2><input type="radio" name="q1" value="はい">&nbsp;新規ゲームの設定</td>
+        <td colspan=2><input type="radio" name="newGame" value="true" checked>&nbsp;新規ゲームの設定</td>
       </tr>
       <tr>
-        <td colspan=2><input type="radio" name="q1" value="はい">&nbsp;既存ゲームへ参加</td>
+        <td colspan=2><input type="radio" name="newGame" value="false">&nbsp;既存ゲームへ参加</td>
       </tr>
       <tr>
-        <td align=center><input type="button" value="実行" onClick="javascript:makeGame(this.form);" /></td>
+        <td align=center><input type="button" value="実行" onClick="javascript:judgeGameMode(this.form);" /></td>
         <td align=center><input type="button" value="ｷｬﾝｾﾙ" onClick="location = '$link.setAction('/top')'" /></td>
       </tr>
     </table>

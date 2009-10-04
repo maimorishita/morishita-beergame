@@ -30,5 +30,6 @@
     <property name="teamName"    type="String"                                description="チーム名" />
     <property name="ownerName"   type="String"                                description="オーナー名" />
     <property name="playerName"  type="String"                                description="プレイヤー名" />
+    <property name="newGame"     type="boolean"                               description="新規ゲームFLG" />
   </bean>
 </beans>
