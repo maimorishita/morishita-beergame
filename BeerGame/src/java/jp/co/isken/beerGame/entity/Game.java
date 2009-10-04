@@ -5,6 +5,7 @@ import java.util.List;
 
 import jp.rough_diamond.commons.extractor.Condition;
 import jp.rough_diamond.commons.extractor.Extractor;
+import jp.rough_diamond.commons.extractor.Order;
 import jp.rough_diamond.commons.extractor.Property;
 import jp.rough_diamond.commons.service.BasicService;
 
@@ -27,4 +28,42 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 		}
 		return games;
 	}
-}
+
+	public static List<Game> getAll() {
+		Extractor extractor = new Extractor(Game.class);
+		extractor.addOrder(Order.asc(new Property(Game.ID)));
+		return BasicService.getService().findByExtractor(extractor);
+	}
+
+	public static List<Role> getRoles(Game game) {
+		BasicService service = BasicService.getService();
+		Extractor extractor = new Extractor(Player.class);
+		extractor.add(Condition.eq(new Property(Player.GAME), game));
+		List<Player> players = service.findByExtractor(extractor);
+		List<Role> ret = new ArrayList<Role>();
+		for(Player p : players){
+			ret.add(p.getRole());
+		}
+		return ret; 
+	}
+
+	public static Game getGameByName(String name) {
+		Extractor extractor = new Extractor(Game.class);
+		extractor.add(Condition.eq(new Property(Game.NAME), name));
+		List<Game> list = BasicService.getService().findByExtractor(extractor);
+		if (list.size() == 1) {
+			return list.get(0);
+		}else{
+			return new Game();
+		}
+	}
+
+	public Role getRole(String roleName) {
+		Extractor extractor = new Extractor(Player.class);
+		extractor.add(Condition.eq(new Property(Player.ROLE +"."+Role.NAME), roleName));
+		extractor.add(Condition.eq(new Property(Player.GAME), this));
+		List<Player> list = BasicService.getService().findByExtractor(extractor);
+		return list.get(0).getRole();
+	}
+	
+	}

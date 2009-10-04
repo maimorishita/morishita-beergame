@@ -33,7 +33,7 @@
             insert="true"
             column="NAME"
             length="64"
-            not-null="false"
+            not-null="true"
         />
 
         <property
@@ -42,7 +42,7 @@
             update="true"
             insert="true"
             column="IS_OWNER"
-            not-null="false"
+            not-null="true"
         />
 
         <many-to-one

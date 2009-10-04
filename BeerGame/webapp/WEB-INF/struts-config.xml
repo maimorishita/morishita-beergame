@@ -10,6 +10,7 @@
     <form-beans>
       <form-bean name="NullForm"              type="jp.co.isken.beerGame.presentation.NullForm" />
       <form-bean name="PreGameForm"           type="jp.co.isken.beerGame.presentation.PreGameForm" />
+      <form-bean name="ViewStockForm"         type="jp.co.isken.beerGame.presentation.ViewStockForm" />
     </form-beans>
 
 <!-- ========================================= Global Exception Definitions -->
@@ -59,6 +60,15 @@
         <forward name="game"               path="web/preGame/game.vm"    redirect="false" />
         <forward name="player"             path="web/preGame/player.vm"  redirect="false" />
         <forward name="wait"               path="web/preGame/wait.vm"    redirect="false" />
+      </action>
+      <action
+          path="/viewStock" parameter="command"
+          type="jp.co.isken.beerGame.presentation.action.ViewStockAction"
+          name="ViewStockForm"
+          validate="false"
+          scope="session">
+        <forward name="top"                path="web/viewStock/top.vm"  redirect="false" />
+        <forward name="view"                path="web/viewStock/view.vm"  redirect="false" />
       </action>
     </action-mappings>
 

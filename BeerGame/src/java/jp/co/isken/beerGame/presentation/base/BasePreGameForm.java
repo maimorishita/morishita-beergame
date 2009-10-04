@@ -10,6 +10,11 @@ import java.util.*;
 @SuppressWarnings("all")
 abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.struts.BaseForm implements Serializable {
     /**
+     * 新規ゲームFLG
+    **/
+    private  boolean   newGame;
+
+    /**
      * オーナー名
     **/
     private  String   ownerName;
@@ -23,6 +28,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
      * チーム名
     **/
     private  String   teamName;
+
+    /**
+     * 新規ゲームFLGを取得する
+     * @return 新規ゲームFLG
+    **/
+    public boolean isNewGame() {
+        return this.newGame;
+    }
 
     /**
      * オーナー名を取得する
@@ -50,6 +63,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
 
 
     /**
+     * 新規ゲームFLGを設定する
+     * @param newGame 新規ゲームFLG
+    **/
+    public void setNewGame(boolean newGame) {
+        this.newGame = newGame;
+    }
+
+    /**
      * オーナー名を設定する
      * @param ownerName オーナー名
     **/
@@ -75,6 +96,8 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
 
     public String toString() {
       StringBuffer buf = new StringBuffer();
+      buf.append("[新規ゲームFLG:");
+      buf.append(newGame + "]");
       buf.append("[オーナー名:");
       buf.append(ownerName + "]");
       buf.append("[プレイヤー名:");

@@ -119,11 +119,12 @@ public abstract class BasePlayer  implements Serializable {
      * プレイヤー名を取得する
      * @hibernate.property
      *    column="NAME"
-     *    not-null="false"
+     *    not-null="true"
      *    length="64"
      * @return プレイヤー名
     **/
     @jp.rough_diamond.commons.service.annotation.MaxLength(length=64, property="Player.name")
+    @jp.rough_diamond.commons.service.annotation.NotNull(property="Player.name")
     public String getName() {
         return name;
     }
@@ -145,7 +146,7 @@ public abstract class BasePlayer  implements Serializable {
      * オーナーの場合はT。他はNを取得する
      * @hibernate.property
      *    column="IS_OWNER"
-     *    not-null="false"
+     *    not-null="true"
      * @return オーナーの場合はT。他はN
     **/
     @jp.rough_diamond.commons.service.annotation.MaxLength(length=1, property="Player.isOwner")
@@ -200,6 +201,7 @@ public abstract class BasePlayer  implements Serializable {
      *
      * @return the associated Role object
      */
+    @jp.rough_diamond.commons.service.annotation.NotNull(property="Player.roleId")
     public jp.co.isken.beerGame.entity.Role getRole() {
         return this.role;
     }
@@ -235,6 +237,7 @@ public abstract class BasePlayer  implements Serializable {
      *
      * @return the associated Game object
      */
+    @jp.rough_diamond.commons.service.annotation.NotNull(property="Player.gameId")
     public jp.co.isken.beerGame.entity.Game getGame() {
         return this.game;
     }

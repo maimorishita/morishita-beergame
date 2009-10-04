@@ -1,5 +1,7 @@
 package jp.co.isken.beerGame.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import jp.rough_diamond.commons.service.BasicService;
@@ -13,42 +15,53 @@ public class TradeTransactionTest extends TestCase {
 		TransactionLoader.init();
 		NumberingLoader.init();
 	}	
-	public void testå…¥è·é‡ã‚’è¨ˆç®—ã™ã‚‹(){
+	public void test“ü‰×—Ê‚ğŒvZ‚·‚é(){
 		Role role = BasicService.getService().findByPK(Role.class, 1L);
 		TradeTransaction tTran = new TradeTransaction();
-		int result = tTran.calcAmount(10,role,"å…¥è·");
-		assertEquals("å…¥è·æ•°ãŒèª¤ã£ã¦ã„ã¾ã™ã€‚",20, result);
+		int result = tTran.calcAmount(10,role,"“ü‰×");
+		assertEquals("“ü‰×”‚ªŒë‚Á‚Ä‚¢‚Ü‚·B",20, result);
 	}
-	public void testå‡ºè·é‡ã‚’è¨ˆç®—ã™ã‚‹(){
+	public void testo‰×—Ê‚ğŒvZ‚·‚é(){
 		Role role = BasicService.getService().findByPK(Role.class, 1L);
 		TradeTransaction tTran = new TradeTransaction();
-		int result = tTran.calcAmount(10,role,"å‡ºè·");
-		assertEquals("å‡ºè·æ•°ãŒèª¤ã£ã¦ã„ã¾ã™ã€‚",20, result);
+		int result = tTran.calcAmount(10,role,"o‰×");
+		assertEquals("o‰×”‚ªŒë‚Á‚Ä‚¢‚Ü‚·B",20, result);
 	}
-	public void teståœ¨åº«é‡ã‚’ç®—å‡ºã™ã‚‹(){
+	public void testİŒÉ—Ê‚ğZo‚·‚é(){
 		Role role = BasicService.getService().findByPK(Role.class, 1L);
 		TradeTransaction tTran = new TradeTransaction();
 		int rltStock = tTran.calcAmountStock(10,role);
-		assertEquals("åœ¨åº«æ•°ãŒèª¤ã£ã¦ã„ã¾ã™ã€‚",0, rltStock);
+		assertEquals("İŒÉ”‚ªŒë‚Á‚Ä‚¢‚Ü‚·B",0, rltStock);
 	}
-	public void testå—æ³¨é‡ã‚’è¨ˆç®—ã™ã‚‹(){
+	public void testó’—Ê‚ğŒvZ‚·‚é(){
 		Role role = BasicService.getService().findByPK(Role.class, 1L);
 		TradeTransaction tTran = new TradeTransaction();
-		int rï½Œï½”Ordered = tTran.calcAmount(10,role,"å—æ³¨");
-		assertEquals("å—æ³¨æ•°ãŒèª¤ã£ã¦ã„ã¾ã™ã€‚",25, rï½Œï½”Ordered);
+		int r‚Œ‚”Ordered = tTran.calcAmount(10,role,"ó’");
+		assertEquals("ó’”‚ªŒë‚Á‚Ä‚¢‚Ü‚·B",25, r‚Œ‚”Ordered);
 	}
-	public void testå—æ³¨æ®‹é‡ã‚’ç®—å‡ºã™ã‚‹(){
+	public void testó’c—Ê‚ğZo‚·‚é(){
 		Role role = BasicService.getService().findByPK(Role.class, 1L);
 		TradeTransaction tTran = new TradeTransaction();
 		int rltStock = tTran.calcAmountRemain(10,role);
-		assertEquals("å—æ³¨æ•°é‡ãŒèª¤ã£ã¦ã„ã¾ã™ã€‚",5, rltStock);
+		assertEquals("ó’”—Ê‚ªŒë‚Á‚Ä‚¢‚Ü‚·B",5, rltStock);
 	}
-	public void teståœ¨åº«é‡ã‚’ãƒªã‚¹ãƒˆã§å–å¾—ã™ã‚‹(){
+	public void testİŒÉ—Ê‚ğƒŠƒXƒg‚Åæ“¾‚·‚é(){
 		Role role = BasicService.getService().findByPK(Role.class, 1L);
 		TradeTransaction tTran = new TradeTransaction();
 		Map<Integer,Integer> rltStock = tTran.getStockList(10,role);
-		assertEquals("ãƒªã‚¹ãƒˆå‡ºåŠ›ãŒèª¤ã£ã¦ã„ã¾ã™ã€‚",10, rltStock.size());
-		assertEquals("ç´¯è¨ˆåœ¨åº«ãŒé–“é•ã£ã¦ã„ã¾ã™ã€‚",10, rltStock.get(1).intValue());
-		assertEquals("ç´¯è¨ˆåœ¨åº«ãŒé–“é•ã£ã¦ã„ã¾ã™ã€‚",20, rltStock.get(2).intValue());
+		assertEquals("ƒŠƒXƒgo—Í‚ªŒë‚Á‚Ä‚¢‚Ü‚·B",10, rltStock.size());
+		assertEquals("—İŒvİŒÉ‚ªŠÔˆá‚Á‚Ä‚¢‚Ü‚·B",10, rltStock.get(1).intValue());
+		assertEquals("—İŒvİŒÉ‚ªŠÔˆá‚Á‚Ä‚¢‚Ü‚·B",20, rltStock.get(2).intValue());
 	}
+	
+	public void testƒ[ƒ‹‚ÆƒQ[ƒ€–¼‚ğˆø”‚É‚µ‚ÄİŒÉ‚ğæ“¾‚·‚é(){
+		TradeTransaction tTran = new TradeTransaction();
+		//TODO ¬”„‚è‚ğ¬”„‚ÉC³‚·‚éH 10/4 X‰º
+		Map<Integer, Integer> list = tTran.getStockAmount("test", "¬”„‚è");
+		assertEquals(3, list.size());
+		assertEquals(5, list.get(1).intValue());
+		assertEquals(10, list.get(2).intValue());
+		assertEquals(15, list.get(3).intValue());
+	}
+	
 }

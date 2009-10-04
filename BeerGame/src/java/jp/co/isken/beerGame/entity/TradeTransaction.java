@@ -43,4 +43,11 @@ public class TradeTransaction extends jp.co.isken.beerGame.entity.base.BaseTrade
 		}
 		return ret;
 	}
+	
+	public Map<Integer, Integer> getStockAmount(String gameName, String roleName) {
+		Game game = Game.getGameByName(gameName);
+		Role role = game.getRole(roleName);
+		int week =  role.getWeek();
+		return getStockList(week, role);
+	}
 }
