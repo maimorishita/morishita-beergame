@@ -27,11 +27,14 @@ public class ViewStockForm extends jp.co.isken.beerGame.presentation.base.BaseVi
     }
     
     public Map<Integer, Integer> getStockList(String gameName, String roleName){
-    	TradeTransaction trdTran = new TradeTransaction();
-    	return trdTran.getStockAmount(gameName, roleName);
+    	return TradeTransaction.getStockAmount(gameName, roleName);
     	    }
     
     public void viewStock(){
     	
     }
+
+	public Map<Integer, Integer> getRemainList(String gameName, String roleName) {
+		return TradeTransaction.getRemainAmount(gameName, roleName);
+	}
 }

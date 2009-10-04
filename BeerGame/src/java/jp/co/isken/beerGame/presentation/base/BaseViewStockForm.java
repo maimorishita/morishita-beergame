@@ -2,6 +2,8 @@
 package jp.co.isken.beerGame.presentation.base;
 import java.io.Serializable;
 
+import java.util.*;
+
 /**
  * c‚‚ğQÆ‚·‚é
 **/
