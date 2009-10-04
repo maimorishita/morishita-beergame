@@ -1,6 +1,9 @@
 package jp.co.isken.beerGame.entity.base;
 
-import  java.io.Serializable;
+import java.io.Serializable;
+
+import jp.rough_diamond.commons.resource.MessagesIncludingException;
+import jp.rough_diamond.framework.transaction.VersionUnmuchException;
 
 
 

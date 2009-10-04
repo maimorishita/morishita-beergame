@@ -94,4 +94,9 @@ public class PreGameForm extends
 		// TODO ちょっと処理が複雑になるので、見ためだけ作るという事で全ロールを返却。
 		return BasicService.getService().findAll(Role.class);
 	}
+
+	public void selectGame() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -41,4 +41,8 @@ public class PreGameFormTest extends TestCase {
 		form.setPlayerName("¡ˆä’q–¾");
 		assertTrue("ƒQ[ƒ€‚É“o˜^‚·‚é‚Ì‚É¸”s‚µ‚Ü‚µ‚½B", form.addPlayer());
 	}
+	
+	public void testƒQ[ƒ€‚ª‘I‘ğ‚³‚ê‚½Û‚Éƒ[ƒ‹‚ğæ“¾‚·‚é() throws Exception {
+		
+	}
 }

@@ -1,14 +1,14 @@
 package jp.co.isken.beerGame.mq;
 
-import javax.jms.JMSException ;
-import javax.jms.Queue ;
-import javax.jms.QueueConnection ;
-import javax.jms.QueueReceiver ;
-import javax.jms.QueueSession ;
-import javax.jms.TextMessage ;
+import javax.jms.JMSException;
+import javax.jms.Queue;
+import javax.jms.QueueConnection;
+import javax.jms.QueueReceiver;
+import javax.jms.QueueSession;
+import javax.jms.TextMessage;
 
-import org.apache.activemq.ActiveMQConnection ;
-import org.apache.activemq.ActiveMQConnectionFactory ;
+import org.apache.activemq.ActiveMQConnection;
+import org.apache.activemq.ActiveMQConnectionFactory;
 
 public class Receiver {
 	 public static void main( String[] args) {

@@ -5,8 +5,18 @@
   <title>ビールゲーム参加登録</title>
   <script type="text/javascript" language="javascript">
   <!--
+    function init(formObj) {
+      formObj.command.value='init';
+      formObj.submit();
+    }
     function addPlayer(formObj) {
       formObj.command.value='addPlayer';
+      formObj.submit();
+    }
+    function selectGame(formObj) {
+      var f = document.getElementById("hiddenForm");
+      formObj.gameId.value = f.games.selectedIndex;
+      formObj.command.value='selectGame';
       formObj.submit();
     }
   -->
@@ -16,15 +26,16 @@
 #parse("web/errorList.vm")
   <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
   <input type="hidden" name="command" />
+  <input type="hidden" name="gameId" />
   <div id="main">
     <h1>花京院、きさまこのゲームやり込んでいるなッ！</h1>
     <table border=4>
       <tr>
         <td>チーム名</td>
         <td colspan=2>
-          <select name="kamoku1">
+          <select name="games" onChange="selectGame(this.form);">
 #foreach($game in $!currentForm.getWaitingGameList())
-            <option value="$game.name">$game.name</option>
+            <option value="$game.id">$game.name</option>
 #end
           </select>
         </td>
@@ -36,9 +47,9 @@
       <tr>
         <td>ロール</td>
         <td colspan=2>
-          <select name="kamoku1">
+          <select name="roles">
 #foreach($role in $!currentForm.getWaitingRoleList())
-            <option value="$role.name">$role.name</option>
+            <option value="$role.id">$role.name</option>
 #end
           </select>
         </td>
@@ -46,7 +57,7 @@
       <tr>
         <td></td>
         <td align=center><input type="button" value="登録" onClick="javascript:addPlayer(this.form);" /></td>
-        <td align=center><input type="button" value="ｷｬﾝｾﾙ" onClick="location = '$link.setAction('/top')'" /></td>
+        <td align=center><input type="button" value="ｷｬﾝｾﾙ" onClick="javascript:init(this.form);" /></td>
       </tr>
     </table>
 <p>┃┌┬┐　 　 　 　 　 　 ┃　　　┏ ＮＥＸＴ┓<br />

@@ -31,6 +31,7 @@
     <property name="ownerName"   type="String"                                description="オーナー名" />
     <property name="playerName"  type="String"                                description="プレイヤー名" />
     <property name="newGame"     type="boolean"                               description="新規ゲームFLG" />
+    <property name="gameId"      type="long"                                  description="ゲームID" />
   </bean>
   
   <bean className="jp.co.isken.beerGame.presentation.ViewStockForm" extends="jp.rough_diamond.framework.web.struts.BaseForm" description="残高を参照する">

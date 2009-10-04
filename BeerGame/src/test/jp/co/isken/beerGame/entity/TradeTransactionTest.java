@@ -1,7 +1,5 @@
 package jp.co.isken.beerGame.entity;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import jp.rough_diamond.commons.service.BasicService;

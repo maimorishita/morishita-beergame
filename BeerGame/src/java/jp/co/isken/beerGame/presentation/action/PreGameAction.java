@@ -55,4 +55,11 @@ public class PreGameAction extends BaseAction {
 			return arg0.findForward("player");
 		}
 	}
+
+	public ActionForward selectGame(ActionMapping arg0, ActionForm arg1,
+			HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
+		PreGameForm form = (PreGameForm) arg1;
+		form.selectGame();
+		return arg0.findForward("player");
+	}
 }

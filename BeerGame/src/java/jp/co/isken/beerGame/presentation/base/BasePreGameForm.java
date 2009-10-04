@@ -2,13 +2,16 @@
 package jp.co.isken.beerGame.presentation.base;
 import java.io.Serializable;
 
-import java.util.*;
-
 /**
  * ƒQ[ƒ€‚ğ“o˜^‚·‚éB
 **/
 @SuppressWarnings("all")
 abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.struts.BaseForm implements Serializable {
+    /**
+     * ƒQ[ƒ€ID
+    **/
+    private  long   gameId;
+
     /**
      * V‹KƒQ[ƒ€FLG
     **/
@@ -28,6 +31,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
      * ƒ`[ƒ€–¼
     **/
     private  String   teamName;
+
+    /**
+     * ƒQ[ƒ€ID‚ğæ“¾‚·‚é
+     * @return ƒQ[ƒ€ID
+    **/
+    public long getGameId() {
+        return this.gameId;
+    }
 
     /**
      * V‹KƒQ[ƒ€FLG‚ğæ“¾‚·‚é
@@ -63,6 +74,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
 
 
     /**
+     * ƒQ[ƒ€ID‚ğİ’è‚·‚é
+     * @param gameId ƒQ[ƒ€ID
+    **/
+    public void setGameId(long gameId) {
+        this.gameId = gameId;
+    }
+
+    /**
      * V‹KƒQ[ƒ€FLG‚ğİ’è‚·‚é
      * @param newGame V‹KƒQ[ƒ€FLG
     **/
@@ -96,6 +115,8 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
 
     public String toString() {
       StringBuffer buf = new StringBuffer();
+      buf.append("[ƒQ[ƒ€ID:");
+      buf.append(gameId + "]");
       buf.append("[V‹KƒQ[ƒ€FLG:");
       buf.append(newGame + "]");
       buf.append("[ƒI[ƒi[–¼:");
