@@ -1,2 +1,2 @@
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
-<logic:redirect forward="velocity/top.vm"/>
+<logic:redirect page="/top.do"/>
