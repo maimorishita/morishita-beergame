@@ -1,0 +1,40 @@
+#parse("web/header.vm")
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="./css/style.css" type="text/css" />
+  <title>残高表示</title>
+  <script type="text/javascript" language="javascript">
+  <!--
+    function viewStock(formObj) {
+      formObj.command.value='viewStock';
+      formObj.submit();
+    }
+  -->
+  </script>
+</head>
+<body>
+#parse("web/errorList.vm")
+  <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
+  <input type="hidden" name="command" />
+  <div id="main">
+    <h1>残高表示</h1>
+    <table border=4>
+      <tr>
+        <td>チーム名</td>
+        <td colspan=2>
+          <select name="teamName">
+#foreach($game in $!currentForm.getGameAll())
+            <option value="$game.name">$game.name</option>
+#end
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td align=center><input type="button" value="残高を見る" onClick="javascript:viewStock(this.form);" /></td>
+        <td align=center><input type="button" value="ｷｬﾝｾﾙ" onClick="location = '$link.setAction('/top')'" /></td>
+      </tr>
+    </table>
+  </div>
+  </form>
+#parse("web/footer.vm")

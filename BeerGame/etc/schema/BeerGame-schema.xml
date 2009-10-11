@@ -43,20 +43,13 @@
 -->
   <external-schema filename="../../../framework/etc/schema/framework-schema.xml" />
   
-  <table name="GAME" description="ƒQ[ƒ€">
-    <column name="ID"           primaryKey="true" required="true"   domain="oid"                    description="OID" />
-    <column name="NAME"                           required="true"   type="VARCHAR"  size="64"       description="ƒQ[ƒ€–¼" />
-  </table>
 
-  <table name="ROLE" description="ƒ[ƒ‹">
-    <column name="ID"           primaryKey="true" required="true"   domain="oid"                    description="OID" />
-    <column name="NAME"                           required="true"   type="VARCHAR"  size="64"       description="ƒ[ƒ‹–¼" />
-    <column name="COOKIE"                         required="false"  type="VARCHAR"  size="256"      description="Cookie" />     
-  </table>
+
+ 
 
   <table name="CUSTMER_TRANSACTION" baseClass="TradeTransaction" description="ŒÚ‹qŽæˆø">
     <column name="ID"           primaryKey="true" required="true"   domain="oid"                    description="OID" />
-    <column name="TRADE_TRANSACTION_ID"           required="true"   domain="oid"                    description="ƒ[ƒ‹ID" />  
+    <column name="TRADE_TRANSACTION_ID"           required="true"   domain="oid"                    description="Žæˆø‹L˜^ID" />  
     <foreign-key foreignTable="TRADE_TRANSACTION" name="tradeTransaction" onUpdate="cascade" onDelete="cascade">
       <reference local="TRADE_TRANSACTION_ID" foreign="ID" />
     </foreign-key>
@@ -64,11 +57,17 @@
 
   <table name="TRADE_TRANSACTION" description="Žæˆø‹L˜^">
     <column name="ID"           primaryKey="true" required="true"   domain="oid"                    description="OID" />
-    <column name="TRANSACTION_ID"                 required="true"   type="VARCHAR"  size="64"       description="ŽæˆøŽí•Ê" />
+    <column name="TRANSACTION_TYPE"               required="true"   type="VARCHAR"  size="64"       description="ŽæˆøŽí•Ê" />
     <column name="WEEK"                           required="true"   type="BIGINT"                   description="T" />
     <column name="AMOUNT"                         required="true"   type="BIGINT"                   description="”" />
     <column name="ROLE_ID"                        required="true"   domain="oid"                    description="ƒ[ƒ‹ID" />
+    <foreign-key foreignTable="ROLE" name="role" onUpdate="cascade" onDelete="cascade">
+      <reference local="ROLE_ID" foreign="ID" />
+    </foreign-key>
   </table>
+
+ 
+
 
   <table name="PLAYER" description="ƒvƒŒƒCƒ„[">
     <column name="ID"           primaryKey="true" required="true"   domain="oid"                    description="OID" />
@@ -83,5 +82,15 @@
       <reference local="GAME_ID" foreign="ID" />
     </foreign-key>
   </table>
-
+  
+  <table name="ROLE" description="ƒ[ƒ‹">
+    <column name="ID"           primaryKey="true" required="true"   domain="oid"                    description="OID" />
+    <column name="NAME"                           required="true"   type="VARCHAR"  size="64"       description="ƒ[ƒ‹–¼" />
+    <column name="COOKIE"                         required="false"  type="VARCHAR"  size="256"      description="Cookie" />     
+  </table>
+  
+  <table name="GAME" description="ƒQ[ƒ€">
+    <column name="ID"           primaryKey="true" required="true"   domain="oid"                    description="OID" />
+    <column name="NAME"                           required="true"   type="VARCHAR"  size="64"       description="ƒQ[ƒ€–¼" />
+  </table>
 </database>

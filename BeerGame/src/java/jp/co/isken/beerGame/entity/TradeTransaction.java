@@ -26,9 +26,9 @@ public class TradeTransaction extends jp.co.isken.beerGame.entity.base.BaseTrade
 		Extractor ext = new Extractor(TradeTransaction.class);
 		ext.addExtractValue(new ExtractValue(
 				"sum", new Sum(new Property(TradeTransaction.AMOUNT))));
-		ext.add(Condition.eq(new Property(TradeTransaction.ROLE_ID), role.getId()));
+		ext.add(Condition.eq(new Property(TradeTransaction.ROLE), role));
 		ext.add(Condition.le(new Property(TradeTransaction.WEEK), week));
-		ext.add(Condition.eq(new Property(TradeTransaction.TRANSACTION_ID), typeName));
+		ext.add(Condition.eq(new Property(TradeTransaction.TRANSACTION_TYPE), typeName));
 		List<Map<String, Long>> list = BasicService.getService().findByExtractor(ext);
 		return list.get(0).get("sum").intValue();	
 	}

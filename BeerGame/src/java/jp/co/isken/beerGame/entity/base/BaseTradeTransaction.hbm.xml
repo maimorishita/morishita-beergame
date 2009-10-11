@@ -27,11 +27,11 @@
         </id>
 
         <property
-            name="transactionId"
+            name="transactionType"
             type="java.lang.String"
             update="true"
             insert="true"
-            column="TRANSACTION_ID"
+            column="TRANSACTION_TYPE"
             length="64"
             not-null="true"
         />
@@ -56,14 +56,18 @@
             not-null="true"
         />
 
-        <property
-            name="roleId"
-            type="java.lang.Long"
+        <many-to-one
+            name="role"
+            class="jp.co.isken.beerGame.entity.Role"
+            cascade="none"
+            outer-join="true"
             update="true"
             insert="true"
-            column="ROLE_ID"
-            not-null="true"
-        />
+        >
+            <column
+                name="ROLE_ID" 
+            />
+        </many-to-one>
 
         <!--
             To add non XDoclet property mappings, create a file named

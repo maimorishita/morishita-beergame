@@ -112,29 +112,29 @@ public abstract class BaseTradeTransaction  implements Serializable {
     /**
      * 取引種別
     **/ 
-    private String transactionId;
-    public final static String TRANSACTION_ID = "transactionId";
+    private String transactionType;
+    public final static String TRANSACTION_TYPE = "transactionType";
 
     /**
      * 取引種別を取得する
      * @hibernate.property
-     *    column="TRANSACTION_ID"
+     *    column="TRANSACTION_TYPE"
      *    not-null="true"
      *    length="64"
      * @return 取引種別
     **/
-    @jp.rough_diamond.commons.service.annotation.MaxLength(length=64, property="TradeTransaction.transactionId")
-    @jp.rough_diamond.commons.service.annotation.NotNull(property="TradeTransaction.transactionId")
-    public String getTransactionId() {
-        return transactionId;
+    @jp.rough_diamond.commons.service.annotation.MaxLength(length=64, property="TradeTransaction.transactionType")
+    @jp.rough_diamond.commons.service.annotation.NotNull(property="TradeTransaction.transactionType")
+    public String getTransactionType() {
+        return transactionType;
     }
 
     /**
      * 取引種別を設定する
-     * @param transactionId  取引種別
+     * @param transactionType  取引種別
     **/
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
     }
     /**
      * 週
@@ -186,32 +186,44 @@ public abstract class BaseTradeTransaction  implements Serializable {
     public void setAmount(Long amount) {
         this.amount = amount;
     }
-    /**
-     * ロールID
-    **/ 
-    private Long roleId;
-    public final static String ROLE_ID = "roleId";
-
-    /**
-     * ロールIDを取得する
-     * @hibernate.property
-     *    column="ROLE_ID"
-     *    not-null="true"
-     * @return ロールID
-    **/
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    /**
-     * ロールIDを設定する
-     * @param roleId  ロールID
-    **/
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
 //ForeignProperties.vm start.
 
     
+    private jp.co.isken.beerGame.entity.Role role;
+    public final static String ROLE = "role";
+
+    /**
+     * Get the associated Role object
+     * @hibernate.many-to-one
+     *   outer-join = "true"
+     * @hibernate.column name = "ROLE_ID"
+     *
+     * @return the associated Role object
+     */
+    @jp.rough_diamond.commons.service.annotation.NotNull(property="TradeTransaction.roleId")
+    public jp.co.isken.beerGame.entity.Role getRole() {
+        return this.role;
+    }
+
+    /**
+     * Declares an association between this object and a Role object
+     *
+     * @param v Role
+     */
+    public void setRole(jp.co.isken.beerGame.entity.Role v) {
+        this.role = v;
+    }
+
+    @jp.rough_diamond.commons.service.annotation.PostLoad
+    public void loadRole() {
+        jp.co.isken.beerGame.entity.Role role = getRole();
+        if(role != null) {
+            Long pk = role.getId();
+            setRole(
+                    jp.rough_diamond.commons.service.BasicService.getService().findByPK(jp.co.isken.beerGame.entity.Role.class, pk)
+            );
+        }
+    }
+
 //ForeignProperties.vm finish.
 }
