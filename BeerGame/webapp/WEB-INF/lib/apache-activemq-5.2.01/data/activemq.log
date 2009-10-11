@@ -1,0 +1,137 @@
+2009-09-14 00:38:10,430 [main           ] INFO  DefaultCamelContext            - JMX enabled. Using InstrumentationLifecycleStrategy.
+2009-09-14 00:38:14,486 [main           ] INFO  BrokerService                  - Using Persistence Adapter: AMQPersistenceAdapter(D:\workspace\BeerGame\webapp\WEB-INF\lib\apache-activemq-5.2.01\bin\..\data)
+2009-09-14 00:38:15,609 [main           ] INFO  AMQPersistenceAdapter          - AMQStore starting using directory: D:\workspace\BeerGame\webapp\WEB-INF\lib\apache-activemq-5.2.01\bin\..\data
+2009-09-14 00:38:16,296 [main           ] INFO  KahaStore                      - Kaha Store using data directory D:\workspace\BeerGame\webapp\WEB-INF\lib\apache-activemq-5.2.01\bin\..\data\kr-store\state
+2009-09-14 00:38:16,639 [main           ] INFO  AMQPersistenceAdapter          - Active data files: []
+2009-09-14 00:38:17,357 [main           ] INFO  BrokerService                  - ActiveMQ 5.2.0 JMS Message Broker (localhost) is starting
+2009-09-14 00:38:17,357 [main           ] INFO  BrokerService                  - For help or more information please see: http://activemq.apache.org/
+2009-09-14 00:38:17,591 [main           ] INFO  KahaStore                      - Kaha Store using data directory D:\workspace\BeerGame\webapp\WEB-INF\lib\apache-activemq-5.2.01\bin\..\data\kr-store\data
+2009-09-14 00:38:20,274 [main           ] INFO  TransportServerThreadSupport   - Listening for connections at: tcp://MaychPC:61616
+2009-09-14 00:38:20,399 [main           ] INFO  TransportConnector             - Connector openwire Started
+2009-09-14 00:38:24,548 [main           ] INFO  TransportServerThreadSupport   - Listening for connections at: ssl://MaychPC:61617
+2009-09-14 00:38:24,548 [main           ] INFO  TransportConnector             - Connector ssl Started
+2009-09-14 00:38:24,657 [main           ] INFO  TransportServerThreadSupport   - Listening for connections at: stomp://MaychPC:61613
+2009-09-14 00:38:24,657 [main           ] INFO  TransportConnector             - Connector stomp Started
+2009-09-14 00:38:24,923 [main           ] INFO  TransportServerThreadSupport   - Listening for connections at: xmpp://MaychPC:61222
+2009-09-14 00:38:24,938 [main           ] INFO  TransportConnector             - Connector xmpp Started
+2009-09-14 00:38:24,938 [main           ] INFO  NetworkConnector               - Network Connector default-nc Started
+2009-09-14 00:38:24,938 [main           ] INFO  BrokerService                  - ActiveMQ JMS Message Broker (localhost, ID:MaychPC-61285-1252856297403-0:0) started
+2009-09-14 00:38:26,077 [main           ] INFO  log                            - Logging to org.slf4j.impl.JCLLoggerAdapter(org.mortbay.log) via org.mortbay.log.Slf4jLog
+2009-09-14 00:38:26,171 [main           ] INFO  log                            - jetty-6.1.9
+2009-09-14 00:38:31,615 [main           ] INFO  WebConsoleStarter              - ActiveMQ WebConsole initialized.
+2009-09-14 00:38:40,077 [main           ] INFO  /admin                         - Initializing Spring FrameworkServlet 'dispatcher'
+2009-09-14 00:38:45,959 [main           ] INFO  log                            - ActiveMQ Console at http://0.0.0.0:8161/admin
+2009-09-14 00:38:49,253 [main           ] INFO  log                            - ActiveMQ Web Demos at http://0.0.0.0:8161/demo
+2009-09-14 00:38:50,501 [main           ] INFO  log                            - RESTful file access application at http://0.0.0.0:8161/fileserver
+2009-09-14 00:38:51,624 [main           ] INFO  log                            - Started SelectChannelConnector@0.0.0.0:8161
+2009-09-14 00:38:54,808 [main           ] INFO  TransportConnector             - Connector vm://localhost Started
+2009-09-14 00:45:56,367 [MQ ShutdownHook] INFO  BrokerService                  - ActiveMQ Message Broker (localhost, ID:MaychPC-61285-1252856297403-0:0) is shutting down
+2009-09-14 00:45:56,539 [MQ ShutdownHook] INFO  NetworkConnector               - Network Connector default-nc Stopped
+2009-09-14 00:45:57,880 [MQ ShutdownHook] INFO  TransportConnector             - Connector openwire Stopped
+2009-09-14 00:45:58,099 [MQ ShutdownHook] INFO  TransportConnector             - Connector ssl Stopped
+2009-09-14 00:45:59,862 [MQ ShutdownHook] INFO  TransportConnector             - Connector stomp Stopped
+2009-09-14 00:46:01,874 [MQ ShutdownHook] INFO  TransportConnector             - Connector xmpp Stopped
+2009-09-14 00:46:01,921 [MQ ShutdownHook] INFO  TransportConnector             - Connector vm://localhost Stopped
+2009-09-14 00:46:02,701 [MQ ShutdownHook] INFO  BrokerService                  - ActiveMQ JMS Message Broker (localhost, ID:MaychPC-61285-1252856297403-0:0) stopped
+2009-09-14 23:59:44,067 [main           ] INFO  DefaultCamelContext            - JMX enabled. Using InstrumentationLifecycleStrategy.
+2009-09-14 23:59:45,830 [main           ] INFO  BrokerService                  - Using Persistence Adapter: AMQPersistenceAdapter(D:\workspace\BeerGame\webapp\WEB-INF\lib\apache-activemq-5.2.01\bin\..\data)
+2009-09-14 23:59:46,079 [main           ] INFO  AMQPersistenceAdapter          - AMQStore starting using directory: D:\workspace\BeerGame\webapp\WEB-INF\lib\apache-activemq-5.2.01\bin\..\data
+2009-09-14 23:59:46,547 [main           ] INFO  KahaStore                      - Kaha Store using data directory D:\workspace\BeerGame\webapp\WEB-INF\lib\apache-activemq-5.2.01\bin\..\data\kr-store\state
+2009-09-14 23:59:46,797 [main           ] INFO  AMQPersistenceAdapter          - Active data files: []
+2009-09-14 23:59:46,891 [main           ] INFO  BrokerService                  - ActiveMQ 5.2.0 JMS Message Broker (localhost) is starting
+2009-09-14 23:59:46,891 [main           ] INFO  BrokerService                  - For help or more information please see: http://activemq.apache.org/
+2009-09-14 23:59:47,125 [main           ] INFO  KahaStore                      - Kaha Store using data directory D:\workspace\BeerGame\webapp\WEB-INF\lib\apache-activemq-5.2.01\bin\..\data\kr-store\data
+2009-09-14 23:59:47,530 [main           ] INFO  TransportServerThreadSupport   - Listening for connections at: tcp://MaychPC:61616
+2009-09-14 23:59:47,593 [main           ] INFO  TransportConnector             - Connector openwire Started
+2009-09-14 23:59:52,210 [main           ] INFO  TransportServerThreadSupport   - Listening for connections at: ssl://MaychPC:61617
+2009-09-14 23:59:52,210 [main           ] INFO  TransportConnector             - Connector ssl Started
+2009-09-14 23:59:52,288 [main           ] INFO  TransportServerThreadSupport   - Listening for connections at: stomp://MaychPC:61613
+2009-09-14 23:59:52,304 [main           ] INFO  TransportConnector             - Connector stomp Started
+2009-09-14 23:59:52,366 [main           ] INFO  TransportServerThreadSupport   - Listening for connections at: xmpp://MaychPC:61222
+2009-09-14 23:59:52,366 [main           ] INFO  TransportConnector             - Connector xmpp Started
+2009-09-14 23:59:52,382 [main           ] INFO  NetworkConnector               - Network Connector default-nc Started
+2009-09-14 23:59:52,382 [main           ] INFO  BrokerService                  - ActiveMQ JMS Message Broker (localhost, ID:MaychPC-49509-1252940386937-0:0) started
+2009-09-14 23:59:52,709 [main           ] INFO  log                            - Logging to org.slf4j.impl.JCLLoggerAdapter(org.mortbay.log) via org.mortbay.log.Slf4jLog
+2009-09-14 23:59:52,741 [main           ] INFO  log                            - jetty-6.1.9
+2009-09-14 23:59:53,864 [main           ] INFO  WebConsoleStarter              - ActiveMQ WebConsole initialized.
+2009-09-14 23:59:54,457 [main           ] INFO  /admin                         - Initializing Spring FrameworkServlet 'dispatcher'
+2009-09-14 23:59:54,925 [main           ] INFO  log                            - ActiveMQ Console at http://0.0.0.0:8161/admin
+2009-09-14 23:59:55,237 [main           ] INFO  log                            - ActiveMQ Web Demos at http://0.0.0.0:8161/demo
+2009-09-14 23:59:55,595 [main           ] INFO  log                            - RESTful file access application at http://0.0.0.0:8161/fileserver
+2009-09-14 23:59:55,736 [main           ] INFO  log                            - Started SelectChannelConnector@0.0.0.0:8161
+2009-09-14 23:59:56,563 [main           ] INFO  TransportConnector             - Connector vm://localhost Started
+2009-09-15 00:08:21,735 [Thread-10      ] INFO  BrokerService                  - ActiveMQ Message Broker (localhost, ID:MaychPC-49509-1252940386937-0:0) is shutting down
+2009-09-15 00:08:21,829 [Thread-10      ] INFO  NetworkConnector               - Network Connector default-nc Stopped
+2009-09-15 00:08:23,451 [Thread-10      ] INFO  TransportConnector             - Connector openwire Stopped
+2009-09-15 00:08:24,028 [Thread-10      ] INFO  TransportConnector             - Connector ssl Stopped
+2009-09-15 00:08:25,588 [Thread-10      ] INFO  TransportConnector             - Connector stomp Stopped
+2009-09-15 00:08:25,854 [Thread-10      ] INFO  TransportConnector             - Connector xmpp Stopped
+2009-09-15 00:08:25,978 [Thread-10      ] INFO  TransportConnector             - Connector vm://localhost Stopped
+2009-09-15 00:08:26,712 [Thread-10      ] INFO  BrokerService                  - ActiveMQ JMS Message Broker (localhost, ID:MaychPC-49509-1252940386937-0:0) stopped
+2009-10-01 18:22:19,859 [main           ] INFO  DefaultCamelContext            - JMX enabled. Using InstrumentationLifecycleStrategy.
+2009-10-01 18:22:20,171 [main           ] INFO  BrokerService                  - Using Persistence Adapter: AMQPersistenceAdapter(C:\work\private\workspace\morishita-beergame\BeerGame\webapp\WEB-INF\lib\apache-activemq-5.2.01\bin\..\data)
+2009-10-01 18:22:20,171 [main           ] INFO  AMQPersistenceAdapter          - AMQStore starting using directory: C:\work\private\workspace\morishita-beergame\BeerGame\webapp\WEB-INF\lib\apache-activemq-5.2.01\bin\..\data
+2009-10-01 18:22:20,203 [main           ] INFO  KahaStore                      - Kaha Store using data directory C:\work\private\workspace\morishita-beergame\BeerGame\webapp\WEB-INF\lib\apache-activemq-5.2.01\bin\..\data\kr-store\state
+2009-10-01 18:22:20,265 [main           ] INFO  AMQPersistenceAdapter          - Active data files: []
+2009-10-01 18:22:20,343 [main           ] INFO  BrokerService                  - ActiveMQ 5.2.0 JMS Message Broker (localhost) is starting
+2009-10-01 18:22:20,343 [main           ] INFO  BrokerService                  - For help or more information please see: http://activemq.apache.org/
+2009-10-01 18:22:20,656 [main           ] INFO  KahaStore                      - Kaha Store using data directory C:\work\private\workspace\morishita-beergame\BeerGame\webapp\WEB-INF\lib\apache-activemq-5.2.01\bin\..\data\kr-store\data
+2009-10-01 18:22:20,750 [main           ] INFO  TransportServerThreadSupport   - Listening for connections at: tcp://isken003:61616
+2009-10-01 18:22:20,750 [main           ] INFO  TransportConnector             - Connector openwire Started
+2009-10-01 18:22:21,328 [main           ] INFO  TransportServerThreadSupport   - Listening for connections at: ssl://isken003:61617
+2009-10-01 18:22:21,328 [main           ] INFO  TransportConnector             - Connector ssl Started
+2009-10-01 18:22:21,328 [main           ] INFO  TransportServerThreadSupport   - Listening for connections at: stomp://isken003:61613
+2009-10-01 18:22:21,328 [main           ] INFO  TransportConnector             - Connector stomp Started
+2009-10-01 18:22:21,343 [main           ] INFO  TransportServerThreadSupport   - Listening for connections at: xmpp://isken003:61222
+2009-10-01 18:22:21,343 [main           ] INFO  TransportConnector             - Connector xmpp Started
+2009-10-01 18:22:21,343 [main           ] INFO  NetworkConnector               - Network Connector default-nc Started
+2009-10-01 18:22:21,343 [main           ] INFO  BrokerService                  - ActiveMQ JMS Message Broker (localhost, ID:isken003-2209-1254388940359-0:0) started
+2009-10-01 18:22:21,406 [main           ] INFO  log                            - Logging to org.slf4j.impl.JCLLoggerAdapter(org.mortbay.log) via org.mortbay.log.Slf4jLog
+2009-10-01 18:22:21,421 [main           ] INFO  log                            - jetty-6.1.9
+2009-10-01 18:22:21,750 [main           ] INFO  WebConsoleStarter              - ActiveMQ WebConsole initialized.
+2009-10-01 18:22:21,859 [main           ] INFO  /admin                         - Initializing Spring FrameworkServlet 'dispatcher'
+2009-10-01 18:22:21,921 [main           ] INFO  log                            - ActiveMQ Console at http://0.0.0.0:8161/admin
+2009-10-01 18:22:22,078 [main           ] INFO  log                            - ActiveMQ Web Demos at http://0.0.0.0:8161/demo
+2009-10-01 18:22:22,171 [main           ] INFO  log                            - RESTful file access application at http://0.0.0.0:8161/fileserver
+2009-10-01 18:22:22,312 [main           ] INFO  log                            - Started SelectChannelConnector@0.0.0.0:8161
+2009-10-01 18:22:22,421 [main           ] INFO  TransportConnector             - Connector vm://localhost Started
+2009-10-01 18:43:41,843 [MQ ShutdownHook] INFO  BrokerService                  - ActiveMQ Message Broker (localhost, ID:isken003-2209-1254388940359-0:0) is shutting down
+2009-10-01 18:43:41,843 [MQ ShutdownHook] INFO  NetworkConnector               - Network Connector default-nc Stopped
+2009-10-01 18:43:42,515 [MQ ShutdownHook] INFO  TransportConnector             - Connector openwire Stopped
+2009-10-01 18:43:43,843 [MQ ShutdownHook] INFO  TransportConnector             - Connector ssl Stopped
+2009-10-01 18:51:27,687 [main           ] INFO  DefaultCamelContext            - JMX enabled. Using InstrumentationLifecycleStrategy.
+2009-10-01 18:51:28,265 [main           ] INFO  BrokerService                  - Using Persistence Adapter: AMQPersistenceAdapter(C:\work\private\workspace\morishita-beergame\BeerGame\webapp\WEB-INF\lib\apache-activemq-5.2.01\bin\..\data)
+2009-10-01 18:51:28,312 [main           ] INFO  AMQPersistenceAdapter          - AMQStore starting using directory: C:\work\private\workspace\morishita-beergame\BeerGame\webapp\WEB-INF\lib\apache-activemq-5.2.01\bin\..\data
+2009-10-01 18:51:28,421 [main           ] INFO  KahaStore                      - Kaha Store using data directory C:\work\private\workspace\morishita-beergame\BeerGame\webapp\WEB-INF\lib\apache-activemq-5.2.01\bin\..\data\kr-store\state
+2009-10-01 18:51:28,500 [main           ] INFO  AMQPersistenceAdapter          - Active data files: []
+2009-10-01 18:51:28,500 [main           ] WARN  AMQPersistenceAdapter          - The ReferenceStore is not valid - recovering ...
+2009-10-01 18:51:28,546 [main           ] INFO  KahaStore                      - Kaha Store successfully deleted data directory C:\work\private\workspace\morishita-beergame\BeerGame\webapp\WEB-INF\lib\apache-activemq-5.2.01\bin\..\data\kr-store\data
+2009-10-01 18:51:28,562 [main           ] INFO  AMQPersistenceAdapter          - Journal Recovery Started from: DataManager:(data-)
+2009-10-01 18:51:28,640 [main           ] INFO  KahaStore                      - Kaha Store using data directory C:\work\private\workspace\morishita-beergame\BeerGame\webapp\WEB-INF\lib\apache-activemq-5.2.01\bin\..\data\kr-store\data
+2009-10-01 18:51:28,750 [main           ] INFO  AMQPersistenceAdapter          - Recovered 20 operations from redo log in 0.188 seconds.
+2009-10-01 18:51:28,750 [main           ] INFO  AMQPersistenceAdapter          - Finished recovering the ReferenceStore
+2009-10-01 18:51:28,781 [main           ] INFO  BrokerService                  - ActiveMQ 5.2.0 JMS Message Broker (localhost) is starting
+2009-10-01 18:51:28,781 [main           ] INFO  BrokerService                  - For help or more information please see: http://activemq.apache.org/
+2009-10-01 18:51:29,140 [main           ] INFO  TransportServerThreadSupport   - Listening for connections at: tcp://isken003:61616
+2009-10-01 18:51:29,140 [main           ] INFO  TransportConnector             - Connector openwire Started
+2009-10-01 18:51:29,828 [main           ] INFO  TransportServerThreadSupport   - Listening for connections at: ssl://isken003:61617
+2009-10-01 18:51:29,828 [main           ] INFO  TransportConnector             - Connector ssl Started
+2009-10-01 18:51:29,906 [main           ] INFO  TransportServerThreadSupport   - Listening for connections at: stomp://isken003:61613
+2009-10-01 18:51:29,906 [main           ] INFO  TransportConnector             - Connector stomp Started
+2009-10-01 18:51:29,953 [main           ] INFO  TransportServerThreadSupport   - Listening for connections at: xmpp://isken003:61222
+2009-10-01 18:51:29,953 [main           ] INFO  TransportConnector             - Connector xmpp Started
+2009-10-01 18:51:29,953 [main           ] INFO  NetworkConnector               - Network Connector default-nc Started
+2009-10-01 18:51:29,953 [main           ] INFO  BrokerService                  - ActiveMQ JMS Message Broker (localhost, ID:isken003-1051-1254390688796-0:0) started
+2009-10-01 18:51:30,062 [main           ] INFO  log                            - Logging to org.slf4j.impl.JCLLoggerAdapter(org.mortbay.log) via org.mortbay.log.Slf4jLog
+2009-10-01 18:51:30,078 [main           ] INFO  log                            - jetty-6.1.9
+2009-10-01 18:51:31,078 [main           ] INFO  WebConsoleStarter              - ActiveMQ WebConsole initialized.
+2009-10-01 18:51:31,312 [main           ] INFO  /admin                         - Initializing Spring FrameworkServlet 'dispatcher'
+2009-10-01 18:51:31,500 [main           ] INFO  log                            - ActiveMQ Console at http://0.0.0.0:8161/admin
+2009-10-01 18:51:31,640 [main           ] INFO  log                            - ActiveMQ Web Demos at http://0.0.0.0:8161/demo
+2009-10-01 18:51:31,859 [main           ] INFO  log                            - RESTful file access application at http://0.0.0.0:8161/fileserver
+2009-10-01 18:51:32,000 [main           ] INFO  log                            - Started SelectChannelConnector@0.0.0.0:8161
+2009-10-01 18:51:32,250 [main           ] INFO  TransportConnector             - Connector vm://localhost Started
+2009-10-01 20:24:31,203 [MQ ShutdownHook] INFO  BrokerService                  - ActiveMQ Message Broker (localhost, ID:isken003-1051-1254390688796-0:0) is shutting down
+2009-10-01 20:24:31,203 [MQ ShutdownHook] INFO  NetworkConnector               - Network Connector default-nc Stopped
+2009-10-01 20:24:31,750 [MQ ShutdownHook] INFO  TransportConnector             - Connector openwire Stopped
+2009-10-01 20:24:32,750 [MQ ShutdownHook] INFO  TransportConnector             - Connector ssl Stopped
