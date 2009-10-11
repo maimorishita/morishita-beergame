@@ -29,16 +29,16 @@ public class Sender {
             QueueSender sender = session.createSender( queue) ;
 
             Message msg = session.createTextMessage("message from 卸") ;
-            msg.setStringProperty("game","アベベ");
-            msg.setStringProperty("role","卸");
-            msg.setStringProperty("week","1");
-            msg.setStringProperty("type","発注");
+//            msg.setStringProperty("game","アベベ");
+//            msg.setStringProperty("role","卸");
+//            msg.setStringProperty("week","1");
+//            msg.setStringProperty("type","発注");
             
             Message msg2 = session.createTextMessage("message from メーカー") ;
-            msg.setStringProperty("game","アベベ");
-            msg.setStringProperty("role","メーカー");
-            msg.setStringProperty("week","1");
-            msg.setStringProperty("type","発注");
+//            msg.setStringProperty("game","アベベ");
+//            msg.setStringProperty("role","メーカー");
+//            msg.setStringProperty("week","1");
+//            msg.setStringProperty("type","発注");
 
             //メッセージの送信
             sender.send( msg) ;

@@ -24,9 +24,9 @@ public class Receiver {
 	            
 	            //MessageConsumerオブジェクトの作成（Queueと関連付け）
 //	            QueueReceiver receiver = session.createReceiver( queue) ;
-	            String selector = "game = 'アベベ' AND role = '卸' AND week = '1' AND type = '発注'";
+//	            String selector = "game = 'アベベ' AND role = '卸' AND week = '1' AND type = '発注'";
 
-	            QueueReceiver receiver = session.createReceiver(queue, selector);
+	            QueueReceiver receiver = session.createReceiver(queue);
 	            
 	            connection.start() ;
 	            
