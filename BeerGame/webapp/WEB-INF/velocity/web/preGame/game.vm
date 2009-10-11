@@ -23,30 +23,30 @@
   <div id="main">
     <table border=4>
       <tr>
-        <td>ƒ`[ƒ€–¼</td>
+        <td>ãƒãƒ¼ãƒ å</td>
         <td colspan=2><input type="text" name="teamName" value="$!{currentForm.teamName}" /></td>
       </tr>
       <tr>
-        <td>ƒI[ƒi[–¼</td>
+        <td>ã‚ªãƒ¼ãƒŠãƒ¼å</td>
         <td colspan=2><input type="text" name="ownerName" value="$!{currentForm.ownerName}" /></td>
       </tr>
       <tr>
         <td></td>
-        <td align=center><input type="button" value="“o˜^" onClick="javascript:addGame(this.form);" /></td>
-        <td align=center><input type="button" value="·¬Ý¾Ù" onClick="javascript:init(this.form);" /></td>
+        <td align=center><input type="button" value="ç™»éŒ²" onClick="javascript:addGame(this.form);" /></td>
+        <td align=center><input type="button" value="ï½·ï½¬ï¾ï½¾ï¾™" onClick="javascript:init(this.form);" /></td>
       </tr>
     </table>
-<p>@@@@@@@ QQQ<br />
-@ @ @ @ ^@@@@@_@@@@@‚ ‚ ‚ ‚ II<br />
-@@@@ ^ u@::::_:::^:: _@@@–¼‘O‚ªŒˆ‚Ü‚ç‚È‚¢‚¨II<br />
-@@@^@ @ &lt;›>::::::&lt;›> _<br />
-@ @ |@@u@ @ i__l__j@u@|@@@@_QQQQQQQQQ_<br />
-@@@_@ @ @ ¡M Üß:jL@,^@jÞ~~| | |@@@@@@@@@@@@@|<br />
-QQ^@@@@@@@@@@_@ |_Q| | |@@@@@@@@@@@@@|<br />
-| |@/@@ ,@ @ @ @ @ @ @ _‚Ž||@ | |@@@@@@@@@@@@@|<br />
-| | /@@ /@@@@@@@@@r.@ i ‚±j | |@@@@@@@@@@@@@|<br />
-| | |@Ü [n‚Ž‚Ž @ @ @ @|_ (º¿ .|_|_QQQQ_QQQQ_|<br />
-P _Q_¤("“ñjPPPPP‚Œ“ñ“ñ‚Œ“ñ“ñ@ Q|_|Q_|Q</p>
+<p>ã€€ã€€ã€€ã€€ã€€ã€€ã€€ ï¼¿ï¼¿ï¼¿<br />
+ã€€ ã€€ ã€€ ã€€ ï¼ã€€ã€€ã€€ã€€ã€€ï¼¼ã€€ã€€ã€€ã€€ã€€ã‚ã‚ã‚ã‚ï¼ï¼<br />
+ã€€ã€€ã€€ã€€ ï¼ uã€€::::ï¼¼:::ï¼:: ï¼¼ã€€ã€€ã€€åå‰ãŒæ±ºã¾ã‚‰ãªã„ãŠï¼ï¼<br />
+ã€€ã€€ã€€ï¼ã€€ ã€€ &lt;â—‹>::::::&lt;â—‹> ï¼¼<br />
+ã€€ ã€€ |ã€€ã€€uã€€ ã€€ ï¼ˆ__äºº__ï¼‰ã€€uã€€|ã€€ã€€ã€€ã€€_ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿_<br />
+ã€€ã€€ã€€ï¼¼ã€€ ã€€ ã€€ ï½¡ï½€ âŒ’ï¾Ÿ:jÂ´ã€€,ï¼ã€€jï¾ž~~| | |ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€|<br />
+ï¼¿ï¼¿ï¼ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ï¼¼ã€€ |_ï¼¿| | |ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€|<br />
+| |ã€€/ã€€ã€€ ,ã€€ ã€€ ã€€ ã€€ ã€€ ã€€ ã€€ ï¼¼ï½Ž||ã€€ | |ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€|<br />
+| | /ã€€ã€€ /ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€r.ã€€ ï¼ˆ ã“ï¼‰ | |ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€|<br />
+| | |ã€€âŒ’ ãƒ¼nï½Žï½Ž ã€€ ã€€ ã€€ ã€€|ï¼¼ (âŠ†ï½¿ .|_|_ï¼¿ï¼¿ï¼¿ï¼¿_ï¼¿ï¼¿ï¼¿ï¼¿_|<br />
+ï¿£ ï¼¼ï¼¿_ï½¤("äºŒï¼‰ï¿£ï¿£ï¿£ï¿£ï¿£ï½ŒäºŒäºŒï½ŒäºŒäºŒã€€ ï¼¿|_|ï¼¿_|ï¼¿</p>
   </div>
   </form>
 #parse("web/footer.vm")

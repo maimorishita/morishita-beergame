@@ -19,22 +19,22 @@
   <div id="main">
     <table border=4>
       <tr>
-        <td colspan=2><input type="radio" name="newGame" value="true" checked>&nbsp;V‹KƒQ[ƒ€‚ÌÝ’è</td>
+        <td colspan=2><input type="radio" name="newGame" value="true" checked>&nbsp;æ–°è¦ã‚²ãƒ¼ãƒ ã®è¨­å®š</td>
       </tr>
       <tr>
-        <td colspan=2><input type="radio" name="newGame" value="false">&nbsp;Šù‘¶ƒQ[ƒ€‚ÖŽQ‰Á</td>
+        <td colspan=2><input type="radio" name="newGame" value="false">&nbsp;æ—¢å­˜ã‚²ãƒ¼ãƒ ã¸å‚åŠ </td>
       </tr>
       <tr>
-        <td align=center><input type="button" value="ŽÀs" onClick="javascript:judgeGameMode(this.form);" /></td>
-        <td align=center><input type="button" value="·¬Ý¾Ù" onClick="location = '$link.setAction('/top')'" /></td>
+        <td align=center><input type="button" value="å®Ÿè¡Œ" onClick="javascript:judgeGameMode(this.form);" /></td>
+        <td align=center><input type="button" value="ï½·ï½¬ï¾ï½¾ï¾™" onClick="location = '$link.setAction('/top')'" /></td>
       </tr>
     </table>
-<p>. @@¿_QQ_¿K.:+QQ_¿:@:.+@ <br />
-Ü¸.@| ƒm @@ @@Rƒm@@ @@R+.:@@ <br />
-:.Ü¸/@@œ@@ œ | œ@@ œ | ¸Ï @@ <br />
-@@ƒ~ @''@( _œ_)''ƒ~''@( _œ_)''ƒ~@¸Ï@ <br />
-.@/ @.Q@ |_/__ƒmR__@ |_/__ƒmR <br />
-@-(QQ_.)„Ÿ(QQ)__.)„Ÿ(QQ)„Ÿ </p>
+<p>. ã€€ã€€âˆ©_ï¼¿ï¼¿_âˆ©ã‚œ.:+ï¼¿ï¼¿_âˆ©:ã€€:.+ã€€ <br />
+ï¾œï½¸.ã€€| ãƒŽ ã€€ã€€ ã€€ã€€ãƒ½ãƒŽã€€ã€€ ã€€ã€€ãƒ½+.:ã€€ã€€ <br />
+:.ï¾œï½¸/ã€€ã€€â—ã€€ã€€ â— | â—ã€€ã€€ â— | ï½¸ï¾ ã€€ã€€ <br />
+ã€€ã€€ãƒŸ ã€€''ã€€( _â—_)''ãƒŸ''ã€€( _â—_)''ãƒŸã€€ï½¸ï¾ã€€ <br />
+.ã€€/ ã€€.ï¼¿ã€€ |_/__ãƒŽãƒ½__ã€€ |_/__ãƒŽãƒ½ <br />
+ã€€-(ï¼¿ï¼¿_.)â”€(ï¼¿ï¼¿)__.)â”€(ï¼¿ï¼¿)â”€ </p>
   </div>
   </form>
 #parse("web/footer.vm")

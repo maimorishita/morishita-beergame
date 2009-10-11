@@ -2,7 +2,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" href="./css/style.css" type="text/css" />
-  <title>ƒr[ƒ‹ƒQ[ƒ€ŽQ‰Á“o˜^</title>
+  <title>ãƒ“ãƒ¼ãƒ«ã‚²ãƒ¼ãƒ å‚åŠ ç™»éŒ²</title>
   <script type="text/javascript" language="javascript">
   <!--
     function init(formObj) {
@@ -28,10 +28,10 @@
   <input type="hidden" name="command" />
   <input type="hidden" name="gameId" />
   <div id="main">
-    <h1>‰Ô‹ž‰@A‚«‚³‚Ü‚±‚ÌƒQ[ƒ€‚â‚èž‚ñ‚Å‚¢‚é‚ÈƒbI</h1>
+    <h1>èŠ±äº¬é™¢ã€ãã•ã¾ã“ã®ã‚²ãƒ¼ãƒ ã‚„ã‚Šè¾¼ã‚“ã§ã„ã‚‹ãªãƒƒï¼</h1>
     <table border=4>
       <tr>
-        <td>ƒ`[ƒ€–¼</td>
+        <td>ãƒãƒ¼ãƒ å</td>
         <td colspan=2>
           <select name="games" onChange="selectGame(this.form);">
 #foreach($game in $!currentForm.getWaitingGameList())
@@ -41,11 +41,11 @@
         </td>
       </tr>
       <tr>
-        <td>ƒvƒŒƒCƒ„–¼</td>
+        <td>ãƒ—ãƒ¬ã‚¤ãƒ¤å</td>
         <td colspan=2><input type="text" name="playerName" value="$!{currentForm.playerName}" /></td>
       </tr>
       <tr>
-        <td>ƒ[ƒ‹</td>
+        <td>ãƒ­ãƒ¼ãƒ«</td>
         <td colspan=2>
           <select name="roles">
 #foreach($role in $!currentForm.getWaitingRoleList())
@@ -56,27 +56,27 @@
       </tr>
       <tr>
         <td></td>
-        <td align=center><input type="button" value="“o˜^" onClick="javascript:addPlayer(this.form);" /></td>
-        <td align=center><input type="button" value="·¬Ý¾Ù" onClick="javascript:init(this.form);" /></td>
+        <td align=center><input type="button" value="ç™»éŒ²" onClick="javascript:addPlayer(this.form);" /></td>
+        <td align=center><input type="button" value="ï½·ï½¬ï¾ï½¾ï¾™" onClick="javascript:init(this.form);" /></td>
       </tr>
     </table>
-<p>„«„¡„¦„¢@ @ @ @ @ @ „«@@@„¬ ‚m‚d‚w‚s„­<br />
-„«„¥„©„§„¡„¢@ @ @ @ „« @@..„«„¡„¦„¢„«<br />
-„«„¤„¨„£„¥„§„¡„¦„¦„¦„· @@..„«„¥„©„§„«<br />
-„«„¡„¢„¡„©„§„¥„©„¨„¨„· @@..„«„¤„¨„£„«<br />
-„µ„©„©„©„©„©„©„©„¦„¢„«@@@„¯„ª„ª„ª„®<br />
-„µ„©„©„©„©„©„©„©„©„§„«<br />
-„µ„©„©„©„©„©„©„©„©„§„« @@@.@. .... ..: : :: :: ::: :::::: ::::<br />
-„µ„©„©„©„©„©„©„©„©„§„« @@@@@@@ ƒ©Qƒ© . . . .: : :<br />
-„µ„©„©„©„©„©„©„©„©„§„« @@@@@ @/:œcƒ~JR;j[¤@. ::<br />
-„µ„©„©„©„©„©„©„©„©„§„« @@@@@ / :::/:: RARA ::i . .::<br />
-„µ„©„©„©„©„©„©„©„©„§„« @@ @@ / :::/;;: @ R@R ::‚Œ@.<br />
-„µ„©„©„©„©„©„©„©„©„§„« PPPi_,ƒm PPPR¤_ƒmPP<br />
-„µ„©„©„©„©„©„©„©„©„§„«<br />
-„µ„©„©„©„©„©„©„©„©„§„«<br />
-„µ„©„©„©„©„©„©„©„©„§„«<br />
-„µ„©„©„©„©„©„©„©„©„§„«<br />
-„¯„¸„¸„¸„¸„¸„¸„¸„¸„¸„®</p>
+<p>â”ƒâ”Œâ”¬â”ã€€ ã€€ ã€€ ã€€ ã€€ ã€€ â”ƒã€€ã€€ã€€â” ï¼®ï¼¥ï¼¸ï¼´â”“<br />
+â”ƒâ”œâ”¼â”¤â”Œâ”ã€€ ã€€ ã€€ ã€€ â”ƒ ã€€ã€€..â”ƒâ”Œâ”¬â”â”ƒ<br />
+â”ƒâ””â”´â”˜â”œâ”¤â”Œâ”¬â”¬â”¬â”¨ ã€€ã€€..â”ƒâ”œâ”¼â”¤â”ƒ<br />
+â”ƒâ”Œâ”â”Œâ”¼â”¤â”œâ”¼â”´â”´â”¨ ã€€ã€€..â”ƒâ””â”´â”˜â”ƒ<br />
+â” â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¬â”â”ƒã€€ã€€ã€€â”—â”â”â”â”›<br />
+â” â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤â”ƒ<br />
+â” â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤â”ƒ ã€€ã€€ã€€.ã€€. .... ..: : :: :: ::: :::::: ::::<br />
+â” â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤â”ƒ ã€€ã€€ã€€ã€€ã€€ã€€ã€€ Î›ï¼¿Î› . . . .: : :<br />
+â” â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤â”ƒ ã€€ã€€ã€€ã€€ã€€ ã€€/:å½¡ãƒŸã‚›ãƒ½;ï¼‰ãƒ¼ï½¤ã€€. ::<br />
+â” â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤â”ƒ ã€€ã€€ã€€ã€€ã€€ / :::/:: ãƒ½ã€ãƒ½ã€ ::i . .::<br />
+â” â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤â”ƒ ã€€ã€€ ã€€ã€€ / :::/;;: ã€€ ãƒ½ã€€ãƒ½ ::ï½Œã€€.<br />
+â” â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤â”ƒ ï¿£ï¿£ï¿£ï¼ˆ_,ãƒŽ ï¿£ï¿£ï¿£ãƒ½ï½¤_ãƒŽï¿£ï¿£<br />
+â” â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤â”ƒ<br />
+â” â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤â”ƒ<br />
+â” â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤â”ƒ<br />
+â” â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤â”ƒ<br />
+â”—â”·â”·â”·â”·â”·â”·â”·â”·â”·â”›</p>
   </div>
   </form>
 #parse("web/footer.vm")
