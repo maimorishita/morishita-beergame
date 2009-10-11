@@ -1,6 +1,7 @@
 package jp.co.isken.beerGame.entity;
 
 
+
 /**
  * プレイヤーのHibernateマッピングクラス
  **/

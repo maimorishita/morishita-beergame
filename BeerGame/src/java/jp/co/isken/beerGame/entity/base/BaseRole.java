@@ -165,5 +165,40 @@ public abstract class BaseRole  implements Serializable {
 //ForeignProperties.vm start.
 
     
+    private jp.co.isken.beerGame.entity.Player player;
+    public final static String PLAYER = "player";
+
+    /**
+     * Get the associated Player object
+     * @hibernate.many-to-one
+     *   outer-join = "true"
+     * @hibernate.column name = "PLAYER_ID"
+     *
+     * @return the associated Player object
+     */
+    public jp.co.isken.beerGame.entity.Player getPlayer() {
+        return this.player;
+    }
+
+    /**
+     * Declares an association between this object and a Player object
+     *
+     * @param v Player
+     */
+    public void setPlayer(jp.co.isken.beerGame.entity.Player v) {
+        this.player = v;
+    }
+
+    @jp.rough_diamond.commons.service.annotation.PostLoad
+    public void loadPlayer() {
+        jp.co.isken.beerGame.entity.Player player = getPlayer();
+        if(player != null) {
+            Long pk = player.getId();
+            setPlayer(
+                    jp.rough_diamond.commons.service.BasicService.getService().findByPK(jp.co.isken.beerGame.entity.Player.class, pk)
+            );
+        }
+    }
+
 //ForeignProperties.vm finish.
 }

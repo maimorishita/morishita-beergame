@@ -46,6 +46,19 @@
             not-null="false"
         />
 
+        <many-to-one
+            name="player"
+            class="jp.co.isken.beerGame.entity.Player"
+            cascade="none"
+            outer-join="true"
+            update="true"
+            insert="true"
+        >
+            <column
+                name="PLAYER_ID" 
+            />
+        </many-to-one>
+
         <!--
             To add non XDoclet property mappings, create a file named
                 hibernate-properties-BaseRole.xml

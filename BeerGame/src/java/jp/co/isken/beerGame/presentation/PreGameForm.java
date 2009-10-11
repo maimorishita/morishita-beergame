@@ -23,6 +23,7 @@ public class PreGameForm extends
 		this.setOwnerName(null);
 		this.setTeamName(null);
 		this.setPlayerName(null);
+		this.setGameId(0L);
 	}
 
 	public boolean judgeGameMode() {
@@ -30,19 +31,18 @@ public class PreGameForm extends
 	}
 
 	public boolean addGame() {
-		Game game = new Game();
-		game.setName(getTeamName());
+		Game game = Game.create(this.getTeamName());
 		Role role = new Role();
 		role.setName("小売り");
 		Player player = new Player();
 		player.setName(getOwnerName());
 		player.setIsOwner(true);
 		player.setGame(game);
-		player.setRole(role);
+		role.setPlayer(player);
 		try {
 			game.save();
-			role.save();
 			player.save();
+			role.save();			
 			return true;
 		} catch (VersionUnmuchException e) {
 			Messages msgs = new Messages();
@@ -58,20 +58,18 @@ public class PreGameForm extends
 	}
 
 	public boolean addPlayer() {
-		// TODO GameとRoleは、選択する形で使用しないといけない。
 		// とりあえず動かすように実装
-		Game game = BasicService.getService().findByPK(Game.class, 1L);
-		Role role = new Role();
-		role.setName("卸１");
-
+		Game game = BasicService.getService().findByPK(Game.class, this.getGameId());
 		Player player = new Player();
 		player.setName(getPlayerName());
 		player.setIsOwner(false);
 		player.setGame(game);
-		player.setRole(role);
+		Role role = new Role();
+		role.setName(this.getRoleName());
+		role.setPlayer(player);
 		try {
-			role.save();
 			player.save();
+			role.save();
 		} catch (VersionUnmuchException e) {
 			Messages msgs = new Messages();
 			msgs.add("", new Message(e.getMessage()));
@@ -91,7 +89,8 @@ public class PreGameForm extends
 	}
 
 	public List<Role> getWaitingRoleList() {
-		// TODO ちょっと処理が複雑になるので、見ためだけ作るという事で全ロールを返却。
+//		Game game = Game.getGameByName(this.getTeamName());
+//		return Role.getWaitingRoleList(game);
 		return BasicService.getService().findAll(Role.class);
 	}
 

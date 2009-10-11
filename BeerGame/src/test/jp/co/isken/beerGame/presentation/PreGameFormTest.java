@@ -40,6 +40,8 @@ public class PreGameFormTest extends DataLoadingTestCase {
 
 	public void testƒvƒŒƒCƒ„[‚ğ“o˜^‚·‚é() throws Exception {
 		form.setPlayerName("¡ˆä’q–¾");
+		form.setGameId(1L);
+		form.setRoleName("¬”„‚è");
 		assertTrue("ƒQ[ƒ€‚É“o˜^‚·‚é‚Ì‚É¸”s‚µ‚Ü‚µ‚½B", form.addPlayer());
 	}
 	

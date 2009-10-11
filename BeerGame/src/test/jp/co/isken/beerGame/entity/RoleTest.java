@@ -18,4 +18,9 @@ public class RoleTest extends DataLoadingTestCase {
 		assertEquals(3, ret);
 	}
 	
+//	public void testあるゲームのプレイヤーが登録されていないロールを取得する(){
+//		List<Role> list = Role.getWaitingRoleList(BasicService.getService().findByPK(Game.class, 1L));
+//		assertEquals(3, list);
+//	}
+	
 }

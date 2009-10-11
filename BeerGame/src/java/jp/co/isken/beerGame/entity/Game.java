@@ -37,14 +37,11 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 
 	public static List<Role> getRoles(Game game) {
 		BasicService service = BasicService.getService();
-		Extractor extractor = new Extractor(Player.class);
-		extractor.add(Condition.eq(new Property(Player.GAME), game));
-		List<Player> players = service.findByExtractor(extractor);
-		List<Role> ret = new ArrayList<Role>();
-		for(Player p : players){
-			ret.add(p.getRole());
-		}
-		return ret; 
+		Extractor extractor = new Extractor(Role.class);
+		extractor.add(Condition.eq(
+				new Property(Role.PLAYER + "." + Player.GAME), game));
+		List<Role> roles = service.findByExtractor(extractor);
+		return roles;
 	}
 
 	public static Game getGameByName(String name) {
@@ -53,17 +50,24 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 		List<Game> list = BasicService.getService().findByExtractor(extractor);
 		if (list.size() == 1) {
 			return list.get(0);
-		}else{
+		} else {
 			return new Game();
 		}
 	}
 
 	public Role getRole(String roleName) {
-		Extractor extractor = new Extractor(Player.class);
-		extractor.add(Condition.eq(new Property(Player.ROLE +"."+Role.NAME), roleName));
-		extractor.add(Condition.eq(new Property(Player.GAME), this));
-		List<Player> list = BasicService.getService().findByExtractor(extractor);
-		return list.get(0).getRole();
+		Extractor extractor = new Extractor(Role.class);
+		extractor.add(Condition.eq(new Property(Role.NAME), roleName));
+		extractor.add(Condition.eq(
+				new Property(Role.PLAYER + "." + Player.GAME), this));
+		List<Role> list = BasicService.getService().findByExtractor(extractor);
+		return list.get(0);
 	}
-	
+
+	public static Game create(String teamName) {
+		Game game = new Game();
+		game.setName(teamName);
+		return game;
 	}
+
+}

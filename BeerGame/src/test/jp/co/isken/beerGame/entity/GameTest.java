@@ -40,4 +40,9 @@ public class GameTest extends DataLoadingTestCase {
 		Role role = game.getRole("小売り");
 		assertEquals("小売り", role.getName());
 	}
+	
+	public void testGameCreate(){
+		Game g = Game.create("テスト");
+		assertEquals("テスト", g.getName());	
+	}
 }

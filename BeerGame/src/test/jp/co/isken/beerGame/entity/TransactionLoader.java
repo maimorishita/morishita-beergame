@@ -24,9 +24,9 @@ public class TransactionLoader extends DBInitializer {
 	 * ロードするファイル名群
 	 */
 	final static String[] NAMES = new String[] {
-		"jp/co/isken/beerGame/entity/ROLE.xls",
 		"jp/co/isken/beerGame/entity/GAME.xls",
 		"jp/co/isken/beerGame/entity/PLAYER.xls",
+		"jp/co/isken/beerGame/entity/ROLE.xls",
 		"jp/co/isken/beerGame/entity/TRADE_TRANSACTION.xls",
 		"jp/co/isken/beerGame/entity/CUSTMER_TRANSACTION.xls",
 		"jp/co/isken/beerGame/entity/UNIT.xls",

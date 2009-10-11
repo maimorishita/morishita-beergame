@@ -12,7 +12,7 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     /**
      * ゲームID
     **/
-    private  long   gameId;
+    private  Long   gameId;
 
     /**
      * 新規ゲームFLG
@@ -30,6 +30,11 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     private  String   playerName;
 
     /**
+     * ロール名
+    **/
+    private  String   roleName;
+
+    /**
      * チーム名
     **/
     private  String   teamName;
@@ -38,7 +43,7 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
      * ゲームIDを取得する
      * @return ゲームID
     **/
-    public long getGameId() {
+    public Long getGameId() {
         return this.gameId;
     }
 
@@ -67,6 +72,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     }
 
     /**
+     * ロール名を取得する
+     * @return ロール名
+    **/
+    public String getRoleName() {
+        return this.roleName;
+    }
+
+    /**
      * チーム名を取得する
      * @return チーム名
     **/
@@ -79,7 +92,7 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
      * ゲームIDを設定する
      * @param gameId ゲームID
     **/
-    public void setGameId(long gameId) {
+    public void setGameId(Long gameId) {
         this.gameId = gameId;
     }
 
@@ -108,6 +121,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     }
 
     /**
+     * ロール名を設定する
+     * @param roleName ロール名
+    **/
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    /**
      * チーム名を設定する
      * @param teamName チーム名
     **/
@@ -125,6 +146,8 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
       buf.append(ownerName + "]");
       buf.append("[プレイヤー名:");
       buf.append(playerName + "]");
+      buf.append("[ロール名:");
+      buf.append(roleName + "]");
       buf.append("[チーム名:");
       buf.append(teamName + "]");
       return buf.toString();

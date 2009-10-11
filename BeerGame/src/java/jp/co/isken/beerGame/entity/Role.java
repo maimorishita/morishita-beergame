@@ -1,6 +1,7 @@
 
 package jp.co.isken.beerGame.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.rough_diamond.commons.extractor.Condition;
@@ -25,5 +26,19 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		List<TradeTransaction> list = BasicService.getService().findByExtractor(extractor);
 		return list.get(0).getWeek().intValue();
 	}
+
+
+	public static List<Role> getWaitingRoleList(Game game) {
+		Extractor extractor = new Extractor(Role.class);
+		extractor.add(Condition.eq(new Property(Role.PLAYER+"."+Player.GAME), game));
+		List<Role> roles = BasicService.getService().findByExtractor(extractor);
+		List<Role> ret = new ArrayList<Role>();
+		for(Role r : roles){
+			
+		}
+		return ret;
+	}
+
+
 
 }
