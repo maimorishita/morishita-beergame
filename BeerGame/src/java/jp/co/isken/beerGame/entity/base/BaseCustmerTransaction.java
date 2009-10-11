@@ -1,6 +1,6 @@
 package jp.co.isken.beerGame.entity.base;
 
-import java.io.Serializable;
+import  java.io.Serializable;
 
 
 

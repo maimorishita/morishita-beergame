@@ -3,9 +3,9 @@ package jp.co.isken.beerGame.entity;
 import java.util.List;
 
 import jp.rough_diamond.commons.service.BasicService;
-import junit.framework.TestCase;
+import jp.rough_diamond.commons.testing.DataLoadingTestCase;
 
-public class GameTest extends TestCase {
+public class GameTest extends DataLoadingTestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();

@@ -2,26 +2,26 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" href="./css/style.css" type="text/css" />
-  <title>�r�[���Q�[��</title>
+  <title>ビールゲーム</title>
 </head>
 <body>
   <div id="main">
-    <h1>�r�[���Q�[��</h1>
-    <h2><a href="$link.setAction('/preGame').addQueryData('command','init')">�Q�[�����n�߂Ă݂�H</a></h2>
-    <h2><a href="$link.setAction('/playerEntry').addQueryData('command','init')">�v���C���[�o�^���Ă݂�H</a></h2>
-    <h2><a href="$link.setAction('/viewStock').addQueryData('command','init')">�c������H</a></h2>
-�@�@ _,,....,,_�@ �Q�l�l�l�l�l�l�l�l�l�l�l�l�l�l�l�Q <br> 
--''":::::::::::::�M''���@�@�@������肵�Ă����ĂˁI�I�I�@�@�@�� <br> 
-�R:::::::::::::::::::::�P^�x^�x^�x^�x^�x^�x^�x^�x^�x^�x^�x^�x^�x^�x^�P <br> 
-�@|::::::;�m�L�P�_:::::::::::�__,. -�]��@�@�@�@�@�Q_�@�@ _____�@�@ �Q_____ <br> 
-�@|::::Ɂ@�@�@�R��Rr-r'"�L�@�@�i.__�@�@�@�@,�L�@_,, '-�L�P�P�M-�T �A_ �C�A <br> 
-_,.!�C_�@�@_,.Ͱ�'��ʓ�R���,_7�@�@�@'r �L�@�@�@�@�@�@�@�@�@�@�R�A݁A <br> 
-::::::r�''7�-�]'"�L�@ �@ ;�@ ',�@�M�R/�M7�@,'��=��-�@�@�@ �@ -��=��',�@i <br> 
-r-'�'"�L/�@ /!�@� �@�n�@ !�@�@i�S_Ɂ@i�@��@i�T�A��l���^_���R� i�@| <br> 
-!�C�L ,' |�@/__,.!/�@V�@�!__ʁ@ ,'�@,�T�@�زi (�_] �@�@ �@�_� ).| .|�Ai .|| <br> 
-`! �@!/�i'�@(�_] �@�@ �@�_� �'i�@Ɂ@�@�@!Y!""�@ ,�Q__, �@ "" �u !� i�@| <br> 
-,'�@ � �@ !'"�@ �@ ,�Q__,�@ "' i .�'�@�@�@�@L.',.�@ �@�R _݁@�@�@�@L�v �| .| <br> 
-�@�i�@�@,ʁ@�@�@�@�R _݁@ �@�l! �@�@�@�@ | ||�R�A�@�@�@�@�@�@ ,�| ||�| / <br> 
-,.�,�j��@�@�j��,� _____,�@,.�C�@ �n�@�@�@�@�� ���M �[--�� �L��ځ@ځL <br> 
+    <h1>ビールゲーム</h1>
+    <h2><a href="$link.setAction('/preGame').addQueryData('command','init')">ゲームを始めてみる？</a></h2>
+    <h2><a href="$link.setAction('/playerEntry').addQueryData('command','init')">プレイヤー登録してみる？</a></h2>
+    <h2><a href="$link.setAction('/viewStock').addQueryData('command','init')">残高見る？</a></h2>
+　　 _,,....,,_　 ＿人人人人人人人人人人人人人人人＿ <br> 
+-''":::::::::::::｀''＞　　　ゆっくりしていってね！！！　　　＜ <br> 
+ヽ:::::::::::::::::::::￣^Ｙ^Ｙ^Ｙ^Ｙ^Ｙ^Ｙ^Ｙ^Ｙ^Ｙ^Ｙ^Ｙ^Ｙ^Ｙ^Ｙ^￣ <br> 
+　|::::::;ノ´￣＼:::::::::::＼_,. -‐ｧ　　　　　＿_　　 _____　　 ＿_____ <br> 
+　|::::ﾉ　　　ヽ､ヽr-r'"´　　（.__　　　　,´　_,, '-´￣￣｀-ゝ 、_ イ、 <br> 
+_,.!イ_　　_,.ﾍｰｧ'二ﾊ二ヽ､へ,_7　　　'r ´　　　　　　　　　　ヽ、ﾝ、 <br> 
+::::::rｰ''7ｺ-‐'"´　 　 ;　 ',　｀ヽ/｀7　,'＝=─-　　　 　 -─=＝',　i <br> 
+r-'ｧ'"´/　 /!　ﾊ 　ハ　 !　　iヾ_ﾉ　i　ｲ　iゝ、ｲ人レ／_ルヽｲ i　| <br> 
+!イ´ ,' |　/__,.!/　V　､!__ﾊ　 ,'　,ゝ　ﾚﾘｲi (ﾋ_] 　　 　ﾋ_ﾝ ).| .|、i .|| <br> 
+`! 　!/ﾚi'　(ﾋ_] 　　 　ﾋ_ﾝ ﾚ'i　ﾉ　　　!Y!""　 ,＿__, 　 "" 「 !ﾉ i　| <br> 
+,'　 ﾉ 　 !'"　 　 ,＿__,　 "' i .ﾚ'　　　　L.',.　 　ヽ _ﾝ　　　　L」 ﾉ| .| <br> 
+　（　　,ﾊ　　　　ヽ _ﾝ　 　人! 　　　　 | ||ヽ、　　　　　　 ,ｲ| ||ｲ| / <br> 
+,.ﾍ,）､　　）＞,､ _____,　,.イ　 ハ　　　　レ ル｀ ー--─ ´ルﾚ　ﾚ´ <br> 
   </div>
 #parse("web/footer.vm")

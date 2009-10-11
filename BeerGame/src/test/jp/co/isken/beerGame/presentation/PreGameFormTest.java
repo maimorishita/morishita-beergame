@@ -4,9 +4,10 @@ import jp.co.isken.beerGame.entity.BusinessMasterLoader;
 import jp.co.isken.beerGame.entity.MasterLoader;
 import jp.co.isken.beerGame.entity.NumberingLoader;
 import jp.co.isken.beerGame.entity.TransactionLoader;
+import jp.rough_diamond.commons.testing.DataLoadingTestCase;
 import junit.framework.TestCase;
 
-public class PreGameFormTest extends TestCase {
+public class PreGameFormTest extends DataLoadingTestCase {
 
 	private PreGameForm form;
 
