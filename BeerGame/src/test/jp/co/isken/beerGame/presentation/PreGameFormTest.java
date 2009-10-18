@@ -1,9 +1,11 @@
 package jp.co.isken.beerGame.presentation;
 
 import jp.co.isken.beerGame.entity.BusinessMasterLoader;
+import jp.co.isken.beerGame.entity.Game;
 import jp.co.isken.beerGame.entity.MasterLoader;
 import jp.co.isken.beerGame.entity.NumberingLoader;
 import jp.co.isken.beerGame.entity.TransactionLoader;
+import jp.rough_diamond.commons.service.BasicService;
 import jp.rough_diamond.commons.testing.DataLoadingTestCase;
 import junit.framework.TestCase;
 
@@ -32,6 +34,7 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		form.setTeamName("Alliance of Valiant Arms");
 		form.setOwnerName("Ryoji Yoshioka");
 		assertTrue(form.addGame());
+		assertEquals("ゲームが取得できません。","Alliance of Valiant Arms", form.getGame().getName());
 
 		form = new PreGameForm();
 		form.setTeamName("Alliance of Valiant Arms");
@@ -43,9 +46,19 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		form.setGameId(1L);
 		form.setRoleName("小売り");
 		assertTrue("ゲームに登録するのに失敗しました。", form.addPlayer());
+		assertEquals("ゲームが取得できません。","アベベ", form.getGame().getName());
 	}
 	
-	public void testゲームが選択された際にロールを取得する() throws Exception {
-		
+//	public void testゲームが選択された際にロールを取得する() throws Exception {
+//		
+//	}
+	
+	public void testIsEnableToStartGame() throws Exception{
+		Game game1 = BasicService.getService().findByPK(Game.class, 5L);
+		Game game2 = BasicService.getService().findByPK(Game.class, 6L);
+		form.setGame(game1);
+		assertTrue(form.isEnableToStartGame());
+		form.setGame(game2);
+		assertFalse(form.isEnableToStartGame());
+			}	
 	}
-}

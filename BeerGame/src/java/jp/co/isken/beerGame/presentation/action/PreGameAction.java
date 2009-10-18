@@ -62,4 +62,14 @@ public class PreGameAction extends BaseAction {
 		form.selectGame();
 		return arg0.findForward("player");
 	}
+	
+	public ActionForward isEnableToStartGame(ActionMapping arg0, ActionForm arg1,
+			HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
+		PreGameForm form = (PreGameForm) arg1;
+		if (form.isEnableToStartGame()) {
+			return arg0.findForward("gameStart");
+		} else {
+			return arg0.findForward("wait");
+		}
+	}
 }

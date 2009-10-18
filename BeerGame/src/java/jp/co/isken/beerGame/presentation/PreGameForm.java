@@ -42,7 +42,8 @@ public class PreGameForm extends
 		try {
 			game.save();
 			player.save();
-			role.save();			
+			role.save();
+			this.setGame(game);
 			return true;
 		} catch (VersionUnmuchException e) {
 			Messages msgs = new Messages();
@@ -59,7 +60,8 @@ public class PreGameForm extends
 
 	public boolean addPlayer() {
 		// ‚Æ‚è‚ ‚¦‚¸“®‚©‚·‚æ‚¤‚ÉŽÀ‘•
-		Game game = BasicService.getService().findByPK(Game.class, this.getGameId());
+		Game game = BasicService.getService().findByPK(Game.class,
+				this.getGameId());
 		Player player = new Player();
 		player.setName(getPlayerName());
 		player.setIsOwner(false);
@@ -70,6 +72,7 @@ public class PreGameForm extends
 		try {
 			player.save();
 			role.save();
+			this.setGame(game);
 		} catch (VersionUnmuchException e) {
 			Messages msgs = new Messages();
 			msgs.add("", new Message(e.getMessage()));
@@ -89,13 +92,17 @@ public class PreGameForm extends
 	}
 
 	public List<Role> getWaitingRoleList() {
-//		Game game = Game.getGameByName(this.getTeamName());
-//		return Role.getWaitingRoleList(game);
+		// Game game = Game.getGameByName(this.getTeamName());
+		// return Role.getWaitingRoleList(game);
 		return BasicService.getService().findAll(Role.class);
 	}
 
 	public void selectGame() {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public boolean isEnableToStartGame() {
+		return this.getGame().isEnableToStart();
 	}
 }

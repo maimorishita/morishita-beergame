@@ -33,6 +33,7 @@
     <property name="newGame"     type="boolean"                               description="V‹KƒQ[ƒ€FLG" />
     <property name="gameId"      type="Long"                                  description="ƒQ[ƒ€ID" />
     <property name="roleName"    type="String"                                description="ƒ[ƒ‹–¼" />
+    <property name="game"        type="jp.co.isken.beerGame.entity.Game"      description="ƒQ[ƒ€" />
   </bean>
   
   <bean className="jp.co.isken.beerGame.presentation.ViewStockForm" extends="jp.rough_diamond.framework.web.struts.BaseForm" description="Žc‚‚ðŽQÆ‚·‚é">

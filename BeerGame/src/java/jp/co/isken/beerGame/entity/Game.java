@@ -70,4 +70,11 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 		return game;
 	}
 
+	public boolean isEnableToStart() {
+		if (Game.getRoles(this).size() == 4) {
+			return true;
+		}
+		return false;
+	}
+
 }

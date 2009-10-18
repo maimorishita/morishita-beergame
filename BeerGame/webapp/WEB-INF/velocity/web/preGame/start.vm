@@ -1,0 +1,28 @@
+#parse("web/header.vm")
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="./css/style.css" type="text/css" />
+  <title>BeerGame</title>
+  <script type="text/javascript" language="javascript">
+    <!--
+    function addGame(formObj) {
+      formObj.command.value='addGame';
+      formObj.submit();
+    }
+    function init(formObj) {
+      formObj.command.value='init';
+      formObj.submit();
+    }
+    -->
+  </script>
+</head>
+<body>
+#parse("web/errorList.vm")
+  <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
+  <input type="hidden" name="command" />
+  <div id="main">
+    <h1>ビールゲーム</h1>
+　　<p>ゲーム名：GIOGIO　第 n 週　プレイヤ：ゆきちゃん</p>
+　</div>
+  </form>
+#parse("web/footer.vm")

@@ -60,6 +60,7 @@
         <forward name="game"               path="web/preGame/game.vm"    redirect="false" />
         <forward name="player"             path="web/preGame/player.vm"  redirect="false" />
         <forward name="wait"               path="web/preGame/wait.vm"    redirect="false" />
+        <forward name="gameStart"          path="web/preGame/start.vm"   redirect="false" />
       </action>
       <action
           path="/viewStock" parameter="command"
