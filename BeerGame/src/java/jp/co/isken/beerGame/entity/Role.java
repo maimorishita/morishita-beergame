@@ -33,8 +33,7 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		extractor.add(Condition.eq(new Property(TradeTransaction.ROLE), this));
 		extractor.addOrder(Order.desc(new Property(TradeTransaction.WEEK)));
 		extractor.setLimit(1);
-		List<TradeTransaction> list = BasicService.getService()
-				.findByExtractor(extractor);
+		List<TradeTransaction> list = BasicService.getService().findByExtractor(extractor);
 		return list.get(0).getWeek().intValue();
 	}
 
