@@ -1,7 +1,5 @@
-#Thu Oct 08 17:37:15 JST 2009
+#Sat Oct 24 10:36:32 JST 2009
 eclipse.preferences.version=1
 encoding//src/java/jp/co/isken/beerGame/entity/Player.java=UTF-8
 encoding//src/java/jp/co/isken/beerGame/entity/TradeTransaction.java=UTF-8
-encoding//webapp/WEB-INF/velocity/web/top.vm=UTF-8
-encoding//webapp/WEB-INF/velocity/web/viewStock/top.vm=UTF-8
-encoding//webapp/WEB-INF/velocity/web/viewStock/view.vm=UTF-8
+encoding//webapp/WEB-INF/velocity/web=UTF-8
