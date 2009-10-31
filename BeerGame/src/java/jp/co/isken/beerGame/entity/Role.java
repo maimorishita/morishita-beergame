@@ -28,13 +28,17 @@ import jp.rough_diamond.framework.transaction.VersionUnmuchException;
 public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	private static final long serialVersionUID = 1L;
 
-	public int getWeek() {
+	public Long getWeek() {
 		Extractor extractor = new Extractor(TradeTransaction.class);
 		extractor.add(Condition.eq(new Property(TradeTransaction.ROLE), this));
 		extractor.addOrder(Order.desc(new Property(TradeTransaction.WEEK)));
 		extractor.setLimit(1);
 		List<TradeTransaction> list = BasicService.getService().findByExtractor(extractor);
-		return list.get(0).getWeek().intValue();
+		return (list.size() == 0) ? 0L : list.get(0).getWeek();
+	}
+
+	public Long getCurrentWeek() {
+		return this.getWeek() + 1L;
 	}
 
 	public void send(TransactionType type, String message) throws JMSException {
@@ -78,10 +82,52 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		tradeTransaction.setAmount(amount);
 		tradeTransaction.setRole(this);
 		tradeTransaction.setTransactionType(TransactionType.発注.name());
-		// TODO 2009/10/24 中原 現在週を判断して、セットするように変えること！！
-		tradeTransaction.setWeek(1L);
+		tradeTransaction.setWeek(new Long(this.getCurrentWeek()));
 		tradeTransaction.save();
 
 //		this.send(SendType.発注, amount.toString());
+	}
+
+	public void acceptOrder() throws VersionUnmuchException, MessagesIncludingException {
+		TradeTransaction tradeTransaction = new TradeTransaction();
+		tradeTransaction.setAmount(this.getOrderCount());
+		tradeTransaction.setRole(this);
+		tradeTransaction.setTransactionType(TransactionType.受注.name());
+		tradeTransaction.setWeek(new Long(this.getCurrentWeek()));
+		tradeTransaction.save();		
+	}
+
+	public Long getOrderCount() {
+		// TODO 2009/10/31 R.Y & T.I MQで取るので、今はDBから取得でごめんねーごめんねー。
+		return BasicService.getService().findByPK(TradeTransaction.class, 43L).getAmount();
+	}
+
+	public void inbound() throws VersionUnmuchException, MessagesIncludingException {
+		TradeTransaction tradeTransaction = new TradeTransaction();
+		tradeTransaction.setAmount(this.getInboundCount());
+		tradeTransaction.setRole(this);
+		tradeTransaction.setTransactionType(TransactionType.入荷.name());
+		tradeTransaction.setWeek(new Long(this.getCurrentWeek()));
+		tradeTransaction.save();
+	}
+
+	public Long getInboundCount() {
+		// TODO 2009/10/31 R.Y & T.I MQで取るので、今はDBから取得でごめんねーごめんねー。
+		return BasicService.getService().findByPK(TradeTransaction.class, 54L).getAmount();
+	}
+
+	public void outbound() throws VersionUnmuchException, MessagesIncludingException {
+		TradeTransaction tradeTransaction = new TradeTransaction();
+		tradeTransaction.setAmount(this.getOutboundCount());
+		tradeTransaction.setRole(this);
+		tradeTransaction.setTransactionType(TransactionType.出荷.name());
+		tradeTransaction.setWeek(new Long(this.getCurrentWeek()));
+		tradeTransaction.save();
+	}
+
+	public Long getOutboundCount() {
+		// TODO 2009/10/31 R.Y & T.I 出荷 = 受注 + 注残をやってまへん
+		// 現在は、Role=9Lを使っていて、在庫 > 受注 + 注残のため、受注をそのまま返す
+		return BasicService.getService().findByPK(TradeTransaction.class, 43L).getAmount();
 	}
 }
