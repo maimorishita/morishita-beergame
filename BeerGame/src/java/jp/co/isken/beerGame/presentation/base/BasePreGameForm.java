@@ -25,6 +25,11 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     private  boolean   newGame;
 
     /**
+     * 発注数
+    **/
+    private  String   order;
+
+    /**
      * オーナー名
     **/
     private  String   ownerName;
@@ -33,6 +38,11 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
      * プレイヤー名
     **/
     private  String   playerName;
+
+    /**
+     * ロール
+    **/
+    private  jp.co.isken.beerGame.entity.Role   role;
 
     /**
      * ロール名
@@ -69,6 +79,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     }
 
     /**
+     * 発注数を取得する
+     * @return 発注数
+    **/
+    public String getOrder() {
+        return this.order;
+    }
+
+    /**
      * オーナー名を取得する
      * @return オーナー名
     **/
@@ -82,6 +100,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     **/
     public String getPlayerName() {
         return this.playerName;
+    }
+
+    /**
+     * ロールを取得する
+     * @return ロール
+    **/
+    public jp.co.isken.beerGame.entity.Role getRole() {
+        return this.role;
     }
 
     /**
@@ -126,6 +152,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     }
 
     /**
+     * 発注数を設定する
+     * @param order 発注数
+    **/
+    public void setOrder(String order) {
+        this.order = order;
+    }
+
+    /**
      * オーナー名を設定する
      * @param ownerName オーナー名
     **/
@@ -139,6 +173,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     **/
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
+    }
+
+    /**
+     * ロールを設定する
+     * @param role ロール
+    **/
+    public void setRole(jp.co.isken.beerGame.entity.Role role) {
+        this.role = role;
     }
 
     /**
@@ -165,10 +207,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
       buf.append(gameId + "]");
       buf.append("[新規ゲームFLG:");
       buf.append(newGame + "]");
+      buf.append("[発注数:");
+      buf.append(order + "]");
       buf.append("[オーナー名:");
       buf.append(ownerName + "]");
       buf.append("[プレイヤー名:");
       buf.append(playerName + "]");
+      buf.append("[ロール:");
+      buf.append(role + "]");
       buf.append("[ロール名:");
       buf.append(roleName + "]");
       buf.append("[チーム名:");

@@ -19,17 +19,17 @@ public class RoleTest extends DataLoadingTestCase {
 
 	public void test最終週を取得する() throws Exception {
 		Role role = BasicService.getService().findByPK(Role.class, 7L);
-		assertEquals("テスト失敗だよ☆", 3L, role.getWeek().longValue());
+		assertEquals("テスト失敗だよ☆", 4L, role.getWeek("発注").longValue());
 	}
 
 	public void test現在週を取得するテスト() throws Exception {
 		BasicService service = BasicService.getService();
 		Role role = service.findByPK(Role.class, 9L);
-		assertEquals("現在週でない週が取得されました。", 4L, role.getCurrentWeek().longValue());
+		assertEquals("現在週でない週が取得されました。", 4L, role.getCurrentWeek("発注").longValue());
 
 		role = service.findByPK(Role.class, 6L);
 		// 一週目のため、取引記録がない場合
-		assertEquals("現在週でない週が取得されました。", 1L, role.getCurrentWeek().longValue());
+		assertEquals("現在週でない週が取得されました。", 1L, role.getCurrentWeek("発注").longValue());
 	}
 
 	// TODO 2009/10/24 imai なぜかメッセージが残ってしまうので、コメントアウト。だれか修正して。

@@ -34,6 +34,8 @@
     <property name="gameId"      type="Long"                                  description="ゲームID" />
     <property name="roleName"    type="String"                                description="ロール名" />
     <property name="game"        type="jp.co.isken.beerGame.entity.Game"      description="ゲーム" />
+    <property name="role"        type="jp.co.isken.beerGame.entity.Role"      description="ロール" />
+    <property name="order"       type="String"                                description="発注数" />
   </bean>
   
   <bean className="jp.co.isken.beerGame.presentation.ViewStockForm" extends="jp.rough_diamond.framework.web.struts.BaseForm" description="残高を参照する">

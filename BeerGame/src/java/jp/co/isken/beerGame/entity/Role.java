@@ -28,17 +28,18 @@ import jp.rough_diamond.framework.transaction.VersionUnmuchException;
 public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	private static final long serialVersionUID = 1L;
 
-	public Long getWeek() {
+	public Long getWeek(String transactionType) {
 		Extractor extractor = new Extractor(TradeTransaction.class);
 		extractor.add(Condition.eq(new Property(TradeTransaction.ROLE), this));
+		extractor.add(Condition.eq(new Property(TradeTransaction.TRANSACTION_TYPE), transactionType));
 		extractor.addOrder(Order.desc(new Property(TradeTransaction.WEEK)));
 		extractor.setLimit(1);
 		List<TradeTransaction> list = BasicService.getService().findByExtractor(extractor);
-		return (list.size() == 0) ? 0L : list.get(0).getWeek();
+		return (list.size() == 0) ? 1L : list.get(0).getWeek() + 1;
 	}
 
-	public Long getCurrentWeek() {
-		return this.getWeek() + 1L;
+	public Long getCurrentWeek(String transactionType) {
+		return this.getWeek(transactionType);
 	}
 
 	public void send(TransactionType type, String message) throws JMSException {
@@ -82,7 +83,7 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		tradeTransaction.setAmount(amount);
 		tradeTransaction.setRole(this);
 		tradeTransaction.setTransactionType(TransactionType.î≠íç.name());
-		tradeTransaction.setWeek(new Long(this.getCurrentWeek()));
+		tradeTransaction.setWeek(new Long(this.getCurrentWeek(TransactionType.î≠íç.name())));
 		tradeTransaction.save();
 
 //		this.send(SendType.î≠íç, amount.toString());
@@ -93,7 +94,7 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		tradeTransaction.setAmount(this.getOrderCount());
 		tradeTransaction.setRole(this);
 		tradeTransaction.setTransactionType(TransactionType.éÛíç.name());
-		tradeTransaction.setWeek(new Long(this.getCurrentWeek()));
+		tradeTransaction.setWeek(new Long(this.getCurrentWeek(TransactionType.éÛíç.name())));
 		tradeTransaction.save();		
 	}
 
@@ -107,7 +108,7 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		tradeTransaction.setAmount(this.getInboundCount());
 		tradeTransaction.setRole(this);
 		tradeTransaction.setTransactionType(TransactionType.ì¸â◊.name());
-		tradeTransaction.setWeek(new Long(this.getCurrentWeek()));
+		tradeTransaction.setWeek(new Long(this.getCurrentWeek(TransactionType.ì¸â◊.name())));
 		tradeTransaction.save();
 	}
 
@@ -121,7 +122,7 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		tradeTransaction.setAmount(this.getOutboundCount());
 		tradeTransaction.setRole(this);
 		tradeTransaction.setTransactionType(TransactionType.èoâ◊.name());
-		tradeTransaction.setWeek(new Long(this.getCurrentWeek()));
+		tradeTransaction.setWeek(new Long(this.getCurrentWeek(TransactionType.èoâ◊.name())));
 		tradeTransaction.save();
 	}
 

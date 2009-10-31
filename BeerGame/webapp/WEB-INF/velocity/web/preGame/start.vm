@@ -5,24 +5,27 @@
   <title>BeerGame</title>
   <script type="text/javascript" language="javascript">
     <!--
-    function addGame(formObj) {
-      formObj.command.value='addGame';
-      formObj.submit();
-    }
-    function init(formObj) {
-      formObj.command.value='init';
+    function orderQuantity(formObj) {
+      formObj.command.value='orderQuantity';
       formObj.submit();
     }
     -->
   </script>
 </head>
-<body>
+
 #parse("web/errorList.vm")
+#set($form = $currentForm)
   <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
   <input type="hidden" name="command" />
   <div id="main">
     <h1>ビールゲーム</h1>
-　　<p>ゲーム名：GIOGIO　第 n 週　プレイヤ：ゆきちゃん</p>
+　　<p>ゲーム名：$form.game.name　第 $form.role.getWeek("発注") 週　プレイヤ：$form.playerName</p>
+
+
+  発注数　<input type="text" name="order" />
+  <input type="button" value="注文" onClick="javascript:orderQuantity(this.form);" />
+
+
 　</div>
   </form>
 #parse("web/footer.vm")

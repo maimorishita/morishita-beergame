@@ -53,11 +53,11 @@
             <option value="卸２">卸２</option>
             <option value="メーカ">メーカ</option>
           </select>
-          <select name="roles">
-#foreach($role in $!currentForm.getWaitingRoleList())
+          <!-- select name="roles">
+##foreach($role in $!currentForm.getWaitingRoleList())
             <option value="$role.id">$role.name</option>
-#end
-          </select>
+##end
+          </select-->
         </td>
       </tr>
       <tr>

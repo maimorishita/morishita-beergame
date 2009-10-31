@@ -23,7 +23,8 @@ public class TradeTransaction extends jp.co.isken.beerGame.entity.base.BaseTrade
 			String roleName) {
 		Game game = Game.getGameByName(gameName);
 		Role role = game.getRole(roleName);
-		return getRemainList(role.getWeek().intValue(), role);
+		//FIXME これでいいのか？　現在は仮で受注の最終週を取得している　2009/10/31
+		return getRemainList(role.getWeek(TransactionType.受注.name()).intValue(), role);
 	}
 
 	private static Map<Integer, Integer> getRemainList(int week, Role role) {
@@ -40,7 +41,8 @@ public class TradeTransaction extends jp.co.isken.beerGame.entity.base.BaseTrade
 	public static Map<Integer, Integer> getStockAmount(String gameName, String roleName) {
 		Game game = Game.getGameByName(gameName);
 		Role role = game.getRole(roleName);
-		return getStockList(role.getWeek().intValue(), role);
+		//FIXME これでいいのか？　現在は仮で受注の最終週を取得している　2009/10/31
+		return getStockList(role.getWeek(TransactionType.入荷.name()).intValue()-1, role);
 	}
 
 	public static Map<Integer, Integer> getStockList(int week, Role role) {

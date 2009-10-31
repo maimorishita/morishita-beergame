@@ -3,6 +3,8 @@ package jp.co.isken.beerGame.presentation;
 
 import java.util.List;
 
+import javax.jms.JMSException;
+
 import jp.co.isken.beerGame.entity.Game;
 import jp.co.isken.beerGame.entity.Player;
 import jp.co.isken.beerGame.entity.Role;
@@ -73,6 +75,7 @@ public class PreGameForm extends
 			player.save();
 			role.save();
 			this.setGame(game);
+			this.setRole(role);
 		} catch (VersionUnmuchException e) {
 			Messages msgs = new Messages();
 			msgs.add("", new Message(e.getMessage()));
@@ -103,6 +106,47 @@ public class PreGameForm extends
 	}
 
 	public boolean isEnableToStartGame() {
-		return this.getGame().isEnableToStart();
+		if (this.getGame().isEnableToStart()) {
+			try {
+				//最初の入荷、受注、出荷
+				this.getRole().inbound();
+				this.getRole().acceptOrder();
+				this.getRole().outbound();
+			} catch (VersionUnmuchException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (MessagesIncludingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return true;
+		}
+		return false;
+	}
+
+	public void order() {
+		String orderQuantity = this.getOrder();
+		try {
+			//この週の発注
+			this.getRole().order(Long.parseLong(orderQuantity));
+			//次の週の入荷、受注、出荷
+			this.getRole().inbound();
+			this.getRole().acceptOrder();
+			this.getRole().outbound();
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (VersionUnmuchException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MessagesIncludingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 }
