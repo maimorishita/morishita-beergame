@@ -33,9 +33,9 @@ public class RoleTest extends DataLoadingTestCase {
 	}
 
 	public void testMQを送受信する() throws Exception {
-		Role role = BasicService.getService().findByPK(Role.class, 3L);
-		role.disposeAllMessage();
 		BasicService service = BasicService.getService();
+		Role role = service.findByPK(Role.class, 3L);
+		role.disposeAllMessage();
 		// 卸1から発注を送信する
 		Role supplier1 = service.findByPK(Role.class, 2L);
 		supplier1.send(TransactionType.発注, "Hoge");
@@ -45,13 +45,25 @@ public class RoleTest extends DataLoadingTestCase {
 		assertEquals("メッセージに誤りがあります", "Hoge", ret);
 	}
 	
+	// TODO 2009/11/07 ogasawara,yoshioka テストが重くなるので，一旦コメントアウトします
+//	public void testキューのメッセージが正しく消されているか確認する() throws Exception {
+//		BasicService service = BasicService.getService();
+//		Role supplier1 = service.findByPK(Role.class, 2L);
+//		supplier1.send(TransactionType.発注, "hogehoge");
+//		supplier1.send(TransactionType.発注, "hohogege");
+//		supplier1.disposeAllMessage();
+//		Role supplier2 = service.findByPK(Role.class, 3L);
+//		String ret = supplier2.receive(TransactionType.受注);
+//		assertNull("メッセージが破棄されていません。", ret);		
+//	}
+	
 	// TODO 2009/11/07 imai 上のテストを直したら、こっちが動かない
 	// Queueが違うはずだから取れないはずなのに、取れてしまう
 //	public void test異なるゲーム間でメッセージを送受信できないこと() throws Exception {
-//		Role role = BasicService.getService().findByPK(Role.class, 1L);
+//		BasicService service = BasicService.getService();
+//		Role role = service.findByPK(Role.class, 1L);
 //		role.disposeAllMessage();
 //		// TODO ゲーム + ロール + 取引種別で一意のキューにすること
-//		BasicService service = BasicService.getService();
 //		// 卸1から発注を送信する
 //		Role supplier1 = service.findByPK(Role.class, 2L);
 //		supplier1.send(TransactionType.発注, "Hoge");
