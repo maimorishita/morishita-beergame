@@ -11,9 +11,6 @@ import javax.jms.QueueSender;
 import javax.jms.QueueSession;
 import javax.jms.TextMessage;
 
-import org.apache.activemq.ActiveMQConnection;
-import org.apache.activemq.ActiveMQConnectionFactory;
-
 import jp.rough_diamond.commons.extractor.Condition;
 import jp.rough_diamond.commons.extractor.Extractor;
 import jp.rough_diamond.commons.extractor.Order;
@@ -22,12 +19,19 @@ import jp.rough_diamond.commons.resource.MessagesIncludingException;
 import jp.rough_diamond.commons.service.BasicService;
 import jp.rough_diamond.framework.transaction.VersionUnmuchException;
 
+import org.apache.activemq.ActiveMQConnection;
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * ロールのHibernateマッピングクラス
  **/
 public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	private static final long serialVersionUID = 1L;
 
+	private final static Log log = LogFactory.getLog(Role.class);
+	
 	public Long getWeek(String transactionType) {
 		Extractor extractor = new Extractor(TradeTransaction.class);
 		extractor.add(Condition.eq(new Property(TradeTransaction.ROLE), this));
@@ -48,6 +52,7 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		QueueConnection senderConnection = factory.createQueueConnection();
 		// セッションの作成
 		QueueSession senderSession = senderConnection.createQueueSession(false, QueueSession.AUTO_ACKNOWLEDGE);
+		log.info("メッセージを送信します。Queue: " + this.getPlayer().getGame().getId().toString() + "," + type.getQueue());
 		Queue senderQueue = senderSession.createQueue(this.getPlayer().getGame().getId().toString() + "," + type.getQueue());
 		// MessageProducerオブジェクトの作成
 		QueueSender sender = senderSession.createSender(senderQueue);
@@ -66,15 +71,19 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		QueueConnection receiverConnection = receiverFactory.createQueueConnection();
 		// セッションの作成
 		QueueSession receiverSession = receiverConnection.createQueueSession(false, QueueSession.AUTO_ACKNOWLEDGE);
+		log.info("メッセージを受信します。Queue: " + this.getPlayer().getGame().getId().toString() + ","+ type.getQueue());
 		Queue receiverQueue = receiverSession.createQueue(this.getPlayer().getGame().getId().toString() + ","+ type.getQueue());
 		//MessageConsumerオブジェクトの作成（Queueと関連付け）
 		QueueReceiver receiver = receiverSession.createReceiver(receiverQueue);
 		receiverConnection.start();
 		// メッセージの受信
-		TextMessage ret = (TextMessage)receiver.receiveNoWait();
+		TextMessage ret = (TextMessage)receiver.receive(10000);
 		receiver.close();
 		receiverSession.close();
 		receiverConnection.close();
+		if (ret != null) {
+			log.info("メッセージを受信しました。内容: " + ret.getText());
+		}
 		return (ret == null) ? null : ret.getText();
 	}
 
@@ -130,5 +139,41 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		// TODO 2009/10/31 R.Y & T.I 出荷 = 受注 + 注残をやってまへん
 		// 現在は、Role=9Lを使っていて、在庫 > 受注 + 注残のため、受注をそのまま返す
 		return BasicService.getService().findByPK(TradeTransaction.class, 43L).getAmount();
+	}
+
+	public void disposeAllMessage() throws JMSException {
+		this.disposeMessage(TransactionType.受注);
+		this.disposeMessage(TransactionType.入荷);
+	}
+	
+	private void disposeMessage(TransactionType type) throws JMSException {
+		while(true) {
+			String ret = this.receiveNoWait(type);
+			if (ret == null) {
+				log.info("メッセージはありません。");
+				break;
+			} else {
+				log.info("メッセージを破棄します。内容: " + ret);
+			}
+		}
+	}
+
+	private String receiveNoWait(TransactionType type) throws JMSException {
+		// Connectionオブジェクトの作成
+		ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_BROKER_URL);
+		QueueConnection connection = factory.createQueueConnection();
+		// セッションの作成
+		QueueSession session = connection.createQueueSession(false, QueueSession.AUTO_ACKNOWLEDGE);
+		log.info("破棄するメッセージを受信します。Queue: " + this.getPlayer().getGame().getId().toString() + ","+ type.getQueue());
+		Queue queue = session.createQueue(this.getPlayer().getGame().getId().toString() + ","+ type.getQueue());
+		//MessageConsumerオブジェクトの作成（Queueと関連付け）
+		QueueReceiver receiver = session.createReceiver(queue);
+		connection.start();
+		// メッセージの受信
+		TextMessage ret = (TextMessage)receiver.receive(1000);
+		receiver.close();
+		session.close();
+		connection.close();
+		return (ret == null) ? null : ret.getText();
 	}
 }
