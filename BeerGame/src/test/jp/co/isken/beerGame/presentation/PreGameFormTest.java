@@ -79,27 +79,49 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		//小売りの第１週のテスト
 		Extractor extractor = new Extractor(TradeTransaction.class);
 		extractor.add(Condition.eq(new Property(TradeTransaction.ROLE), role));
-		extractor.add(Condition.eq(new Property(TradeTransaction.WEEK), 1L));
+		extractor.add(Condition.eq(new Property(TradeTransaction.WEEK), 0L));
 		extractor.addOrder(Order.asc(new Property(TradeTransaction.ID)));
 		List<TradeTransaction> list = service.findByExtractor(extractor);
-		assertEquals(3, list.size());
-		assertEquals("入荷", list.get(0).getTransactionType());
-		assertEquals(10, list.get(0).getAmount().intValue());
-		assertEquals("受注", list.get(1).getTransactionType());
-		assertEquals(8, list.get(1).getAmount().intValue());
-		assertEquals("出荷", list.get(2).getTransactionType());
-		assertEquals(5, list.get(2).getAmount().intValue());
+		assertEquals(2, list.size());
+		assertEquals("在庫", list.get(0).getTransactionType());
+		assertEquals(12, list.get(0).getAmount().intValue());
+		assertEquals("発注", list.get(1).getTransactionType());
+		assertEquals(4, list.get(1).getAmount().intValue());
 		//画面表示のテスト
-		assertEquals(10, form.getInbound().intValue());
-		assertEquals(8, form.getAcceptOrder().intValue());
-		assertEquals(5, form.getOutbound().intValue());
-		assertEquals(3, form.getRemain().intValue());
+		assertEquals(0, form.getInbound().intValue());
+		assertEquals(4, form.getAcceptOrder().intValue());
+		assertEquals(0, form.getOutbound().intValue());
+		assertEquals(0, form.getRemain().intValue());
+		assertEquals(12, form.getStock().intValue());
 		//異常系
 		form.setGame(game2);
 		assertFalse(form.isEnableToStartGame());
 	}	
 	
-	public void test発注数する() throws Exception{
+	public void test初期設定を行う() throws Exception{
+		BasicService service = BasicService.getService();
+		Role role =  service.findByPK(Role.class, 11L);
+		Game game1 = service.findByPK(Game.class, 5L);
+		//Game game2 = service.findByPK(Game.class, 6L);
+		//正常系
+		form.setGame(game1);
+		form.setRole(role);
+		form.isEnableToStartGame();
+		
+		//初期表示のテスト
+		assertEquals(4L, form.getAcceptOrder().longValue());
+		assertEquals(12L, form.getStock().longValue());
+		
+		//初期在庫のテスト
+		Extractor extractor = new Extractor(TradeTransaction.class);
+		extractor.add(Condition.eq(new Property(TradeTransaction.ROLE), role));
+		extractor.add(Condition.eq(new Property(TradeTransaction.TRANSACTION_TYPE), "在庫"));
+		extractor.addOrder(Order.asc(new Property(TradeTransaction.ID)));
+		List<TradeTransaction> list = service.findByExtractor(extractor);
+		assertEquals(12L, list.get(0).getAmount().longValue());
+	}
+	
+	public void test一回目の発注処理テスト() throws Exception{
 		BasicService service = BasicService.getService();
 		Role role =  service.findByPK(Role.class, 11L);
 		Game game1 = service.findByPK(Game.class, 5L);
@@ -119,21 +141,24 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		//小売りの第2週のテスト
 		extractor = new Extractor(TradeTransaction.class);
 		extractor.add(Condition.eq(new Property(TradeTransaction.ROLE), role));
-		extractor.add(Condition.eq(new Property(TradeTransaction.WEEK), 2L));
+		extractor.add(Condition.eq(new Property(TradeTransaction.WEEK), 1L));
 		extractor.addOrder(Order.asc(new Property(TradeTransaction.ID)));
 		list = service.findByExtractor(extractor);
-		assertEquals(3, list.size());
-		assertEquals("入荷", list.get(0).getTransactionType());
-		assertEquals(10, list.get(0).getAmount().intValue());
-		assertEquals("受注", list.get(1).getTransactionType());
-		assertEquals(8, list.get(1).getAmount().intValue());
-		assertEquals("出荷", list.get(2).getTransactionType());
-		assertEquals(5, list.get(2).getAmount().intValue());
+		assertEquals(4, list.size());
+		assertEquals("発注", list.get(0).getTransactionType());
+		assertEquals(126, list.get(0).getAmount().intValue());
+		assertEquals("入荷", list.get(1).getTransactionType());
+		assertEquals(10, list.get(1).getAmount().intValue());
+		assertEquals("受注", list.get(2).getTransactionType());
+		assertEquals(8, list.get(2).getAmount().intValue());
+		assertEquals("出荷", list.get(3).getTransactionType());
+		assertEquals(5, list.get(3).getAmount().intValue());
 		//画面表示のテスト
 		assertEquals(10, form.getInbound().intValue());
 		assertEquals(8, form.getAcceptOrder().intValue());
 		assertEquals(5, form.getOutbound().intValue());
-		assertEquals(6, form.getRemain().intValue());
+		assertEquals(3, form.getRemain().intValue());
+		assertEquals(3, form.getRemain().intValue());
 	}
 	
 	public void test発注の処理のテスト() throws VersionUnmuchException, MessagesIncludingException{

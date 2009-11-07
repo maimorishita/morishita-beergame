@@ -40,6 +40,7 @@
     <property name="acceptOrder" type="Long"                                  description="受注" />
     <property name="outbound"    type="Long"                                  description="出荷" />
     <property name="remain"      type="Long"                                  description="注残" />
+    <property name="stock"       type="Long"                                  description="在庫" />
   </bean>
   
   <bean className="jp.co.isken.beerGame.presentation.ViewStockForm" extends="jp.rough_diamond.framework.web.struts.BaseForm" description="残高を参照する">

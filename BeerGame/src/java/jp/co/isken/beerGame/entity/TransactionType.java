@@ -20,8 +20,13 @@ public enum TransactionType {
 		public String getQueue() {
 			return "Order";
 		}
-	},
-	;
+	}, 
+	
+	ç›å…{
+		public String getQueue() {
+			return "Stock";
+		}
+	}; 
 
 	public abstract String getQueue();
 }

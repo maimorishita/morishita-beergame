@@ -110,7 +110,15 @@ public class PreGameForm extends
 	public boolean isEnableToStartGame() {
 		if (this.getGame().isEnableToStart()) {
 			try {
-				orderSet();
+				// orderSet();
+				this.getRole().initAmount(12L, 4L);
+				// TODO TradeTransactionから取得するよう変更しましょうね　中原＆森下
+				this.setStock(12L);
+				this.setAcceptOrder(4L);
+				this.setInbound(0L);
+				this.setOutbound(0L);
+				this.setRemain(0L);
+
 			} catch (VersionUnmuchException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -143,8 +151,6 @@ public class PreGameForm extends
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 	}
 
 	void orderSet() throws VersionUnmuchException,
@@ -152,6 +158,7 @@ public class PreGameForm extends
 		this.getRole().inbound();
 		this.getRole().acceptOrder();
 		this.getRole().outbound();
+		//TODO キューからじゃなく、TradeTransactionから取得するよう変更しましょうね　中原＆森下
 		this.setInbound(this.getRole().getInboundCount());
 		this.setOutbound(this.getRole().getOutboundCount());
 		this.setAcceptOrder(this.getRole().getOrderCount());

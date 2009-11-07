@@ -70,6 +70,11 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     private  String   roleName;
 
     /**
+     * 在庫
+    **/
+    private  Long   stock;
+
+    /**
      * チーム名
     **/
     private  String   teamName;
@@ -168,6 +173,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     **/
     public String getRoleName() {
         return this.roleName;
+    }
+
+    /**
+     * 在庫を取得する
+     * @return 在庫
+    **/
+    public Long getStock() {
+        return this.stock;
     }
 
     /**
@@ -276,6 +289,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     }
 
     /**
+     * 在庫を設定する
+     * @param stock 在庫
+    **/
+    public void setStock(Long stock) {
+        this.stock = stock;
+    }
+
+    /**
      * チーム名を設定する
      * @param teamName チーム名
     **/
@@ -309,6 +330,8 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
       buf.append(role + "]");
       buf.append("[ロール名:");
       buf.append(roleName + "]");
+      buf.append("[在庫:");
+      buf.append(stock + "]");
       buf.append("[チーム名:");
       buf.append(teamName + "]");
       return buf.toString();

@@ -176,4 +176,20 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		connection.close();
 		return (ret == null) ? null : ret.getText();
 	}
+
+	public void initAmount(long l,long m) throws VersionUnmuchException, MessagesIncludingException {
+		TradeTransaction tradeTransactionStock = new TradeTransaction();
+		tradeTransactionStock.setAmount(l);
+		tradeTransactionStock.setRole(this);
+		tradeTransactionStock.setTransactionType(TransactionType.ç›å….name());
+		tradeTransactionStock.setWeek(0L);
+		tradeTransactionStock.save();
+		
+		TradeTransaction tradeTransactionOrder = new TradeTransaction();
+		tradeTransactionOrder.setAmount(m);
+		tradeTransactionOrder.setRole(this);
+		tradeTransactionOrder.setTransactionType(TransactionType.î≠íç.name());
+		tradeTransactionOrder.setWeek(0L);
+		tradeTransactionOrder.save();
+	}
 }

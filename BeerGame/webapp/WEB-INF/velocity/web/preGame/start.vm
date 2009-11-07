@@ -25,7 +25,8 @@
   受注  $form.acceptOrder<BR/>
   出荷　$form.outbound<BR/>
 
-  注文在庫　$form.remain<BR/>
+　在庫　$form.stock<BR/>
+  注文残　$form.remain<BR/>
 
 
   発注数　<input type="text" name="order" />
