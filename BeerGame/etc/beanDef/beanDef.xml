@@ -36,6 +36,10 @@
     <property name="game"        type="jp.co.isken.beerGame.entity.Game"      description="ゲーム" />
     <property name="role"        type="jp.co.isken.beerGame.entity.Role"      description="ロール" />
     <property name="order"       type="String"                                description="発注数" />
+    <property name="inbound"     type="Long"                                  description="入荷" />
+    <property name="acceptOrder" type="Long"                                  description="受注" />
+    <property name="outbound"    type="Long"                                  description="出荷" />
+    <property name="remain"      type="Long"                                  description="注残" />
   </bean>
   
   <bean className="jp.co.isken.beerGame.presentation.ViewStockForm" extends="jp.rough_diamond.framework.web.struts.BaseForm" description="残高を参照する">

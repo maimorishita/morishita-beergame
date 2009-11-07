@@ -21,6 +21,12 @@
     <h1>ビールゲーム</h1>
 　　<p>ゲーム名：$form.game.name　第 $form.role.getWeek("発注") 週　プレイヤ：$form.playerName</p>
 
+  入荷　$form.inbound <BR/>
+  受注  $form.acceptOrder<BR/>
+  出荷　$form.outbound<BR/>
+
+  注文在庫　$form.remain<BR/>
+
 
   発注数　<input type="text" name="order" />
   <input type="button" value="注文" onClick="javascript:orderQuantity(this.form);" />

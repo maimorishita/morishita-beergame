@@ -8,6 +8,8 @@ import javax.jms.JMSException;
 import jp.co.isken.beerGame.entity.Game;
 import jp.co.isken.beerGame.entity.Player;
 import jp.co.isken.beerGame.entity.Role;
+import jp.co.isken.beerGame.entity.TradeTransaction;
+import jp.co.isken.beerGame.entity.TransactionType;
 import jp.rough_diamond.commons.resource.Message;
 import jp.rough_diamond.commons.resource.Messages;
 import jp.rough_diamond.commons.resource.MessagesIncludingException;
@@ -108,10 +110,7 @@ public class PreGameForm extends
 	public boolean isEnableToStartGame() {
 		if (this.getGame().isEnableToStart()) {
 			try {
-				//最初の入荷、受注、出荷
-				this.getRole().inbound();
-				this.getRole().acceptOrder();
-				this.getRole().outbound();
+				orderSet();
 			} catch (VersionUnmuchException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -130,9 +129,7 @@ public class PreGameForm extends
 			//この週の発注
 			this.getRole().order(Long.parseLong(orderQuantity));
 			//次の週の入荷、受注、出荷
-			this.getRole().inbound();
-			this.getRole().acceptOrder();
-			this.getRole().outbound();
+			orderSet();
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -148,5 +145,16 @@ public class PreGameForm extends
 		}
 		
 		
+	}
+
+	void orderSet() throws VersionUnmuchException,
+			MessagesIncludingException {
+		this.getRole().inbound();
+		this.getRole().acceptOrder();
+		this.getRole().outbound();
+		this.setInbound(this.getRole().getInboundCount());
+		this.setOutbound(this.getRole().getOutboundCount());
+		this.setAcceptOrder(this.getRole().getOrderCount());
+		this.setRemain(TradeTransaction.calcAmountRemain(this.getRole().getWeek(TransactionType.受注.name()), this.getRole()));
 	}
 }

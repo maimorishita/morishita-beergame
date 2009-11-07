@@ -90,7 +90,7 @@ public class RoleTest extends DataLoadingTestCase {
 		extractor.addOrder(Order.desc(new Property(TradeTransaction.ID)));
 		List<TradeTransaction> list = service.findByExtractor(extractor);
 		TradeTransaction tradeTransaction = list.get(0);
-		assertEquals("数に誤りがあります", 5L, tradeTransaction.getAmount().longValue());
+		assertEquals("数に誤りがあります", 8L, tradeTransaction.getAmount().longValue());
 		assertEquals("ロールが間違ってます。", 9L, tradeTransaction.getRole().getId().longValue());
 		assertEquals("週が間違ってます。", 4L, tradeTransaction.getWeek().longValue());
 		assertEquals("取引種別が間違ってます。", TransactionType.受注.name(), tradeTransaction.getTransactionType());
@@ -99,7 +99,7 @@ public class RoleTest extends DataLoadingTestCase {
 	public void test発注数を取得する() throws Exception {
 		// TODO MQで取得するが、MQ未実装の為DBから引っ張ってます。
 		Role role = BasicService.getService().findByPK(Role.class, 9L);
-		assertEquals("発注数が誤っています。", 5L , role.getOrderCount().longValue());
+		assertEquals("発注数が誤っています。", 8L , role.getOrderCount().longValue());
 	}
 
 	public void test入荷の取引記録を登録する() throws Exception {

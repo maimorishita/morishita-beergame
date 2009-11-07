@@ -26,7 +26,7 @@ public class ViewStockForm extends jp.co.isken.beerGame.presentation.base.BaseVi
     	return Game.getRoles(Game.getGameByName(this.getTeamName()));
     }
     
-    public Map<Integer, Integer> getStockList(String gameName, String roleName){
+    public Map<Long, Long> getStockList(String gameName, String roleName){
     	return TradeTransaction.getStockAmount(gameName, roleName);
     	    }
     
@@ -34,7 +34,7 @@ public class ViewStockForm extends jp.co.isken.beerGame.presentation.base.BaseVi
     	
     }
 
-	public Map<Integer, Integer> getRemainList(String gameName, String roleName) {
+	public Map<Long, Long> getRemainList(String gameName, String roleName) {
 		return TradeTransaction.getRemainAmount(gameName, roleName);
 	}
 }

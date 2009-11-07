@@ -10,6 +10,11 @@ import java.util.*;
 @SuppressWarnings("all")
 abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.struts.BaseForm implements Serializable {
     /**
+     * 受注
+    **/
+    private  Long   acceptOrder;
+
+    /**
      * ゲーム
     **/
     private  jp.co.isken.beerGame.entity.Game   game;
@@ -18,6 +23,11 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
      * ゲームID
     **/
     private  Long   gameId;
+
+    /**
+     * 入荷
+    **/
+    private  Long   inbound;
 
     /**
      * 新規ゲームFLG
@@ -30,6 +40,11 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     private  String   order;
 
     /**
+     * 出荷
+    **/
+    private  Long   outbound;
+
+    /**
      * オーナー名
     **/
     private  String   ownerName;
@@ -38,6 +53,11 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
      * プレイヤー名
     **/
     private  String   playerName;
+
+    /**
+     * 注残
+    **/
+    private  Long   remain;
 
     /**
      * ロール
@@ -55,6 +75,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     private  String   teamName;
 
     /**
+     * 受注を取得する
+     * @return 受注
+    **/
+    public Long getAcceptOrder() {
+        return this.acceptOrder;
+    }
+
+    /**
      * ゲームを取得する
      * @return ゲーム
     **/
@@ -68,6 +96,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     **/
     public Long getGameId() {
         return this.gameId;
+    }
+
+    /**
+     * 入荷を取得する
+     * @return 入荷
+    **/
+    public Long getInbound() {
+        return this.inbound;
     }
 
     /**
@@ -87,6 +123,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     }
 
     /**
+     * 出荷を取得する
+     * @return 出荷
+    **/
+    public Long getOutbound() {
+        return this.outbound;
+    }
+
+    /**
      * オーナー名を取得する
      * @return オーナー名
     **/
@@ -100,6 +144,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     **/
     public String getPlayerName() {
         return this.playerName;
+    }
+
+    /**
+     * 注残を取得する
+     * @return 注残
+    **/
+    public Long getRemain() {
+        return this.remain;
     }
 
     /**
@@ -128,6 +180,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
 
 
     /**
+     * 受注を設定する
+     * @param acceptOrder 受注
+    **/
+    public void setAcceptOrder(Long acceptOrder) {
+        this.acceptOrder = acceptOrder;
+    }
+
+    /**
      * ゲームを設定する
      * @param game ゲーム
     **/
@@ -141,6 +201,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     **/
     public void setGameId(Long gameId) {
         this.gameId = gameId;
+    }
+
+    /**
+     * 入荷を設定する
+     * @param inbound 入荷
+    **/
+    public void setInbound(Long inbound) {
+        this.inbound = inbound;
     }
 
     /**
@@ -160,6 +228,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     }
 
     /**
+     * 出荷を設定する
+     * @param outbound 出荷
+    **/
+    public void setOutbound(Long outbound) {
+        this.outbound = outbound;
+    }
+
+    /**
      * オーナー名を設定する
      * @param ownerName オーナー名
     **/
@@ -173,6 +249,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     **/
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
+    }
+
+    /**
+     * 注残を設定する
+     * @param remain 注残
+    **/
+    public void setRemain(Long remain) {
+        this.remain = remain;
     }
 
     /**
@@ -201,18 +285,26 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
 
     public String toString() {
       StringBuffer buf = new StringBuffer();
+      buf.append("[受注:");
+      buf.append(acceptOrder + "]");
       buf.append("[ゲーム:");
       buf.append(game + "]");
       buf.append("[ゲームID:");
       buf.append(gameId + "]");
+      buf.append("[入荷:");
+      buf.append(inbound + "]");
       buf.append("[新規ゲームFLG:");
       buf.append(newGame + "]");
       buf.append("[発注数:");
       buf.append(order + "]");
+      buf.append("[出荷:");
+      buf.append(outbound + "]");
       buf.append("[オーナー名:");
       buf.append(ownerName + "]");
       buf.append("[プレイヤー名:");
       buf.append(playerName + "]");
+      buf.append("[注残:");
+      buf.append(remain + "]");
       buf.append("[ロール:");
       buf.append(role + "]");
       buf.append("[ロール名:");

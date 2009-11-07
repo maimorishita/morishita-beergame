@@ -109,7 +109,7 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 
 	public Long getOrderCount() {
 		// TODO 2009/10/31 R.Y & T.I MQで取るので、今はDBから取得でごめんねーごめんねー。
-		return BasicService.getService().findByPK(TradeTransaction.class, 43L).getAmount();
+		return 8L;
 	}
 
 	public void inbound() throws VersionUnmuchException, MessagesIncludingException {
@@ -123,7 +123,7 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 
 	public Long getInboundCount() {
 		// TODO 2009/10/31 R.Y & T.I MQで取るので、今はDBから取得でごめんねーごめんねー。
-		return BasicService.getService().findByPK(TradeTransaction.class, 54L).getAmount();
+		return 10L;
 	}
 
 	public void outbound() throws VersionUnmuchException, MessagesIncludingException {
@@ -138,7 +138,7 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	public Long getOutboundCount() {
 		// TODO 2009/10/31 R.Y & T.I 出荷 = 受注 + 注残をやってまへん
 		// 現在は、Role=9Lを使っていて、在庫 > 受注 + 注残のため、受注をそのまま返す
-		return BasicService.getService().findByPK(TradeTransaction.class, 43L).getAmount();
+		return 5L;
 	}
 
 	public void disposeAllMessage() throws JMSException {

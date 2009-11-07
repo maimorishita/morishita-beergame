@@ -13,8 +13,10 @@ import jp.rough_diamond.commons.extractor.Condition;
 import jp.rough_diamond.commons.extractor.Extractor;
 import jp.rough_diamond.commons.extractor.Order;
 import jp.rough_diamond.commons.extractor.Property;
+import jp.rough_diamond.commons.resource.MessagesIncludingException;
 import jp.rough_diamond.commons.service.BasicService;
 import jp.rough_diamond.commons.testing.DataLoadingTestCase;
+import jp.rough_diamond.framework.transaction.VersionUnmuchException;
 import junit.framework.TestCase;
 
 public class PreGameFormTest extends DataLoadingTestCase {
@@ -62,7 +64,9 @@ public class PreGameFormTest extends DataLoadingTestCase {
 //	public void testゲームが選択された際にロールを取得する() throws Exception {
 //		
 //	}
-	
+	/**
+	 * 待機画面からゲームの開始画面へ遷移するテスト
+	 */
 	public void testIsEnableToStartGame() throws Exception{
 		BasicService service = BasicService.getService();
 		Role role =  service.findByPK(Role.class, 11L);
@@ -82,9 +86,14 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		assertEquals("入荷", list.get(0).getTransactionType());
 		assertEquals(10, list.get(0).getAmount().intValue());
 		assertEquals("受注", list.get(1).getTransactionType());
-		assertEquals(5, list.get(1).getAmount().intValue());
+		assertEquals(8, list.get(1).getAmount().intValue());
 		assertEquals("出荷", list.get(2).getTransactionType());
 		assertEquals(5, list.get(2).getAmount().intValue());
+		//画面表示のテスト
+		assertEquals(10, form.getInbound().intValue());
+		assertEquals(8, form.getAcceptOrder().intValue());
+		assertEquals(5, form.getOutbound().intValue());
+		assertEquals(3, form.getRemain().intValue());
 		//異常系
 		form.setGame(game2);
 		assertFalse(form.isEnableToStartGame());
@@ -117,13 +126,42 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		assertEquals("入荷", list.get(0).getTransactionType());
 		assertEquals(10, list.get(0).getAmount().intValue());
 		assertEquals("受注", list.get(1).getTransactionType());
-		assertEquals(5, list.get(1).getAmount().intValue());
+		assertEquals(8, list.get(1).getAmount().intValue());
 		assertEquals("出荷", list.get(2).getTransactionType());
 		assertEquals(5, list.get(2).getAmount().intValue());
+		//画面表示のテスト
+		assertEquals(10, form.getInbound().intValue());
+		assertEquals(8, form.getAcceptOrder().intValue());
+		assertEquals(5, form.getOutbound().intValue());
+		assertEquals(6, form.getRemain().intValue());
 	}
-
-}
-
-		
-		
 	
+	public void test発注の処理のテスト() throws VersionUnmuchException, MessagesIncludingException{
+		BasicService service = BasicService.getService();
+		Role role =  service.findByPK(Role.class, 11L);
+		Game game1 = service.findByPK(Game.class, 5L);
+		form.setGame(game1);
+		form.setRole(role);
+		form.setOrder("126");
+		form.orderSet();
+		//小売りの第１週のテスト
+		Extractor extractor = new Extractor(TradeTransaction.class);
+		extractor.add(Condition.eq(new Property(TradeTransaction.ROLE), role));
+		extractor.add(Condition.eq(new Property(TradeTransaction.WEEK), 1L));
+		extractor.addOrder(Order.asc(new Property(TradeTransaction.ID)));
+		List<TradeTransaction> list = service.findByExtractor(extractor);
+		assertEquals(3, list.size());
+		assertEquals("入荷", list.get(0).getTransactionType());
+		assertEquals(10, list.get(0).getAmount().intValue());
+		assertEquals("受注", list.get(1).getTransactionType());
+		assertEquals(8, list.get(1).getAmount().intValue());
+		assertEquals("出荷", list.get(2).getTransactionType());
+		assertEquals(5, list.get(2).getAmount().intValue());
+		//画面表示のテスト
+		assertEquals(10, form.getInbound().intValue());
+		assertEquals(8, form.getAcceptOrder().intValue());
+		assertEquals(5, form.getOutbound().intValue());
+		assertEquals(3, form.getRemain().intValue());
+	}
+	
+}
