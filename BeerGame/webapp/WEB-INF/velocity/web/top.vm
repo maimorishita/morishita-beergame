@@ -2,12 +2,12 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" href="./css/style.css" type="text/css" />
-  <title>ƒr[ƒ‹ƒQ[ƒ€</title>
+  <title>ãƒ“ãƒ¼ãƒ«ã‚²ãƒ¼ãƒ </title>
 </head>
 <body>
   <div id="main">
-    <h1>ƒr[ƒ‹ƒQ[ƒ€</h1>
-    <h2><a href="$link.setAction('/preGame').addQueryData('command','init')">ƒQ[ƒ€‚ðŠJŽn‚·‚é</a></h2>
-    <h2><a href="$link.setAction('/viewStock').addQueryData('command','init')">Žc‚‚ÌŠm”F</a></h2>
+    <h1>ãƒ“ãƒ¼ãƒ«ã‚²ãƒ¼ãƒ </h1>
+    <h2><a href="$link.setAction('/preGame').addQueryData('command','init')">ã‚²ãƒ¼ãƒ ã‚’é–‹å§‹ã™ã‚‹</a></h2>
+    <h2><a href="$link.setAction('/viewStock').addQueryData('command','init')">æ®‹é«˜ã®ç¢ºèª</a></h2>
   </div>
 #parse("web/footer.vm")
