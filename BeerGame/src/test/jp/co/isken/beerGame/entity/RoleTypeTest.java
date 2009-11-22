@@ -16,6 +16,7 @@ public class RoleTypeTest extends TestCase {
 	}
 	
 	public void testã—¬‚ğæ“¾‚·‚é() throws Exception {
+		assertEquals(RoleType.‰µ‚P, RoleType.¬”„‚è.getUpper());
 		assertEquals(RoleType.‰µ‚Q, RoleType.‰µ‚P.getUpper());
 		assertEquals(RoleType.ƒ[ƒJ, RoleType.‰µ‚Q.getUpper());
 	}
