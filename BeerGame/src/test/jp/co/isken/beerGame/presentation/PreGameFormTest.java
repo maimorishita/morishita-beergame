@@ -1,12 +1,14 @@
 package jp.co.isken.beerGame.presentation;
 
 import java.util.List;
+import java.util.Set;
 
 import jp.co.isken.beerGame.entity.BusinessMasterLoader;
 import jp.co.isken.beerGame.entity.Game;
 import jp.co.isken.beerGame.entity.MasterLoader;
 import jp.co.isken.beerGame.entity.NumberingLoader;
 import jp.co.isken.beerGame.entity.Role;
+import jp.co.isken.beerGame.entity.RoleType;
 import jp.co.isken.beerGame.entity.TradeTransaction;
 import jp.co.isken.beerGame.entity.TransactionLoader;
 import jp.rough_diamond.commons.extractor.Condition;
@@ -17,7 +19,6 @@ import jp.rough_diamond.commons.resource.MessagesIncludingException;
 import jp.rough_diamond.commons.service.BasicService;
 import jp.rough_diamond.commons.testing.DataLoadingTestCase;
 import jp.rough_diamond.framework.transaction.VersionUnmuchException;
-import junit.framework.TestCase;
 
 public class PreGameFormTest extends DataLoadingTestCase {
 
@@ -44,7 +45,7 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		form.setTeamName("Alliance of Valiant Arms");
 		form.setOwnerName("Ryoji Yoshioka");
 		assertTrue(form.addGame());
-		assertEquals("ゲームが取得できません。","Alliance of Valiant Arms", form.getGame().getName());
+		assertEquals("ゲームが取得できません。", "Alliance of Valiant Arms", form.getGame().getName());
 
 		form = new PreGameForm();
 		form.setTeamName("Alliance of Valiant Arms");
@@ -56,27 +57,24 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		form.setGameId(1L);
 		form.setRoleName("小売り");
 		assertTrue("ゲームに登録するのに失敗しました。", form.addPlayer());
-		assertEquals("ゲームが取得できません。","アベベ", form.getGame().getName());
-		assertEquals("ロールが取得できません。","小売り", form.getRole().getName());
-		assertEquals("プレイヤーが取得できません。","今井智明", form.getRole().getPlayer().getName());
+		assertEquals("ゲームが取得できません。", "アベベ", form.getGame().getName());
+		assertEquals("ロールが取得できません。", "小売り", form.getRole().getName());
+		assertEquals("プレイヤーが取得できません。", "今井智明", form.getRole().getPlayer().getName());
 	}
-	
-//	public void testゲームが選択された際にロールを取得する() throws Exception {
-//		
-//	}
+
 	/**
 	 * 待機画面からゲームの開始画面へ遷移するテスト
 	 */
-	public void testIsEnableToStartGame() throws Exception{
+	public void testIsEnableToStartGame() throws Exception {
 		BasicService service = BasicService.getService();
-		Role role =  service.findByPK(Role.class, 11L);
+		Role role = service.findByPK(Role.class, 11L);
 		Game game1 = service.findByPK(Game.class, 5L);
 		Game game2 = service.findByPK(Game.class, 6L);
-		//正常系
+		// 正常系
 		form.setGame(game1);
 		form.setRole(role);
 		assertTrue(form.isEnableToStartGame());
-		//小売りの第１週のテスト
+		// 小売りの第１週のテスト
 		Extractor extractor = new Extractor(TradeTransaction.class);
 		extractor.add(Condition.eq(new Property(TradeTransaction.ROLE), role));
 		extractor.add(Condition.eq(new Property(TradeTransaction.WEEK), 0L));
@@ -87,32 +85,32 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		assertEquals(12, list.get(0).getAmount().intValue());
 		assertEquals("発注", list.get(1).getTransactionType());
 		assertEquals(4, list.get(1).getAmount().intValue());
-		//画面表示のテスト
+		// 画面表示のテスト
 		assertEquals(0, form.getInbound().intValue());
 		assertEquals(4, form.getAcceptOrder().intValue());
 		assertEquals(0, form.getOutbound().intValue());
 		assertEquals(0, form.getRemain().intValue());
 		assertEquals(12, form.getStock().intValue());
-		//異常系
+		// 異常系
 		form.setGame(game2);
 		assertFalse(form.isEnableToStartGame());
-	}	
-	
-	public void test初期設定を行う() throws Exception{
+	}
+
+	public void test初期設定を行う() throws Exception {
 		BasicService service = BasicService.getService();
-		Role role =  service.findByPK(Role.class, 11L);
+		Role role = service.findByPK(Role.class, 11L);
 		Game game1 = service.findByPK(Game.class, 5L);
-		//Game game2 = service.findByPK(Game.class, 6L);
-		//正常系
+		// Game game2 = service.findByPK(Game.class, 6L);
+		// 正常系
 		form.setGame(game1);
 		form.setRole(role);
 		form.isEnableToStartGame();
-		
-		//初期表示のテスト
+
+		// 初期表示のテスト
 		assertEquals(4L, form.getAcceptOrder().longValue());
 		assertEquals(12L, form.getStock().longValue());
-		
-		//初期在庫のテスト
+
+		// 初期在庫のテスト
 		Extractor extractor = new Extractor(TradeTransaction.class);
 		extractor.add(Condition.eq(new Property(TradeTransaction.ROLE), role));
 		extractor.add(Condition.eq(new Property(TradeTransaction.TRANSACTION_TYPE), "在庫"));
@@ -120,10 +118,10 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		List<TradeTransaction> list = service.findByExtractor(extractor);
 		assertEquals(12L, list.get(0).getAmount().longValue());
 	}
-	
-	public void test一回目の発注処理テスト() throws Exception{
+
+	public void test一回目の発注処理テスト() throws Exception {
 		BasicService service = BasicService.getService();
-		Role role =  service.findByPK(Role.class, 11L);
+		Role role = service.findByPK(Role.class, 11L);
 		Game game1 = service.findByPK(Game.class, 5L);
 		form.setGame(game1);
 		form.setRole(role);
@@ -137,8 +135,8 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		List<TradeTransaction> list = BasicService.getService().findByExtractor(extractor);
 		assertEquals(1, list.size());
 		assertEquals(126, list.get(0).getAmount().intValue());
-		
-		//小売りの第2週のテスト
+
+		// 小売りの第2週のテスト
 		extractor = new Extractor(TradeTransaction.class);
 		extractor.add(Condition.eq(new Property(TradeTransaction.ROLE), role));
 		extractor.add(Condition.eq(new Property(TradeTransaction.WEEK), 1L));
@@ -153,23 +151,24 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		assertEquals(8, list.get(2).getAmount().intValue());
 		assertEquals("出荷", list.get(3).getTransactionType());
 		assertEquals(5, list.get(3).getAmount().intValue());
-		//画面表示のテスト
+		// 画面表示のテスト
 		assertEquals(10, form.getInbound().intValue());
 		assertEquals(8, form.getAcceptOrder().intValue());
 		assertEquals(5, form.getOutbound().intValue());
 		assertEquals(3, form.getRemain().intValue());
 		assertEquals(3, form.getRemain().intValue());
 	}
-	
-	public void test発注の処理のテスト() throws VersionUnmuchException, MessagesIncludingException{
+
+	public void test発注の処理のテスト() throws VersionUnmuchException,
+			MessagesIncludingException {
 		BasicService service = BasicService.getService();
-		Role role =  service.findByPK(Role.class, 11L);
+		Role role = service.findByPK(Role.class, 11L);
 		Game game1 = service.findByPK(Game.class, 5L);
 		form.setGame(game1);
 		form.setRole(role);
 		form.setOrder("126");
 		form.orderSet();
-		//小売りの第１週のテスト
+		// 小売りの第１週のテスト
 		Extractor extractor = new Extractor(TradeTransaction.class);
 		extractor.add(Condition.eq(new Property(TradeTransaction.ROLE), role));
 		extractor.add(Condition.eq(new Property(TradeTransaction.WEEK), 1L));
@@ -182,11 +181,16 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		assertEquals(8, list.get(1).getAmount().intValue());
 		assertEquals("出荷", list.get(2).getTransactionType());
 		assertEquals(5, list.get(2).getAmount().intValue());
-		//画面表示のテスト
+		// 画面表示のテスト
 		assertEquals(10, form.getInbound().intValue());
 		assertEquals(8, form.getAcceptOrder().intValue());
 		assertEquals(5, form.getOutbound().intValue());
 		assertEquals(3, form.getRemain().intValue());
 	}
-	
+
+	public void test未選択のロールを取得する() throws Exception {
+		form.setGameId(2L);
+		Set<RoleType> set = form.getWaitingRoleList();
+		assertEquals(3, set.size());
+	}
 }

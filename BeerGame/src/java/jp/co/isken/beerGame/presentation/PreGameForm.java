@@ -2,12 +2,14 @@
 package jp.co.isken.beerGame.presentation;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.jms.JMSException;
 
 import jp.co.isken.beerGame.entity.Game;
 import jp.co.isken.beerGame.entity.Player;
 import jp.co.isken.beerGame.entity.Role;
+import jp.co.isken.beerGame.entity.RoleType;
 import jp.co.isken.beerGame.entity.TradeTransaction;
 import jp.co.isken.beerGame.entity.TransactionType;
 import jp.rough_diamond.commons.resource.Message;
@@ -96,10 +98,9 @@ public class PreGameForm extends
 		return Game.getWaitingGameList();
 	}
 
-	public List<Role> getWaitingRoleList() {
-		// Game game = Game.getGameByName(this.getTeamName());
-		// return Role.getWaitingRoleList(game);
-		return BasicService.getService().findAll(Role.class);
+	public Set<RoleType> getWaitingRoleList() {
+		Game game = BasicService.getService().findByPK(Game.class, this.getGameId());
+		return (game == null) ? null : game.getUnusedRoles();
 	}
 
 	public void selectGame() {

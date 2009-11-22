@@ -1,11 +1,8 @@
 package jp.co.isken.beerGame.entity;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import sun.security.action.GetLongAction;
 
 import jp.rough_diamond.commons.extractor.Condition;
 import jp.rough_diamond.commons.extractor.Extractor;

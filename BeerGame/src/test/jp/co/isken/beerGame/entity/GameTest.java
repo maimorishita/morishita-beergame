@@ -58,6 +58,10 @@ public class GameTest extends DataLoadingTestCase {
 		Game game = BasicService.getService().findByPK(Game.class, 2L);
 		Set<RoleType> set = game.getUnusedRoles();
 		
+		for (RoleType roleType : set) {
+			System.out.println(roleType.name()); 
+		}
+		
 		assertEquals("–¢g—p‚Ìƒ[ƒ‹‚ªæ“¾‚Å‚«‚Ä‚¢‚Ü‚¹‚ñ",3, set.size());
 	}
 }
