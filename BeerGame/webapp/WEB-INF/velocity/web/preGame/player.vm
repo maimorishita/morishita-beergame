@@ -23,44 +23,61 @@
   </script>
 </head>
 <body>
-#parse("web/errorList.vm")
   <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
   <input type="hidden" name="command" />
   <div id="main">
     <h2>BeerGame</h2>
+#parse("web/errorList.vm")
+#if($currentForm.gameId == 0)
+    #set($disabled = "disabled")
+#end
     <table border=4>
       <tr>
         <td>チーム名</td>
         <td colspan=2>
           <select name="gameId" onChange="selectGame(this.form);">
+               <option value="0">選択してください</option>
 #foreach($game in $!currentForm.getWaitingGameList())
 #if($game.id == $currentForm.gameId)
-               <option value="$game.id" selected="selected">$!{game.name}</option>
+    #set($gameSelected = "selected")
 #else
-               <option value="$game.id">$!{game.name}</option>
+    #set($gameSelected = "")
 #end
+               <option value="$game.id" $!{gameSelected}>$!{game.name}</option>
 #end
           </select>
         </td>
       </tr>
       <tr>
         <td>プレイヤ名</td>
-        <td colspan=2><input type="text" name="playerName" value="$!{currentForm.playerName}" /></td>
+        <td colspan=2>
+            <input type="text" name="playerName" value="$!{currentForm.playerName}" $!{disabled} />
+        </td>
       </tr>
       <tr>
         <td>ロール</td>
         <td colspan=2>
-          <select name="roleName">
+          <select name="roleName" width="100%" $!{disabled}>
+            <option value="">選択してください</option>
 #foreach($role in $!currentForm.getWaitingRoleList())
-            <option value="$role.name()">$!{role.name()}</option>
+#if($role.name() == $currentForm.roleName)
+    #set($roleSelected = "selected")
+#else
+    #set($roleSelected = "")
+#end
+            <option value="$role.name()" $!{roleSelected}>$!{role.name()}</option>
 #end
           </select>
         </td>
       </tr>
       <tr>
-        <td></td>
-        <td align=center><input type="button" value="登録" onClick="javascript:addPlayer(this.form);" /></td>
-        <td align=center><input type="button" value="ｷｬﾝｾﾙ" onClick="javascript:init(this.form);" /></td>
+        <td>&nbsp;</td>
+        <td align=center>
+            <input type="button" value="登録" $!{disabled} onClick="javascript:addPlayer(this.form);" />
+        </td>
+        <td align=center>
+            <input type="button" value="ｷｬﾝｾﾙ" onClick="javascript:init(this.form);" />
+        </td>
       </tr>
     </table>
   </div>

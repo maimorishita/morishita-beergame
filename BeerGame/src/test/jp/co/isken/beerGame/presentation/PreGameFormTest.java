@@ -60,6 +60,24 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		assertEquals("プレイヤーが取得できません。", "今井智明", form.getRole().getPlayer().getName());
 	}
 
+	public void testプレイヤー登録時の検証をする() throws Exception {
+		// ゲーム選択なし
+		form.setGameId(0L);
+		form.setPlayerName("今井智明");
+		form.setRoleName("小売り");
+		assertFalse("ゲームを選択しないで登録できています。", form.addPlayer());
+		// プレイヤー名入力なし
+		form.setGameId(1L);
+		form.setPlayerName("");
+		form.setRoleName("小売り");
+		assertFalse("プレイヤー名を入力しないで登録できています。", form.addPlayer());
+		// プレイヤー名入力なし
+		form.setGameId(1L);
+		form.setPlayerName("今井智明");
+		form.setRoleName("");
+		assertFalse("ロールを選択しないで登録できています。", form.addPlayer());
+	}
+
 	/**
 	 * 待機画面からゲームの開始画面へ遷移するテスト
 	 */

@@ -21,8 +21,7 @@ import jp.rough_diamond.framework.transaction.VersionUnmuchException;
 /**
  * @see jp.co.isken.beerGame.presentation.BasePreGameForm
  **/
-public class PreGameForm extends
-		jp.co.isken.beerGame.presentation.base.BasePreGameForm {
+public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreGameForm {
 	private static final long serialVersionUID = 1L;
 
 	public void init() {
@@ -65,33 +64,29 @@ public class PreGameForm extends
 	}
 
 	public boolean addPlayer() {
-		// ‚Æ‚è‚ ‚¦‚¸“®‚©‚·‚æ‚¤‚ÉŽÀ‘•
-		Game game = BasicService.getService().findByPK(Game.class,
-				this.getGameId());
-		Player player = new Player();
-		player.setName(getPlayerName());
-		player.setIsOwner(false);
-		player.setGame(game);
-		Role role = new Role();
-		role.setName(this.getRoleName());
-		role.setPlayer(player);
 		try {
+			Game game = BasicService.getService().findByPK(Game.class, this.getGameId());
+			Player player = new Player();
+			player.setName(getPlayerName());
+			player.setIsOwner(false);
+			player.setGame(game);
+			Role role = new Role();
+			role.setName(this.getRoleName());
+			role.setPlayer(player);
 			player.save();
 			role.save();
 			this.setGame(game);
 			this.setRole(role);
+			return true;
 		} catch (VersionUnmuchException e) {
 			Messages msgs = new Messages();
 			msgs.add("", new Message(e.getMessage()));
 			this.setMessage(msgs);
 			return false;
 		} catch (MessagesIncludingException e) {
-			Messages msgs = new Messages();
-			msgs.add("", new Message(e.getMessage()));
-			this.setMessage(msgs);
+			this.setMessage(e.getMessages());
 			return false;
 		}
-		return true;
 	}
 
 	public List<Game> getWaitingGameList() {
