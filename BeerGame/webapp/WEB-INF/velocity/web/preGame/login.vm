@@ -1,0 +1,56 @@
+﻿#parse("web/header.vm")
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="./css/style.css" type="text/css" />
+  <title>ログイン</title>
+  <script type="text/javascript" language="javascript">
+  <!--
+    function init(formObj) {
+      formObj.command.value='init';
+      formObj.submit();
+    }
+    function loginCheck(formObj) {
+      formObj.command.value='loginCheck';
+      formObj.submit();
+    }
+  
+  -->
+  </script>
+</head>
+<body>
+#parse("web/errorList.vm")
+  <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
+  <input type="hidden" name="command" />
+  <div id="main">
+    <h2>BeerGame</h2>
+    <table border=4>
+      <tr>
+        <td>チーム名 </td>
+        <td colspan=2>
+          <select name="gameId" ">
+#foreach($game in $!currentForm.getGameAll())
+               <option value="$game.id">$!{game.name}</option>
+#end
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>ロール</td>
+        <td colspan=2>
+          <select name="roleName">
+            <option value="小売り">小売り</option>
+            <option value="卸１">卸１</option>
+            <option value="卸２">卸２</option>
+            <option value="メーカ">メーカ</option>	
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td align=center><input type="button" value="ログイン" onClick="javascript:loginCheck(this.form);" /></td>
+        <td align=center><input type="button" value="ｷｬﾝｾﾙ" onClick="javascript:init(this.form);" /></td>
+      </tr>
+    </table>
+  </div>
+  </form>
+#parse("web/footer.vm")

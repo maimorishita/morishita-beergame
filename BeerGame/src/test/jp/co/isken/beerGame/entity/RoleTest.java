@@ -207,4 +207,12 @@ public class RoleTest extends DataLoadingTestCase {
 			assertTrue(true);
 		}
 	}
+	
+	public void testロール名とゲームからロールオブジェクトを取得する(){
+		Game game = BasicService.getService().findByPK(Game.class, 5L);
+		RoleType type = RoleType.getRoleTypeByName("卸１");
+		Role role = Role.getRole(game, type);
+		assertEquals("卸１", role.getName());
+		assertEquals("Greg", role.getPlayer().getName());
+	}
 }

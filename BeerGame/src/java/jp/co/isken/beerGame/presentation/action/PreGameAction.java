@@ -25,6 +25,23 @@ public class PreGameAction extends BaseAction {
 		form.init();
 		return arg0.findForward("top");
 	}
+	
+	public ActionForward login(ActionMapping arg0, ActionForm arg1,
+			HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
+		PreGameForm form = (PreGameForm) arg1;
+		form.init();
+			return arg0.findForward("login");
+	}
+	
+	public ActionForward loginCheck(ActionMapping arg0, ActionForm arg1,
+			HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
+		PreGameForm form = (PreGameForm) arg1;
+		if(form.login()){
+			return arg0.findForward("gameStart");
+		}else{
+			return arg0.findForward("login");
+		}
+	}
 
 	public ActionForward judgeGameMode(ActionMapping arg0, ActionForm arg1,
 			HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {

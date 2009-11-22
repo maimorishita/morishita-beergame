@@ -1,4 +1,4 @@
-#parse("web/header.vm")
+﻿#parse("web/header.vm")
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" href="./css/style.css" type="text/css" />
@@ -19,7 +19,7 @@
   <input type="hidden" name="command" />
   <div id="main">
     <h1>ビールゲーム</h1>
-    <p>ゲーム名：$form.game.name  第 $form.role.getWeek("発注") 週  プレイヤ：$form.playerName</p>
+    <p>ゲーム名：$form.game.name  第 $form.role.getWeek("発注") 週  ロール：$form.role.name プレイヤ：$form.role.player.name</p>
   <table border=2>
     <tr>
       <td>入荷</td>

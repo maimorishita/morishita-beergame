@@ -134,7 +134,14 @@ public class PreGameForm extends
 			//この週の発注
 			this.getRole().order(Long.parseLong(orderQuantity));
 			//次の週の入荷、受注、出荷
-			orderSet();
+			this.getRole().inbound();
+			this.getRole().acceptOrder();
+			this.getRole().outbound();
+			//TODO キューからじゃなく、TradeTransactionから取得するよう変更しましょうね　中原＆森下
+			this.setInbound(this.getRole().getInboundCount());
+			this.setOutbound(this.getRole().getOutboundCount());
+			this.setAcceptOrder(this.getRole().getOrderCount());
+			this.setRemain(TradeTransaction.calcAmountRemain(this.getRole().getWeek(TransactionType.受注.name()), this.getRole()));
 		} catch (NumberFormatException e) {
 			throw new RuntimeException(e);
 		} catch (VersionUnmuchException e) {
@@ -146,14 +153,24 @@ public class PreGameForm extends
 		}
 	}
 
-	void orderSet() throws VersionUnmuchException, MessagesIncludingException, JMSException {
-		this.getRole().inbound();
-		this.getRole().acceptOrder();
-		this.getRole().outbound();
-		//TODO キューからじゃなく、TradeTransactionから取得するよう変更しましょうね　中原＆森下
-		this.setInbound(this.getRole().getInboundCount());
-		this.setOutbound(this.getRole().getOutboundCount());
-		this.setAcceptOrder(this.getRole().getOrderCount());
-		this.setRemain(TradeTransaction.calcAmountRemain(this.getRole().getWeek(TransactionType.受注.name()), this.getRole()));
+	public List<Game> getGameAll() {
+		return Game.getAll();
+	}
+
+	public boolean login() {
+		if(this.getGameId() == 0L){
+			return false;
+		}
+		this.setGame(BasicService.getService().findByPK(Game.class,
+				this.getGameId()));
+		if(this.getGame() == null || !(this.getGame().isEnableToStart())){
+			return false;
+		}
+		RoleType type = RoleType.getRoleTypeByName(this.getRoleName());
+		this.setRole(Role.getRole(this.getGame(), type));
+		if(this.getRole().getWeek(TransactionType.出荷.name()) == 1L){
+			return this.isEnableToStartGame();
+		}
+		return false;
 	}
 }

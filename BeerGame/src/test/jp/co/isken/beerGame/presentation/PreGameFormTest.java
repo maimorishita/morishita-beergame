@@ -117,7 +117,7 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		assertEquals(12L, list.get(0).getAmount().longValue());
 	}
 
-	// FIXME 2009/11/22 imai yoshioka MQを使うようにしたので、下記の一時的なコーディングだと不具合が発生してます
+//	// FIXME 2009/11/22 imai yoshioka MQを使うようにしたので、下記の一時的なコーディングだと不具合が発生してます
 //	public void test一回目の発注処理テスト() throws Exception {
 //		BasicService service = BasicService.getService();
 //		// 初期処理
@@ -195,5 +195,39 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		form.setGameId(2L);
 		Set<RoleType> set = form.getWaitingRoleList();
 		assertEquals(3, set.size());
+	}
+	
+	public void testgetGameAll() throws Exception{
+		List<Game> games = form.getGameAll();
+		assertEquals(6, games.size());
+		assertEquals("アベベ", games.get(0).getName());
+		assertEquals("キューちゃん", games.get(1).getName());
+		assertEquals("コンタドール", games.get(2).getName());
+	}
+	
+	public void testチームとロールを選んでログインする(){
+		BasicService service = BasicService.getService();
+		form.setGameId(5L);
+		form.setRoleName("卸１");
+		assertTrue(form.login());
+		assertEquals("卸１", form.getRole().getName());
+		assertEquals("Greg", form.getRole().getPlayer().getName());
+		// 初期表示のテスト
+		assertEquals(4L, form.getAcceptOrder().longValue());
+		assertEquals(12L, form.getStock().longValue());
+
+		// 初期在庫のテスト
+		Extractor extractor = new Extractor(TradeTransaction.class);
+		extractor.add(Condition.eq(new Property(TradeTransaction.ROLE), form.getRole()));
+		extractor.add(Condition.eq(new Property(TradeTransaction.TRANSACTION_TYPE), "在庫"));
+		extractor.addOrder(Order.asc(new Property(TradeTransaction.ID)));
+		List<TradeTransaction> list = service.findByExtractor(extractor);
+		assertEquals(12L, list.get(0).getAmount().longValue());
+		
+		//異常系
+		form = new PreGameForm();
+		form.setGameId(6L);
+		form.setRoleName("メーカ");
+		assertFalse(form.login());
 	}
 }
