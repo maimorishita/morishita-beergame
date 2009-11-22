@@ -15,7 +15,7 @@
     }
     function selectGame(formObj) {
       var f = document.getElementById("hiddenForm");
-      formObj.gameId.value = f.gameId.selectedIndex;
+      formObj.gameId.value = f.gameId.options[f.gameId.selectedIndex].value;
       formObj.command.value='selectGame';
       formObj.submit();
     }

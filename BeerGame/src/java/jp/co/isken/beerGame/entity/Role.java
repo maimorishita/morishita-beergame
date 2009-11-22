@@ -49,44 +49,48 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	public void send(TransactionType type, String message) throws JMSException {
 		// Connectionオブジェクトの作成
 		ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_BROKER_URL);
-		QueueConnection senderConnection = factory.createQueueConnection();
+		QueueConnection connection = factory.createQueueConnection();
 		// セッションの作成
-		QueueSession senderSession = senderConnection.createQueueSession(false, QueueSession.AUTO_ACKNOWLEDGE);
-		log.info("メッセージを送信します。Queue: " + this.getPlayer().getGame().getId().toString() + "," + type.getQueue());
-		Queue senderQueue = senderSession.createQueue(this.getPlayer().getGame().getId().toString() + "," + type.getQueue());
+		QueueSession session = connection.createQueueSession(false, QueueSession.AUTO_ACKNOWLEDGE);
+		log.info("メッセージを送信します。Queue: " + this.getQueueName(type));
+		Queue queue = session.createQueue(this.getQueueName(type));
 		// MessageProducerオブジェクトの作成
-		QueueSender sender = senderSession.createSender(senderQueue);
+		QueueSender sender = session.createSender(queue);
 		// 市場から小売へのメッセージを作成
-		Message sendMsg = senderSession.createTextMessage(message);
+		Message msg = session.createTextMessage(message);
 		// メッセージの送信
-		sender.send(sendMsg);
+		sender.send(msg);
 		sender.close();
-		senderSession.close();
-		senderConnection.close();
+		session.close();
+		connection.close();
 	}
 
 	public String receive(TransactionType type) throws JMSException {
 		// Connectionオブジェクトの作成
-		ActiveMQConnectionFactory receiverFactory = new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_BROKER_URL);
-		QueueConnection receiverConnection = receiverFactory.createQueueConnection();
+		ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_BROKER_URL);
+		QueueConnection connection = factory.createQueueConnection();
 		// セッションの作成
-		QueueSession receiverSession = receiverConnection.createQueueSession(false, QueueSession.AUTO_ACKNOWLEDGE);
-		log.info("メッセージを受信します。Queue: " + this.getPlayer().getGame().getId().toString() + ","+ type.getQueue());
-		Queue receiverQueue = receiverSession.createQueue(this.getPlayer().getGame().getId().toString() + ","+ type.getQueue());
+		QueueSession session = connection.createQueueSession(false, QueueSession.AUTO_ACKNOWLEDGE);
+		log.info("メッセージを受信します。Queue: " + this.getQueueName(type));
+		Queue queue = session.createQueue(this.getQueueName(type));
 		//MessageConsumerオブジェクトの作成（Queueと関連付け）
-		QueueReceiver receiver = receiverSession.createReceiver(receiverQueue);
-		receiverConnection.start();
+		QueueReceiver receiver = session.createReceiver(queue);
+		connection.start();
 		// メッセージの受信
-		TextMessage ret = (TextMessage)receiver.receive(10000);
+		TextMessage ret = (TextMessage)receiver.receive(10);
 		receiver.close();
-		receiverSession.close();
-		receiverConnection.close();
+		session.close();
+		connection.close();
 		if (ret != null) {
 			log.info("メッセージを受信しました。内容: " + ret.getText());
 		}
 		return (ret == null) ? null : ret.getText();
 	}
 
+	private String getQueueName(TransactionType type) {
+		return this.getPlayer().getGame().getId().toString() + "." + type.getParty(this).getId() + "." + type.getQueue();
+	}
+	
 	public void order(Long amount) throws VersionUnmuchException, MessagesIncludingException, JMSException {
 		TradeTransaction tradeTransaction = new TradeTransaction();
 		tradeTransaction.setAmount(amount);
@@ -94,11 +98,10 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		tradeTransaction.setTransactionType(TransactionType.発注.name());
 		tradeTransaction.setWeek(new Long(this.getCurrentWeek(TransactionType.発注.name())));
 		tradeTransaction.save();
-
-//		this.send(SendType.発注, amount.toString());
+		this.send(TransactionType.発注, amount.toString());
 	}
 
-	public void acceptOrder() throws VersionUnmuchException, MessagesIncludingException {
+	public void acceptOrder() throws VersionUnmuchException, MessagesIncludingException, JMSException {
 		TradeTransaction tradeTransaction = new TradeTransaction();
 		tradeTransaction.setAmount(this.getOrderCount());
 		tradeTransaction.setRole(this);
@@ -107,12 +110,11 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		tradeTransaction.save();		
 	}
 
-	public Long getOrderCount() {
-		// TODO 2009/10/31 R.Y & T.I MQで取るので、今はDBから取得でごめんねーごめんねー。
-		return 8L;
+	public Long getOrderCount() throws JMSException {
+		return Long.parseLong(this.receive(TransactionType.受注));
 	}
 
-	public void inbound() throws VersionUnmuchException, MessagesIncludingException {
+	public void inbound() throws VersionUnmuchException, MessagesIncludingException, JMSException {
 		TradeTransaction tradeTransaction = new TradeTransaction();
 		tradeTransaction.setAmount(this.getInboundCount());
 		tradeTransaction.setRole(this);
@@ -121,18 +123,18 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		tradeTransaction.save();
 	}
 
-	public Long getInboundCount() {
-		// TODO 2009/10/31 R.Y & T.I MQで取るので、今はDBから取得でごめんねーごめんねー。
-		return 10L;
+	public Long getInboundCount() throws JMSException {
+		return Long.parseLong(this.receive(TransactionType.入荷));
 	}
 
-	public void outbound() throws VersionUnmuchException, MessagesIncludingException {
+	public void outbound() throws VersionUnmuchException, MessagesIncludingException, JMSException {
 		TradeTransaction tradeTransaction = new TradeTransaction();
 		tradeTransaction.setAmount(this.getOutboundCount());
 		tradeTransaction.setRole(this);
 		tradeTransaction.setTransactionType(TransactionType.出荷.name());
 		tradeTransaction.setWeek(new Long(this.getCurrentWeek(TransactionType.出荷.name())));
 		tradeTransaction.save();
+		this.send(TransactionType.出荷, tradeTransaction.getAmount().toString());
 	}
 
 	public Long getOutboundCount() {
@@ -142,8 +144,12 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	}
 
 	public void disposeAllMessage() throws JMSException {
-		this.disposeMessage(TransactionType.受注);
-		this.disposeMessage(TransactionType.入荷);
+		if (RoleType.getRoleTypeByName(this.getName()).equals(RoleType.小売り) == false) {
+			this.disposeMessage(TransactionType.受注);
+		}
+		if (RoleType.getRoleTypeByName(this.getName()).equals(RoleType.メーカ) == false) {
+			this.disposeMessage(TransactionType.入荷);
+		}
 	}
 	
 	private void disposeMessage(TransactionType type) throws JMSException {
@@ -164,13 +170,13 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		QueueConnection connection = factory.createQueueConnection();
 		// セッションの作成
 		QueueSession session = connection.createQueueSession(false, QueueSession.AUTO_ACKNOWLEDGE);
-		log.info("破棄するメッセージを受信します。Queue: " + this.getPlayer().getGame().getId().toString() + ","+ type.getQueue());
-		Queue queue = session.createQueue(this.getPlayer().getGame().getId().toString() + ","+ type.getQueue());
+		log.info("破棄するメッセージを受信します。Queue: " + this.getQueueName(type));
+		Queue queue = session.createQueue(this.getQueueName(type));
 		//MessageConsumerオブジェクトの作成（Queueと関連付け）
 		QueueReceiver receiver = session.createReceiver(queue);
 		connection.start();
 		// メッセージの受信
-		TextMessage ret = (TextMessage)receiver.receive(1000);
+		TextMessage ret = (TextMessage)receiver.receive(1);
 		receiver.close();
 		session.close();
 		connection.close();
@@ -191,5 +197,25 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		tradeTransactionOrder.setTransactionType(TransactionType.発注.name());
 		tradeTransactionOrder.setWeek(0L);
 		tradeTransactionOrder.save();
+	}
+
+	public Role getUpper() {
+		BasicService service = BasicService.getService();
+		Extractor e = new Extractor(Role.class);
+		e.add(Condition.eq(new Property(Role.PLAYER + "." + Player.GAME), this.getPlayer().getGame()));
+		RoleType type = RoleType.getRoleTypeByName(this.getName());
+		e.add(Condition.eq(new Property(Role.NAME), type.getUpper().name()));
+		List<Role> roles = service.findByExtractor(e);
+		return (roles.size() == 0 ? null : roles.get(0));
+	}
+	
+	public Role getDowner() {
+		BasicService service = BasicService.getService();
+		Extractor e = new Extractor(Role.class);
+		e.add(Condition.eq(new Property(Role.PLAYER + "." + Player.GAME), this.getPlayer().getGame()));
+		RoleType type = RoleType.getRoleTypeByName(this.getName());
+		e.add(Condition.eq(new Property(Role.NAME), type.getDowner().name()));
+		List<Role> roles = service.findByExtractor(e);
+		return (roles.size() == 0 ? null : roles.get(0));
 	}
 }

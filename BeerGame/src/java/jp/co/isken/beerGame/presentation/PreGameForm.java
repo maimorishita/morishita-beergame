@@ -104,8 +104,7 @@ public class PreGameForm extends
 	}
 
 	public void selectGame() {
-		// TODO Auto-generated method stub
-
+		// 画面から呼ばれるけど、いまのところ処理なし
 	}
 
 	public boolean isEnableToStartGame() {
@@ -119,13 +118,10 @@ public class PreGameForm extends
 				this.setInbound(0L);
 				this.setOutbound(0L);
 				this.setRemain(0L);
-
 			} catch (VersionUnmuchException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			} catch (MessagesIncludingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 			return true;
 		}
@@ -140,22 +136,17 @@ public class PreGameForm extends
 			//次の週の入荷、受注、出荷
 			orderSet();
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		} catch (VersionUnmuchException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		} catch (MessagesIncludingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		} catch (JMSException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 
-	void orderSet() throws VersionUnmuchException,
-			MessagesIncludingException {
+	void orderSet() throws VersionUnmuchException, MessagesIncludingException, JMSException {
 		this.getRole().inbound();
 		this.getRole().acceptOrder();
 		this.getRole().outbound();

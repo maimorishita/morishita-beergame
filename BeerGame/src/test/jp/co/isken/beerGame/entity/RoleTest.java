@@ -44,34 +44,30 @@ public class RoleTest extends DataLoadingTestCase {
 		String ret = supplier2.receive(TransactionType.受注);
 		assertEquals("メッセージに誤りがあります", "Hoge", ret);
 	}
-	
-	// TODO 2009/11/07 ogasawara,yoshioka テストが重くなるので，一旦コメントアウトします
-//	public void testキューのメッセージが正しく消されているか確認する() throws Exception {
-//		BasicService service = BasicService.getService();
-//		Role supplier1 = service.findByPK(Role.class, 2L);
-//		supplier1.send(TransactionType.発注, "hogehoge");
-//		supplier1.send(TransactionType.発注, "hohogege");
-//		supplier1.disposeAllMessage();
-//		Role supplier2 = service.findByPK(Role.class, 3L);
-//		String ret = supplier2.receive(TransactionType.受注);
-//		assertNull("メッセージが破棄されていません。", ret);		
-//	}
-	
-	// TODO 2009/11/07 imai 上のテストを直したら、こっちが動かない
-	// Queueが違うはずだから取れないはずなのに、取れてしまう
-//	public void test異なるゲーム間でメッセージを送受信できないこと() throws Exception {
-//		BasicService service = BasicService.getService();
-//		Role role = service.findByPK(Role.class, 1L);
-//		role.disposeAllMessage();
-//		// TODO ゲーム + ロール + 取引種別で一意のキューにすること
-//		// 卸1から発注を送信する
-//		Role supplier1 = service.findByPK(Role.class, 2L);
-//		supplier1.send(TransactionType.発注, "Hoge");
-//		// 卸2から受注を受信する
-//		Role supplier2 = service.findByPK(Role.class, 1L);
-//		String ret = supplier2.receive(TransactionType.受注);
-//		assertNull("メッセージが取得できています", ret);
-//	}
+
+	public void testキューのメッセージが正しく消されているか確認する() throws Exception {
+		BasicService service = BasicService.getService();
+		Role supplier1 = service.findByPK(Role.class, 2L);
+		supplier1.send(TransactionType.発注, "hogehoge");
+		supplier1.send(TransactionType.発注, "hohogege");
+		Role supplier2 = service.findByPK(Role.class, 3L);
+		supplier2.disposeAllMessage();
+		String ret = supplier2.receive(TransactionType.受注);
+		assertNull("メッセージが破棄されていません。", ret);
+	}
+
+	public void test異なるゲーム間でメッセージを送受信できないこと() throws Exception {
+		BasicService service = BasicService.getService();
+		Role supplier2 = service.findByPK(Role.class, 8L);
+		supplier2.disposeAllMessage();
+		// ゲーム3の卸1が発注を送信する
+		Role supplier1 = service.findByPK(Role.class, 2L);
+		supplier1.send(TransactionType.発注, "Hoge");
+		// ゲーム4の卸2が受注を受信する
+		supplier2 = service.findByPK(Role.class, 8L);
+		String ret = supplier2.receive(TransactionType.受注);
+		assertNull("メッセージが取得できています", ret);
+	}
 
 	public void test発注の取引記録を登録する() throws Exception {
 		BasicService service = BasicService.getService();
@@ -92,11 +88,17 @@ public class RoleTest extends DataLoadingTestCase {
 
 	public void test受注の取引記録を登録する() throws Exception {
 		BasicService service = BasicService.getService();
+		// 初期処理
+		Role supplier2 = BasicService.getService().findByPK(Role.class, 9L);
+		supplier2.disposeAllMessage();
+		// 本処理
+		Role supplier1 = service.findByPK(Role.class, 8L);
+		supplier1.order(8L);
 		// Role8Lの第三週から発注数を受け取る
 		// 受注の取引記録を登録する
 		long count = service.getCountByExtractor(new Extractor(TradeTransaction.class));
-		Role role = BasicService.getService().findByPK(Role.class, 9L);
-		role.acceptOrder();
+		supplier2 = BasicService.getService().findByPK(Role.class, 9L);
+		supplier2.acceptOrder();
 		assertEquals("取得件数が誤っています。", count + 1, service.getCountByExtractor(new Extractor(TradeTransaction.class)));
 		Extractor extractor = new Extractor(TradeTransaction.class);
 		extractor.addOrder(Order.desc(new Property(TradeTransaction.ID)));
@@ -109,24 +111,36 @@ public class RoleTest extends DataLoadingTestCase {
 	}
 	
 	public void test発注数を取得する() throws Exception {
-		// TODO MQで取得するが、MQ未実装の為DBから引っ張ってます。
-		Role role = BasicService.getService().findByPK(Role.class, 9L);
-		assertEquals("発注数が誤っています。", 8L , role.getOrderCount().longValue());
+		BasicService service = BasicService.getService();
+		// 初期処理
+		Role supplier2 = BasicService.getService().findByPK(Role.class, 9L);
+		supplier2.disposeAllMessage();
+		// 本処理
+		Role supplier1 = service.findByPK(Role.class, 8L);
+		supplier1.order(8L);
+		supplier2 = BasicService.getService().findByPK(Role.class, 9L);
+		assertEquals("発注数が誤っています。", 8L , supplier2.getOrderCount().longValue());
 	}
 
 	public void test入荷の取引記録を登録する() throws Exception {
 		BasicService service = BasicService.getService();
+		// 初期処理
+		Role supplier2 = BasicService.getService().findByPK(Role.class, 9L);
+		supplier2.disposeAllMessage();
+		// 本処理
+		Role maker = BasicService.getService().findByPK(Role.class, 10L);
+		maker.outbound();
 		// Role10Lの第三週から出荷数を受け取る
 		// 入荷の取引記録を登録する
 		long count = service.getCountByExtractor(new Extractor(TradeTransaction.class));
-		Role role = BasicService.getService().findByPK(Role.class, 9L);
-		role.inbound();
+		supplier2 = BasicService.getService().findByPK(Role.class, 9L);
+		supplier2.inbound();
 		assertEquals("取得件数が誤っています。", count + 1, service.getCountByExtractor(new Extractor(TradeTransaction.class)));
 		Extractor extractor = new Extractor(TradeTransaction.class);
 		extractor.addOrder(Order.desc(new Property(TradeTransaction.ID)));
 		List<TradeTransaction> list = service.findByExtractor(extractor);
 		TradeTransaction tradeTransaction = list.get(0);
-		assertEquals("数に誤りがあります", 10L, tradeTransaction.getAmount().longValue());
+		assertEquals("数に誤りがあります", 5L, tradeTransaction.getAmount().longValue());
 		assertEquals("ロールが間違ってます。", 9L, tradeTransaction.getRole().getId().longValue());
 		assertEquals("週が間違ってます。", 4L, tradeTransaction.getWeek().longValue());
 		assertEquals("取引種別が間違ってます。", TransactionType.入荷.name(), tradeTransaction.getTransactionType());
@@ -150,5 +164,47 @@ public class RoleTest extends DataLoadingTestCase {
 		assertEquals("ロールが間違ってます。", 9L, tradeTransaction.getRole().getId().longValue());
 		assertEquals("週が間違ってます。", 4L, tradeTransaction.getWeek().longValue());
 		assertEquals("取引種別が間違ってます。", TransactionType.出荷.name(), tradeTransaction.getTransactionType());
+	}
+
+	public void test上流のロールを取得する() throws Exception {
+		BasicService service = BasicService.getService();
+		Role wholeSeller = service.findByPK(Role.class, 5L);
+		assertEquals("ロールが小売りではありません", RoleType.小売り.name(), wholeSeller.getName());
+		Role supplier1 = wholeSeller.getUpper();
+		assertEquals("取得したロールのIDに誤りがあります", 2L, supplier1.getId().longValue());
+		assertEquals("小売りの上流である卸１を取得できていません", RoleType.卸１.name(), supplier1.getName());
+		Role supplier2 = supplier1.getUpper();
+		assertEquals("取得したロールのIDに誤りがあります", 3L, supplier2.getId().longValue());
+		assertEquals("卸１の上流である卸２を取得できていません", RoleType.卸２.name(), supplier2.getName());
+		Role maker = supplier2.getUpper();
+		assertEquals("取得したロールのIDに誤りがあります", 4L, maker.getId().longValue());
+		assertEquals("卸２の上流であるメーカを取得できていません", RoleType.メーカ.name(), maker.getName());
+		try {
+			maker.getUpper();
+			fail("メーカの上流が取得できています");
+		} catch (RuntimeException e) {
+			assertTrue(true);
+		}
+	}
+
+	public void test下流のロールを取得する() throws Exception {
+		BasicService service = BasicService.getService();
+		Role maker = service.findByPK(Role.class, 4L);
+		assertEquals("ロールがメーカではありません", RoleType.メーカ.name(), maker.getName());
+		Role supplier2 = maker.getDowner();
+		assertEquals("取得したロールのIDに誤りがあります", 3L, supplier2.getId().longValue());
+		assertEquals("メーカの下流である卸２を取得できていません", RoleType.卸２.name(), supplier2.getName());
+		Role supplier1 = supplier2.getDowner();
+		assertEquals("取得したロールのIDに誤りがあります", 2L, supplier1.getId().longValue());
+		assertEquals("卸２の下流である卸１を取得できていません", RoleType.卸１.name(), supplier1.getName());
+		Role wholeSeller = supplier1.getDowner();
+		assertEquals("取得したロールのIDに誤りがあります", 5L, wholeSeller.getId().longValue());
+		assertEquals("卸１の下流である小売りを取得できていません", RoleType.小売り.name(), wholeSeller.getName());
+		try {
+			wholeSeller.getDowner();
+			fail("小売りの下流が取得できています");
+		} catch (RuntimeException e) {
+			assertTrue(true);
+		}
 	}
 }
