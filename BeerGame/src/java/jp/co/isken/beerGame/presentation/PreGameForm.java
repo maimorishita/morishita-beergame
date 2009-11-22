@@ -158,18 +158,15 @@ public class PreGameForm extends
 	}
 
 	public boolean login() {
-		if(this.getGameId() == 0L){
-			return false;
-		}
 		this.setGame(BasicService.getService().findByPK(Game.class,
 				this.getGameId()));
-		if(this.getGame() == null || !(this.getGame().isEnableToStart())){
-			return false;
-		}
 		RoleType type = RoleType.getRoleTypeByName(this.getRoleName());
 		this.setRole(Role.getRole(this.getGame(), type));
-		if(this.getRole().getWeek(TransactionType.出荷.name()) == 1L){
-			return this.isEnableToStartGame();
+		if (this.getRole() != null) {
+			//第１週からスタートする場合は、初期設定を行う　morishita
+			if (this.getRole().getWeek(TransactionType.出荷.name()) == 1L) {
+				return this.isEnableToStartGame();
+			}
 		}
 		return false;
 	}
