@@ -1,6 +1,7 @@
 package jp.co.isken.beerGame.entity;
 
 import java.util.List;
+import java.util.Set;
 
 import jp.rough_diamond.commons.service.BasicService;
 import jp.rough_diamond.commons.testing.DataLoadingTestCase;
@@ -30,18 +31,18 @@ public class GameTest extends DataLoadingTestCase {
 		assertEquals(4, list.size());
 	}
 
-	public void testチーム名からゲームを取得する() {
+	public void testチーム名からゲームを取得する() throws Exception {
 		Game game = Game.getGameByName("アベベ");
 		assertEquals("アベベ", game.getName());
 	}
 
-	public void testロールを取得する() {
+	public void testロールを取得する() throws Exception {
 		Game game = BasicService.getService().findByPK(Game.class, 4L);
 		Role role = game.getRole("小売り");
 		assertEquals("小売り", role.getName());
 	}
 
-	public void testGameCreate() {
+	public void testGameCreate() throws Exception {
 		Game g = Game.create("テスト");
 		assertEquals("テスト", g.getName());
 	}
@@ -51,5 +52,12 @@ public class GameTest extends DataLoadingTestCase {
 		Game game2 = BasicService.getService().findByPK(Game.class, 6L);
 		assertTrue(game1.isEnableToStart());
 		assertFalse(game2.isEnableToStart());
+	}
+	
+	public void testゲームに紐づく未使用のロールを取得する() throws Exception {
+		Game game = BasicService.getService().findByPK(Game.class, 2L);
+		Set<RoleType> set = game.getUnusedRoles();
+		
+		assertEquals("未使用のロールが取得できていません",3, set.size());
 	}
 }

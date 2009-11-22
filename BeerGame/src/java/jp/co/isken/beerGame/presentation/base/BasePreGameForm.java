@@ -25,6 +25,11 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     private  Long   gameId;
 
     /**
+     * ID
+    **/
+    private  long   id;
+
+    /**
      * “ü‰×
     **/
     private  Long   inbound;
@@ -101,6 +106,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     **/
     public Long getGameId() {
         return this.gameId;
+    }
+
+    /**
+     * ID‚ğæ“¾‚·‚é
+     * @return ID
+    **/
+    public long getId() {
+        return this.id;
     }
 
     /**
@@ -217,6 +230,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     }
 
     /**
+     * ID‚ğİ’è‚·‚é
+     * @param id ID
+    **/
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
      * “ü‰×‚ğİ’è‚·‚é
      * @param inbound “ü‰×
     **/
@@ -312,6 +333,8 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
       buf.append(game + "]");
       buf.append("[ƒQ[ƒ€ID:");
       buf.append(gameId + "]");
+      buf.append("[ID:");
+      buf.append(id + "]");
       buf.append("[“ü‰×:");
       buf.append(inbound + "]");
       buf.append("[V‹KƒQ[ƒ€FLG:");

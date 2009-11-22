@@ -17,6 +17,7 @@
   <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
   <input type="hidden" name="command" />
   <div id="main">
+    <h2>BeerGame</h2>
     <table border=4>
       <tr>
         <td colspan=2><input type="radio" name="newGame" value="true" checked>&nbsp;新規ゲームの設定</td>
@@ -29,12 +30,6 @@
         <td align=center><input type="button" value="ｷｬﾝｾﾙ" onClick="location = '$link.setAction('/top')'" /></td>
       </tr>
     </table>
-<p>. 　　∩_＿＿_∩゜.:+＿＿_∩:　:.+　 <br />
-ﾜｸ.　| ノ 　　 　　ヽノ　　 　　ヽ+.:　　 <br />
-:.ﾜｸ/　　●　　 ● | ●　　 ● | ｸﾏ 　　 <br />
-　　ミ 　''　( _●_)''ミ''　( _●_)''ミ　ｸﾏ　 <br />
-.　/ 　.＿　 |_/__ノヽ__　 |_/__ノヽ <br />
-　-(＿＿_.)─(＿＿)__.)─(＿＿)─ </p>
   </div>
   </form>
 #parse("web/footer.vm")

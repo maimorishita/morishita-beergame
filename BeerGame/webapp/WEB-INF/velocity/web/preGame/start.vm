@@ -19,20 +19,28 @@
   <input type="hidden" name="command" />
   <div id="main">
     <h1>ビールゲーム</h1>
-　　<p>ゲーム名：$form.game.name　第 $form.role.getWeek("発注") 週　プレイヤ：$form.playerName</p>
-
-  入荷　$form.inbound <BR/>
-  受注  $form.acceptOrder<BR/>
-  出荷　$form.outbound<BR/>
-
-　在庫　$form.stock<BR/>
-  注文残　$form.remain<BR/>
-
-
-  発注数　<input type="text" name="order" />
-  <input type="button" value="注文" onClick="javascript:orderQuantity(this.form);" />
-
-
-　</div>
+    <p>ゲーム名：$form.game.name  第 $form.role.getWeek("発注") 週  プレイヤ：$form.playerName</p>
+  <table border=2>
+    <tr>
+      <td>入荷</td>
+      <td width="50">$form.inbound</td>
+      <td>受注</td>
+      <td width="50">$form.acceptOrder</td>
+    </tr>
+    <tr>
+      <td>出荷</td>
+      <td width="50">$form.outbound</td>
+      <td>在庫</td>
+      <td width="50">$form.stock</td>
+    </tr>
+    <tr>
+      <td>注文残</td>
+      <td width="50">$form.remain</td>
+    </tr>
+  </table>
+  
+  <p>発注数&nbsp<input type="text" name="order" />
+  <input type="button" value="注文" onClick="javascript:orderQuantity(this.form);" /></p>
+ </div>
   </form>
 #parse("web/footer.vm")

@@ -28,14 +28,18 @@
   <input type="hidden" name="command" />
   <!--input type="hidden" name="gameId" /-->
   <div id="main">
-    <h1>花京院、きさまこのゲームやり込んでいるなッ！</h1>
+    <h2>BeerGame</h2>
     <table border=4>
       <tr>
         <td>チーム名</td>
         <td colspan=2>
           <select name="gameId" onChange="selectGame(this.form);">
 #foreach($game in $!currentForm.getWaitingGameList())
-            <option value="$game.id">$game.name</option>
+#if($game.id == $currentForm.gameId)
+               <option value="$game.id" selected="selected">$game.name</option>
+#else
+               <option value="$game.id">$game.name</option>
+#end
 #end
           </select>
         </td>
@@ -66,23 +70,6 @@
         <td align=center><input type="button" value="ｷｬﾝｾﾙ" onClick="javascript:init(this.form);" /></td>
       </tr>
     </table>
-<p>┃┌┬┐　 　 　 　 　 　 ┃　　　┏ ＮＥＸＴ┓<br />
-┃├┼┤┌┐　 　 　 　 ┃ 　　..┃┌┬┐┃<br />
-┃└┴┘├┤┌┬┬┬┨ 　　..┃├┼┤┃<br />
-┃┌┐┌┼┤├┼┴┴┨ 　　..┃└┴┘┃<br />
-┠┼┼┼┼┼┼┼┬┐┃　　　┗━━━┛<br />
-┠┼┼┼┼┼┼┼┼┤┃<br />
-┠┼┼┼┼┼┼┼┼┤┃ 　　　.　. .... ..: : :: :: ::: :::::: ::::<br />
-┠┼┼┼┼┼┼┼┼┤┃ 　　　　　　　 Λ＿Λ . . . .: : :<br />
-┠┼┼┼┼┼┼┼┼┤┃ 　　　　　 　/:彡ミ゛ヽ;）ー､　. ::<br />
-┠┼┼┼┼┼┼┼┼┤┃ 　　　　　 / :::/:: ヽ、ヽ、 ::i . .::<br />
-┠┼┼┼┼┼┼┼┼┤┃ 　　 　　 / :::/;;: 　 ヽ　ヽ ::ｌ　.<br />
-┠┼┼┼┼┼┼┼┼┤┃ ￣￣￣（_,ノ ￣￣￣ヽ､_ノ￣￣<br />
-┠┼┼┼┼┼┼┼┼┤┃<br />
-┠┼┼┼┼┼┼┼┼┤┃<br />
-┠┼┼┼┼┼┼┼┼┤┃<br />
-┠┼┼┼┼┼┼┼┼┤┃<br />
-┗┷┷┷┷┷┷┷┷┷┛</p>
   </div>
   </form>
 #parse("web/footer.vm")

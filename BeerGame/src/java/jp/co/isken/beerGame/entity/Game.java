@@ -1,7 +1,11 @@
 package jp.co.isken.beerGame.entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import sun.security.action.GetLongAction;
 
 import jp.rough_diamond.commons.extractor.Condition;
 import jp.rough_diamond.commons.extractor.Extractor;
@@ -77,4 +81,11 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 		return false;
 	}
 
+	public Set<RoleType> getUnusedRoles() {
+		Set<RoleType> set = RoleType.getAll();
+		for (Role role : getRoles(this)) {
+			set.remove(RoleType.valueOf(role.getName()));
+		}
+		return set;
+	}
 }

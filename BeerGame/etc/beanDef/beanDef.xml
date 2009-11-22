@@ -27,6 +27,7 @@
   </bean>
   
   <bean className="jp.co.isken.beerGame.presentation.PreGameForm" extends="jp.rough_diamond.framework.web.struts.BaseForm" description="ゲームを登録する。">
+    <property name="id"          type="long"                                  description="ID" />
     <property name="teamName"    type="String"                                description="チーム名" />
     <property name="ownerName"   type="String"                                description="オーナー名" />
     <property name="playerName"  type="String"                                description="プレイヤー名" />
