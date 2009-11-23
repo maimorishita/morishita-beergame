@@ -4,6 +4,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 public enum RoleType {
+	sê {
+		@Override
+		RoleType getDowner() {
+			throw new RuntimeException("sê‚Ì‰º—¬‚Í‘¶İ‚µ‚Ü‚¹‚ñ");
+		}
+		@Override
+		RoleType getUpper() {
+			return RoleType.¬”„‚è;
+		}
+		
+	},
 	¬”„‚è {
 		@Override
 		RoleType getUpper() {
@@ -12,7 +23,7 @@ public enum RoleType {
 
 		@Override
 		RoleType getDowner() {
-			throw new RuntimeException("¬”„‚è‚Ì‰º—¬‚Í‘¶İ‚µ‚Ü‚¹‚ñ");
+			return RoleType.sê;
 		}
 	},
 	‰µ‚P {
@@ -40,12 +51,23 @@ public enum RoleType {
 	ƒ[ƒJ {
 		@Override
 		RoleType getUpper() {
-			throw new RuntimeException("ƒ[ƒJ‚Ìã—¬‚Í‘¶İ‚µ‚Ü‚¹‚ñ");
+			return RoleType.Hê;
 		}
 
 		@Override
 		RoleType getDowner() {
 			return RoleType.‰µ‚Q;
+		}
+	},
+	Hê {
+		@Override
+		RoleType getDowner() {
+			return RoleType.ƒ[ƒJ;
+		}
+
+		@Override
+		RoleType getUpper() {
+			throw new RuntimeException("Hê‚Ìã—¬‚Í‘¶İ‚µ‚Ü‚¹‚ñ");
 		}
 	},
 	;
@@ -64,6 +86,5 @@ public enum RoleType {
 	}
 
 	abstract RoleType getUpper();
-
 	abstract RoleType getDowner();
 }

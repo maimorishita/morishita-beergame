@@ -168,8 +168,11 @@ public class RoleTest extends DataLoadingTestCase {
 
 	public void test上流のロールを取得する() throws Exception {
 		BasicService service = BasicService.getService();
-		Role wholeSeller = service.findByPK(Role.class, 5L);
-		assertEquals("ロールが小売りではありません", RoleType.小売り.name(), wholeSeller.getName());
+		Role market = service.findByPK(Role.class, 18L);
+		assertEquals("ロールが市場ではありません", RoleType.市場.name(), market.getName());
+		Role wholeSeller = market.getUpper();
+		assertEquals("取得したロールのIDに誤りがあります", 5L, wholeSeller.getId().longValue());
+		assertEquals("市場の上流である小売りを取得できていません", RoleType.小売り.name(), wholeSeller.getName());
 		Role supplier1 = wholeSeller.getUpper();
 		assertEquals("取得したロールのIDに誤りがあります", 2L, supplier1.getId().longValue());
 		assertEquals("小売りの上流である卸１を取得できていません", RoleType.卸１.name(), supplier1.getName());
@@ -179,9 +182,12 @@ public class RoleTest extends DataLoadingTestCase {
 		Role maker = supplier2.getUpper();
 		assertEquals("取得したロールのIDに誤りがあります", 4L, maker.getId().longValue());
 		assertEquals("卸２の上流であるメーカを取得できていません", RoleType.メーカ.name(), maker.getName());
+		Role factory = maker.getUpper();
+		assertEquals("取得したロールのIDに誤りがあります", 19L, factory.getId().longValue());
+		assertEquals("メーカの上流である工場を取得できていません", RoleType.工場.name(), factory.getName());
 		try {
-			maker.getUpper();
-			fail("メーカの上流が取得できています");
+			factory.getUpper();
+			fail("工場の上流が取得できています");
 		} catch (RuntimeException e) {
 			assertTrue(true);
 		}
@@ -189,8 +195,11 @@ public class RoleTest extends DataLoadingTestCase {
 
 	public void test下流のロールを取得する() throws Exception {
 		BasicService service = BasicService.getService();
-		Role maker = service.findByPK(Role.class, 4L);
-		assertEquals("ロールがメーカではありません", RoleType.メーカ.name(), maker.getName());
+		Role factory = service.findByPK(Role.class, 19L);
+		assertEquals("ロールが工場ではありません", RoleType.工場.name(), factory.getName());
+		Role maker = factory.getDowner();
+		assertEquals("取得したロールのIDに誤りがあります", 4L, maker.getId().longValue());
+		assertEquals("メーカの下流である卸２を取得できていません", RoleType.メーカ.name(), maker.getName());
 		Role supplier2 = maker.getDowner();
 		assertEquals("取得したロールのIDに誤りがあります", 3L, supplier2.getId().longValue());
 		assertEquals("メーカの下流である卸２を取得できていません", RoleType.卸２.name(), supplier2.getName());
@@ -200,9 +209,12 @@ public class RoleTest extends DataLoadingTestCase {
 		Role wholeSeller = supplier1.getDowner();
 		assertEquals("取得したロールのIDに誤りがあります", 5L, wholeSeller.getId().longValue());
 		assertEquals("卸１の下流である小売りを取得できていません", RoleType.小売り.name(), wholeSeller.getName());
+		Role market = wholeSeller.getDowner();
+		assertEquals("取得したロールのIDに誤りがあります", 18L, market.getId().longValue());
+		assertEquals("小売りの下流である市場を取得できていません", RoleType.市場.name(), market.getName());
 		try {
-			wholeSeller.getDowner();
-			fail("小売りの下流が取得できています");
+			market.getDowner();
+			fail("市場の下流が取得できています");
 		} catch (RuntimeException e) {
 			assertTrue(true);
 		}

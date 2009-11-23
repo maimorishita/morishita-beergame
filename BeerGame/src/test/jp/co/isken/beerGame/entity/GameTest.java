@@ -28,7 +28,7 @@ public class GameTest extends DataLoadingTestCase {
 	public void testGameに紐づくすべてのロールを取得する() throws Exception {
 		Game game = BasicService.getService().findByPK(Game.class, 3L);
 		List<Role> list = Game.getRoles(game);
-		assertEquals(4, list.size());
+		assertEquals(6, list.size());
 	}
 
 	public void testチーム名からゲームを取得する() throws Exception {

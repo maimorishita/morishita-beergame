@@ -208,7 +208,7 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		List<Role> roles = service.findByExtractor(e);
 		return (roles.size() == 0 ? null : roles.get(0));
 	}
-	
+
 	public Role getDowner() {
 		BasicService service = BasicService.getService();
 		Extractor e = new Extractor(Role.class);

@@ -72,7 +72,7 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 	}
 
 	public boolean isEnableToStart() {
-		if (Game.getRoles(this).size() == 4) {
+		if (Game.getRoles(this).size() == RoleType.values().length) {
 			return true;
 		}
 		return false;
