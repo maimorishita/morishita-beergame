@@ -220,11 +220,27 @@ public class RoleTest extends DataLoadingTestCase {
 		}
 	}
 	
-	public void testロール名とゲームからロールオブジェクトを取得する(){
+	public void testロール名とゲームからロールオブジェクトを取得する() throws Exception {
 		Game game = BasicService.getService().findByPK(Game.class, 5L);
 		RoleType type = RoleType.getRoleTypeByName("卸１");
 		Role role = Role.getRole(game, type);
 		assertEquals("卸１", role.getName());
 		assertEquals("Greg", role.getPlayer().getName());
+	}
+	
+	//TODO 2009/11/29 imai&yoshioka 一時的なスタブだよーん☆
+	public void test市場から小売りへの発注を固定値で返却する() throws Exception {
+		BasicService service =  BasicService.getService();
+		Role wholeSeller = service.findByPK(Role.class, 5L);
+		assertEquals("市場からの発注値が誤っています。", 4L, wholeSeller.getOrderCount().longValue());
+	}
+	
+	//TODO 2009/11/29 imai&yoshioka 一時的なスタブだよーん☆
+	public void testメーカからの発注数分を工場が出荷する() throws Exception {
+		BasicService service =  BasicService.getService();
+		Role maker = service.findByPK(Role.class, 4L);
+		maker.disposeAllMessage();
+		maker.order(5L);		
+		assertEquals("工場からの出荷値が誤っています。", 5L, maker.getInboundCount().longValue());
 	}
 }

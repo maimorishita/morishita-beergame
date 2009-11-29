@@ -99,6 +99,10 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		tradeTransaction.setWeek(new Long(this.getCurrentWeek(TransactionType.発注.name())));
 		tradeTransaction.save();
 		this.send(TransactionType.発注, amount.toString());
+		if (this.getName().equals(RoleType.メーカ.name())) {
+			Role factory = this.getUpper();
+			factory.outbound();
+		}
 	}
 
 	public void acceptOrder() throws VersionUnmuchException, MessagesIncludingException, JMSException {
@@ -110,8 +114,10 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		tradeTransaction.save();		
 	}
 
+	//TODO 2009/11/29 imai&yoshioka 一時的に市場からの発注を固定値で返却する。
 	public Long getOrderCount() throws JMSException {
-		return Long.parseLong(this.receive(TransactionType.受注));
+		return (this.getName().equals("小売り")) ? 4L :Long.parseLong(this.receive(TransactionType.受注));
+		//return Long.parseLong(this.receive(TransactionType.受注));
 	}
 
 	public void inbound() throws VersionUnmuchException, MessagesIncludingException, JMSException {
