@@ -23,7 +23,7 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 			Extractor extractor = new Extractor(Player.class);
 			extractor.add(Condition.eq(new Property(Player.GAME), game));
 			List<Player> players = service.findByExtractor(extractor);
-			if (players.size() < 4) {
+			if (players.size() < 6) {
 				games.add(game);
 			}
 		}

@@ -37,6 +37,7 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 
 	public boolean addGame() {
 		Game game = Game.create(this.getTeamName());
+		
 		Role role = new Role();
 		role.setName("è¨îÑÇË");
 		Player player = new Player();
@@ -44,10 +45,31 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 		player.setIsOwner(true);
 		player.setGame(game);
 		role.setPlayer(player);
+		
+		Role marcket = new Role();
+		marcket.setName("ésèÍ");
+		Player mPlayer = new Player();
+		mPlayer.setName("ésèÍ");
+		mPlayer.setIsOwner(false);
+		mPlayer.setGame(game);
+		marcket.setPlayer(mPlayer);
+		
+		Role factory = new Role();
+		factory.setName("çHèÍ");
+		Player fPlayer = new Player();
+		fPlayer.setName("çHèÍ");
+		fPlayer.setIsOwner(false);
+		fPlayer.setGame(game);
+		factory.setPlayer(fPlayer);
 		try {
 			game.save();
 			player.save();
+			mPlayer.save();
+			fPlayer.save();
 			role.save();
+			marcket.save();
+			factory.save();
+			this.setRole(role);
 			this.setGame(game);
 			return true;
 		} catch (VersionUnmuchException e) {
@@ -167,6 +189,7 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 			if (this.getRole().getWeek(TransactionType.èoâ◊.name()) == 1L) {
 				return this.isEnableToStartGame();
 			}
+			return this.getGame().isEnableToStart();
 		}
 		return false;
 	}

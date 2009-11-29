@@ -44,7 +44,9 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		form.setOwnerName("Ryoji Yoshioka");
 		assertTrue(form.addGame());
 		assertEquals("ゲームが取得できません。", "Alliance of Valiant Arms", form.getGame().getName());
-
+		assertEquals("ロール名が取得できません。", "小売り", form.getRole().getName());
+		assertEquals("ロールの取得数が誤っています。", 3, Game.getRoles(form.getGame()).size());
+		
 		form = new PreGameForm();
 		form.setTeamName("Alliance of Valiant Arms");
 		assertFalse(form.addGame());
