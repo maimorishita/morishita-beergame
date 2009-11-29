@@ -77,7 +77,8 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		QueueReceiver receiver = session.createReceiver(queue);
 		connection.start();
 		// メッセージの受信
-		TextMessage ret = (TextMessage)receiver.receive(10);
+		TextMessage ret = (TextMessage)receiver.receive();
+		// TextMessage ret = (TextMessage)receiver.receive(10);
 		receiver.close();
 		session.close();
 		connection.close();
@@ -92,6 +93,7 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	}
 	
 	public void order(Long amount) throws VersionUnmuchException, MessagesIncludingException, JMSException {
+		log.info("発注します: ロール名 = " + this.getName());
 		TradeTransaction tradeTransaction = new TradeTransaction();
 		tradeTransaction.setAmount(amount);
 		tradeTransaction.setRole(this);
@@ -103,15 +105,18 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 			Role factory = this.getUpper();
 			factory.outbound();
 		}
+		log.info("発注しました: ロール名 = " + this.getName());
 	}
 
 	public void acceptOrder() throws VersionUnmuchException, MessagesIncludingException, JMSException {
+		log.info("受注します: ロール名 = " + this.getName());
 		TradeTransaction tradeTransaction = new TradeTransaction();
 		tradeTransaction.setAmount(this.getOrderCount());
 		tradeTransaction.setRole(this);
 		tradeTransaction.setTransactionType(TransactionType.受注.name());
 		tradeTransaction.setWeek(new Long(this.getCurrentWeek(TransactionType.受注.name())));
-		tradeTransaction.save();		
+		tradeTransaction.save();
+		log.info("受注しました: ロール名 = " + this.getName());
 	}
 
 	//TODO 2009/11/29 imai&yoshioka 一時的に市場からの発注を固定値で返却する。
@@ -121,12 +126,14 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	}
 
 	public void inbound() throws VersionUnmuchException, MessagesIncludingException, JMSException {
+		log.info("入荷します: ロール名 = " + this.getName());
 		TradeTransaction tradeTransaction = new TradeTransaction();
 		tradeTransaction.setAmount(this.getInboundCount());
 		tradeTransaction.setRole(this);
 		tradeTransaction.setTransactionType(TransactionType.入荷.name());
 		tradeTransaction.setWeek(new Long(this.getCurrentWeek(TransactionType.入荷.name())));
 		tradeTransaction.save();
+		log.info("入荷しました: ロール名 = " + this.getName());
 	}
 
 	public Long getInboundCount() throws JMSException {
@@ -134,6 +141,7 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	}
 
 	public void outbound() throws VersionUnmuchException, MessagesIncludingException, JMSException {
+		log.info("出荷します: ロール名 = " + this.getName());
 		TradeTransaction tradeTransaction = new TradeTransaction();
 		tradeTransaction.setAmount(this.getOutboundCount());
 		tradeTransaction.setRole(this);
@@ -141,6 +149,7 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		tradeTransaction.setWeek(new Long(this.getCurrentWeek(TransactionType.出荷.name())));
 		tradeTransaction.save();
 		this.send(TransactionType.出荷, tradeTransaction.getAmount().toString());
+		log.info("出荷しました: ロール名 = " + this.getName());
 	}
 
 	public Long getOutboundCount() {

@@ -133,9 +133,14 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 			this.getRole().acceptOrder();
 			this.getRole().outbound();
 			//TODO キューからじゃなく、TradeTransactionから取得するよう変更しましょうね　中原＆森下
-			this.setInbound(this.getRole().getInboundCount());
-			this.setOutbound(this.getRole().getOutboundCount());
-			this.setAcceptOrder(this.getRole().getOrderCount());
+//			this.setInbound(this.getRole().getInboundCount());
+//			this.setOutbound(this.getRole().getOutboundCount());
+//			this.setAcceptOrder(this.getRole().getOrderCount());
+			// FIXME 2009/11/29 imai yoshioka TradeTransactionから取得するように修正すること
+			// 上の処理だとキューがないため、処理が止まってしまう
+			this.setInbound(5L);
+			this.setOutbound(5L);
+			this.setAcceptOrder(1L);
 			this.setRemain(TradeTransaction.calcAmountRemain(this.getRole().getWeek(TransactionType.受注.name()), this.getRole()));
 		} catch (NumberFormatException e) {
 			throw new RuntimeException(e);
