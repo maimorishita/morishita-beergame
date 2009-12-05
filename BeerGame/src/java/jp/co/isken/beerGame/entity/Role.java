@@ -242,4 +242,14 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		List<Role> roles = service.findByExtractor(e);
 		return (roles.size() == 0 ? null : roles.get(0));
 	}
+
+	public TradeTransaction getTransaction(TransactionType type) {
+		BasicService service = BasicService.getService();
+		Extractor e = new Extractor(TradeTransaction.class);
+		e.add(Condition.eq(new Property(TradeTransaction.ROLE),this));
+		e.add(Condition.eq(new Property(TradeTransaction.TRANSACTION_TYPE),type.name()));
+		e.addOrder(Order.desc(new Property(TradeTransaction.WEEK)));
+		List<TradeTransaction> list = service.findByExtractor(e);
+		return (list.size() == 0 ? null : list.get(0));
+	}
 }

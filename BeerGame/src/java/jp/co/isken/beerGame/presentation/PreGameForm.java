@@ -160,9 +160,9 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 //			this.setAcceptOrder(this.getRole().getOrderCount());
 			// FIXME 2009/11/29 imai yoshioka TradeTransactionから取得するように修正すること
 			// 上の処理だとキューがないため、処理が止まってしまう
-			this.setInbound(5L);
-			this.setOutbound(5L);
-			this.setAcceptOrder(1L);
+			this.setInbound(getRole().getTransaction(TransactionType.入荷).getAmount().longValue());
+			this.setOutbound(getRole().getTransaction(TransactionType.出荷).getAmount().longValue());
+			this.setAcceptOrder(getRole().getTransaction(TransactionType.受注).getAmount().longValue());
 			this.setRemain(TradeTransaction.calcAmountRemain(this.getRole().getWeek(TransactionType.受注.name()), this.getRole()));
 		} catch (NumberFormatException e) {
 			throw new RuntimeException(e);

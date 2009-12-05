@@ -136,6 +136,7 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		List<TradeTransaction> list = service.findByExtractor(extractor);
 		assertEquals(12L, list.get(0).getAmount().longValue());
 	}
+	
 
 //	// FIXME 2009/11/22 imai yoshioka MQを使うようにしたので、下記の一時的なコーディングだと不具合が発生してます
 //	public void test一回目の発注処理テスト() throws Exception {
@@ -250,4 +251,5 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		form.setRoleName("メーカ");
 		assertFalse(form.login());
 	}
+	
 }

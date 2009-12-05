@@ -247,6 +247,24 @@ public class RoleTest extends DataLoadingTestCase {
 		assertEquals("工場からの出荷値が誤っています。", 5L, maker.getInboundCount().longValue());
 	}
 	
+	public void test各トランザクションが取得できる() throws Exception {
+		Role role = BasicService.getService().findByPK(Role.class, 80L);
+		TradeTransaction tradeTransaction = role.getTransaction(TransactionType.入荷);
+		assertEquals("正しいトランザクションIDが取得出来ていません。",65L, tradeTransaction.getId().longValue());
+		assertEquals("正しい数量が取得出来ていません。",11L,tradeTransaction.getAmount().longValue());
+		assertEquals("正しい週が取得出来ていません。",3L,tradeTransaction.getWeek().longValue());
+		
+		tradeTransaction = role.getTransaction(TransactionType.受注);
+		assertEquals("正しいトランザクションIDが取得出来ていません。",64L, tradeTransaction.getId().longValue());
+		assertEquals("正しい数量が取得出来ていません。",10L,tradeTransaction.getAmount().longValue());
+		assertEquals("正しい週が取得出来ていません。",3L,tradeTransaction.getWeek().longValue());
+		
+		tradeTransaction = role.getTransaction(TransactionType.出荷);
+		assertEquals("正しいトランザクションIDが取得出来ていません。",66L, tradeTransaction.getId().longValue());
+		assertEquals("正しい数量が取得出来ていません。",12L,tradeTransaction.getAmount().longValue());
+		assertEquals("正しい週が取得出来ていません。",3L,tradeTransaction.getWeek().longValue());
+	}
+	
 	public void testゲーム５のロールのキューをすべて削除する() throws Exception {
 		BasicService service =  BasicService.getService();
 		List<Role> roles = new ArrayList<Role>();
