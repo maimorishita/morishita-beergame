@@ -74,13 +74,11 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 			return true;
 		} catch (VersionUnmuchException e) {
 			Messages msgs = new Messages();
-			msgs.add("", new Message(e.getMessage()));
+			msgs.add("", new Message("errors.duplicate"));
 			this.setMessage(msgs);
 			return false;
 		} catch (MessagesIncludingException e) {
-			Messages msgs = new Messages();
-			msgs.add("", new Message(e.getMessage()));
-			this.setMessage(msgs);
+			this.setMessage(e.getMessages());
 			return false;
 		}
 	}
@@ -102,7 +100,7 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 			return true;
 		} catch (VersionUnmuchException e) {
 			Messages msgs = new Messages();
-			msgs.add("", new Message(e.getMessage()));
+			msgs.add("", new Message("errors.duplicate"));
 			this.setMessage(msgs);
 			return false;
 		} catch (MessagesIncludingException e) {
@@ -135,12 +133,14 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 				this.setInbound(0L);
 				this.setOutbound(0L);
 				this.setRemain(0L);
+				return true;
 			} catch (VersionUnmuchException e) {
-				throw new RuntimeException(e);
+				Messages msgs = new Messages();
+				msgs.add("", new Message("errors.duplicate"));
+				this.setMessage(msgs);
 			} catch (MessagesIncludingException e) {
-				throw new RuntimeException(e);
+				this.setMessage(e.getMessages());
 			}
-			return true;
 		}
 		return false;
 	}
@@ -167,9 +167,11 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 		} catch (NumberFormatException e) {
 			throw new RuntimeException(e);
 		} catch (VersionUnmuchException e) {
-			throw new RuntimeException(e);
+			Messages msgs = new Messages();
+			msgs.add("", new Message("errors.duplicate"));
+			this.setMessage(msgs);
 		} catch (MessagesIncludingException e) {
-			throw new RuntimeException(e);
+			this.setMessage(e.getMessages());
 		} catch (JMSException e) {
 			throw new RuntimeException(e);
 		}
