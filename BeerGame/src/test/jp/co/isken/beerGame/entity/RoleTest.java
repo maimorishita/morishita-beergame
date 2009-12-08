@@ -122,7 +122,7 @@ public class RoleTest extends DataLoadingTestCase {
 		Role supplier1 = service.findByPK(Role.class, 8L);
 		supplier1.order(8L);
 		supplier2 = BasicService.getService().findByPK(Role.class, 9L);
-		assertEquals("発注数が誤っています。", 8L , supplier2.getOrderCount().longValue());
+		assertEquals("発注数が誤っています。", 8L , supplier2.getOrderAmount().longValue());
 	}
 
 	public void test入荷の取引記録を登録する() throws Exception {
@@ -235,7 +235,7 @@ public class RoleTest extends DataLoadingTestCase {
 	public void test市場から小売りへの発注を固定値で返却する() throws Exception {
 		BasicService service =  BasicService.getService();
 		Role wholeSeller = service.findByPK(Role.class, 5L);
-		assertEquals("市場からの発注値が誤っています。", 4L, wholeSeller.getOrderCount().longValue());
+		assertEquals("市場からの発注値が誤っています。", 4L, wholeSeller.getOrderAmount().longValue());
 	}
 	
 	//TODO 2009/11/29 imai&yoshioka 一時的なスタブだよーん☆
@@ -244,7 +244,7 @@ public class RoleTest extends DataLoadingTestCase {
 		Role maker = service.findByPK(Role.class, 4L);
 		maker.disposeAllMessage();
 		maker.order(5L);		
-		assertEquals("工場からの出荷値が誤っています。", 5L, maker.getInboundCount().longValue());
+		assertEquals("工場からの出荷値が誤っています。", 5L, maker.getInboundAmount().longValue());
 	}
 	
 	public void test各トランザクションが取得できる() throws Exception {

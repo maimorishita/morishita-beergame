@@ -148,10 +148,9 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 	}
 
 	public void order() {
-		String orderQuantity = this.getOrder();
 		try {
 			//‚±‚ÌT‚Ì”­’
-			this.getRole().order(Long.parseLong(orderQuantity));
+			this.getRole().order(Long.parseLong(this.getOrder()));
 			//Ÿ‚ÌT‚Ì“ü‰×Aó’Ao‰×
 			this.getRole().inbound();
 			this.getRole().acceptOrder();
@@ -162,7 +161,9 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 			this.setRemain(TradeTransaction.calcAmountRemain(this.getRole().getWeek(TransactionType.ó’.name()), this.getRole()));
 			this.setStock(TradeTransaction.calcAmountStock(this.getRole().getWeek(TransactionType.“ü‰×.name()), this.getRole()));
 		} catch (NumberFormatException e) {
-			throw new RuntimeException(e);
+			Messages msgs = new Messages();
+			msgs.add("", new Message("errors.invalid.orderamount"));
+			this.setMessage(msgs);
 		} catch (VersionUnmuchException e) {
 			Messages msgs = new Messages();
 			msgs.add("", new Message("errors.duplicate"));
