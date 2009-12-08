@@ -128,10 +128,10 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 				// orderSet();
 				this.getRole().initAmount(12L, 4L);
 				// TODO TradeTransactionから取得するよう変更しましょうね　中原＆森下
-				this.setStock(12L);
+				this.setStock(8L);
 				this.setAcceptOrder(4L);
-				this.setInbound(0L);
-				this.setOutbound(0L);
+				this.setInbound(12L);
+				this.setOutbound(4L);
 				this.setRemain(0L);
 				return true;
 			} catch (VersionUnmuchException e) {
@@ -140,6 +140,8 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 				this.setMessage(msgs);
 			} catch (MessagesIncludingException e) {
 				this.setMessage(e.getMessages());
+			} catch (JMSException e) {
+				throw new RuntimeException(e);
 			}
 		}
 		return false;
@@ -154,16 +156,11 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 			this.getRole().inbound();
 			this.getRole().acceptOrder();
 			this.getRole().outbound();
-			//TODO キューからじゃなく、TradeTransactionから取得するよう変更しましょうね　中原＆森下
-//			this.setInbound(this.getRole().getInboundCount());
-//			this.setOutbound(this.getRole().getOutboundCount());
-//			this.setAcceptOrder(this.getRole().getOrderCount());
-			// FIXME 2009/11/29 imai yoshioka TradeTransactionから取得するように修正すること
-			// 上の処理だとキューがないため、処理が止まってしまう
 			this.setInbound(getRole().getTransaction(TransactionType.入荷).getAmount().longValue());
 			this.setOutbound(getRole().getTransaction(TransactionType.出荷).getAmount().longValue());
 			this.setAcceptOrder(getRole().getTransaction(TransactionType.受注).getAmount().longValue());
 			this.setRemain(TradeTransaction.calcAmountRemain(this.getRole().getWeek(TransactionType.受注.name()), this.getRole()));
+			this.setStock(TradeTransaction.calcAmountStock(this.getRole().getWeek(TransactionType.入荷.name()), this.getRole()));
 		} catch (NumberFormatException e) {
 			throw new RuntimeException(e);
 		} catch (VersionUnmuchException e) {
@@ -182,8 +179,7 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 	}
 
 	public boolean login() {
-		this.setGame(BasicService.getService().findByPK(Game.class,
-				this.getGameId()));
+		this.setGame(BasicService.getService().findByPK(Game.class, this.getGameId()));
 		RoleType type = RoleType.getRoleTypeByName(this.getRoleName());
 		this.setRole(Role.getRole(this.getGame(), type));
 		if (this.getRole() != null) {

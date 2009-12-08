@@ -143,7 +143,7 @@ public class RoleTest extends DataLoadingTestCase {
 		extractor.addOrder(Order.desc(new Property(TradeTransaction.ID)));
 		List<TradeTransaction> list = service.findByExtractor(extractor);
 		TradeTransaction tradeTransaction = list.get(0);
-		assertEquals("数に誤りがあります", 5L, tradeTransaction.getAmount().longValue());
+		assertEquals("数に誤りがあります", -15L, tradeTransaction.getAmount().longValue());
 		assertEquals("ロールが間違ってます。", 9L, tradeTransaction.getRole().getId().longValue());
 		assertEquals("週が間違ってます。", 4L, tradeTransaction.getWeek().longValue());
 		assertEquals("取引種別が間違ってます。", TransactionType.入荷.name(), tradeTransaction.getTransactionType());
@@ -163,7 +163,7 @@ public class RoleTest extends DataLoadingTestCase {
 		extractor.addOrder(Order.desc(new Property(TradeTransaction.ID)));
 		List<TradeTransaction> list = service.findByExtractor(extractor);
 		TradeTransaction tradeTransaction = list.get(0);
-		assertEquals("数に誤りがあります", 5L, tradeTransaction.getAmount().longValue());
+		assertEquals("数に誤りがあります", -15L, tradeTransaction.getAmount().longValue());
 		assertEquals("ロールが間違ってます。", 9L, tradeTransaction.getRole().getId().longValue());
 		assertEquals("週が間違ってます。", 4L, tradeTransaction.getWeek().longValue());
 		assertEquals("取引種別が間違ってます。", TransactionType.出荷.name(), tradeTransaction.getTransactionType());

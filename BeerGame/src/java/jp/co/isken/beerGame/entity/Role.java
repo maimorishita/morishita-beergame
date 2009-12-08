@@ -103,7 +103,7 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		this.send(TransactionType.発注, amount.toString());
 		if (this.getName().equals(RoleType.メーカ.name())) {
 			Role factory = this.getUpper();
-			factory.outbound();
+			factory.send(TransactionType.出荷, amount.toString());
 		}
 		log.info("発注しました: ロール名 = " + this.getName());
 	}
@@ -153,9 +153,10 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	}
 
 	public Long getOutboundCount() {
-		// TODO 2009/10/31 R.Y & T.I 出荷 = 受注 + 注残をやってまへん
-		// 現在は、Role=9Lを使っていて、在庫 > 受注 + 注残のため、受注をそのまま返す
-		return 5L;
+		Long week = this.getCurrentWeek(TransactionType.受注.name());
+		Long remain = TradeTransaction.calcAmountRemain(week, this);
+		Long stock = TradeTransaction.calcAmountStock(week, this);
+		return (remain <= stock) ? remain : stock;
 	}
 
 	public void disposeAllMessage() throws JMSException {
@@ -198,20 +199,24 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		return (ret == null) ? null : ret.getText();
 	}
 
-	public void initAmount(long l,long m) throws VersionUnmuchException, MessagesIncludingException {
+	public void initAmount(long initStockAmount,long acceptOrderAmount) throws VersionUnmuchException, MessagesIncludingException, JMSException {
 		TradeTransaction tradeTransactionStock = new TradeTransaction();
-		tradeTransactionStock.setAmount(l);
+		tradeTransactionStock.setAmount(initStockAmount);
 		tradeTransactionStock.setRole(this);
 		tradeTransactionStock.setTransactionType(TransactionType.在庫.name());
-		tradeTransactionStock.setWeek(0L);
+		tradeTransactionStock.setWeek(1L);
 		tradeTransactionStock.save();
-		
-		TradeTransaction tradeTransactionOrder = new TradeTransaction();
-		tradeTransactionOrder.setAmount(m);
-		tradeTransactionOrder.setRole(this);
-		tradeTransactionOrder.setTransactionType(TransactionType.発注.name());
-		tradeTransactionOrder.setWeek(0L);
-		tradeTransactionOrder.save();
+
+		// TODO 2009/12/08 imai 入荷トランザクションを作成する必要があるか確認する
+
+		TradeTransaction acceptOrder = new TradeTransaction();
+		acceptOrder.setAmount(acceptOrderAmount);
+		acceptOrder.setRole(this);
+		acceptOrder.setTransactionType(TransactionType.受注.name());
+		acceptOrder.setWeek(1L);
+		acceptOrder.save();
+
+		this.outbound();
 	}
 
 	public Role getUpper() {

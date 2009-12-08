@@ -11,6 +11,7 @@ import jp.co.isken.beerGame.entity.Role;
 import jp.co.isken.beerGame.entity.RoleType;
 import jp.co.isken.beerGame.entity.TradeTransaction;
 import jp.co.isken.beerGame.entity.TransactionLoader;
+import jp.co.isken.beerGame.entity.TransactionType;
 import jp.rough_diamond.commons.extractor.Condition;
 import jp.rough_diamond.commons.extractor.Extractor;
 import jp.rough_diamond.commons.extractor.Order;
@@ -91,24 +92,26 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		// 正常系
 		form.setGame(game1);
 		form.setRole(role);
-		assertTrue(form.isEnableToStartGame());
+		assertTrue("ゲームが開始できていません", form.isEnableToStartGame());
 		// 小売りの第１週のテスト
 		Extractor extractor = new Extractor(TradeTransaction.class);
 		extractor.add(Condition.eq(new Property(TradeTransaction.ROLE), role));
-		extractor.add(Condition.eq(new Property(TradeTransaction.WEEK), 0L));
+		extractor.add(Condition.eq(new Property(TradeTransaction.WEEK), 1L));
 		extractor.addOrder(Order.asc(new Property(TradeTransaction.ID)));
 		List<TradeTransaction> list = service.findByExtractor(extractor);
-		assertEquals(2, list.size());
-		assertEquals("在庫", list.get(0).getTransactionType());
-		assertEquals(12, list.get(0).getAmount().intValue());
-		assertEquals("発注", list.get(1).getTransactionType());
-		assertEquals(4, list.get(1).getAmount().intValue());
+		assertEquals("トランザクションの数に誤りがあります", 3, list.size());
+		assertEquals("在庫トランザクションが作成されていません", TransactionType.在庫.name(), list.get(0).getTransactionType());
+		assertEquals("在庫数に誤りがあります", 12L, list.get(0).getAmount().longValue());
+		assertEquals("受注トランザクションが作成されていません", TransactionType.受注.name(), list.get(1).getTransactionType());
+		assertEquals("受注数に誤りがあります", 4L, list.get(1).getAmount().longValue());
+		assertEquals("出荷トランザクションが作成されていません", TransactionType.出荷.name(), list.get(2).getTransactionType());
+		assertEquals("出荷数に誤りがあります", 4L, list.get(2).getAmount().longValue());
 		// 画面表示のテスト
-		assertEquals(0, form.getInbound().intValue());
-		assertEquals(4, form.getAcceptOrder().intValue());
-		assertEquals(0, form.getOutbound().intValue());
-		assertEquals(0, form.getRemain().intValue());
-		assertEquals(12, form.getStock().intValue());
+		assertEquals("画面の入荷数に誤りがあります", 12L, form.getInbound().longValue());
+		assertEquals("画面の受注数に誤りがあります", 4L, form.getAcceptOrder().longValue());
+		assertEquals("画面の出荷数に誤りがあります", 4L, form.getOutbound().longValue());
+		assertEquals("画面の注文残数に誤りがあります", 0L, form.getRemain().longValue());
+		assertEquals("画面の在庫数に誤りがあります", 8L, form.getStock().longValue());
 		// 異常系
 		form.setGame(game2);
 		assertFalse(form.isEnableToStartGame());
@@ -126,7 +129,7 @@ public class PreGameFormTest extends DataLoadingTestCase {
 
 		// 初期表示のテスト
 		assertEquals(4L, form.getAcceptOrder().longValue());
-		assertEquals(12L, form.getStock().longValue());
+		assertEquals(8L, form.getStock().longValue());
 
 		// 初期在庫のテスト
 		Extractor extractor = new Extractor(TradeTransaction.class);
@@ -235,7 +238,7 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		assertEquals("Greg", form.getRole().getPlayer().getName());
 		// 初期表示のテスト
 		assertEquals(4L, form.getAcceptOrder().longValue());
-		assertEquals(12L, form.getStock().longValue());
+		assertEquals(8L, form.getStock().longValue());
 
 		// 初期在庫のテスト
 		Extractor extractor = new Extractor(TradeTransaction.class);
