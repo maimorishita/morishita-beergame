@@ -43,8 +43,11 @@ public class GameTest extends DataLoadingTestCase {
 	}
 
 	public void testGameCreate() throws Exception {
-		Game g = Game.create("テスト");
-		assertEquals("テスト", g.getName());
+		Game game = Game.create("テスト", "吉岡");
+		assertEquals("テスト", game.getName());
+		assertEquals(RoleType.小売り.name(), game.getOwner().getName());
+		assertEquals("吉岡", game.getOwner().getPlayer().getName());
+		assertTrue(game.getOwner().getPlayer().isIsOwner());
 	}
 
 	public void testIsEnableToStartGame() throws Exception {
@@ -57,11 +60,6 @@ public class GameTest extends DataLoadingTestCase {
 	public void testゲームに紐づく未使用のロールを取得する() throws Exception {
 		Game game = BasicService.getService().findByPK(Game.class, 2L);
 		Set<RoleType> set = game.getUnusedRoles();
-		
-		for (RoleType roleType : set) {
-			System.out.println(roleType.name()); 
-		}
-		
 		assertEquals("未使用のロールが取得できていません",3, set.size());
 	}
 }

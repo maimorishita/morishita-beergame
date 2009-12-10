@@ -40,4 +40,16 @@ velocimacro.library = @velocity.macro@
   <bean id="roleJudge" class="jp.rough_diamond.framework.user.SimpleRoleJudge">
     <description>アクセス制御</description>
   </bean>
+  <bean id="initStockAmount" class="java.lang.Long">
+    <description>初期在庫量</description>
+    <constructor-arg index="0" type="java.lang.String"><value>12</value></constructor-arg>
+  </bean>
+  <bean id="initInboundAmount" class="java.lang.Long">
+    <description>初期入荷量</description>
+    <constructor-arg index="0" type="java.lang.String"><value>4</value></constructor-arg>
+  </bean>
+  <bean id="initAcceptOrderAmount" class="java.lang.Long">
+    <description>初期受注量</description>
+    <constructor-arg index="0" type="java.lang.String"><value>4</value></constructor-arg>
+  </bean>
 </beans>

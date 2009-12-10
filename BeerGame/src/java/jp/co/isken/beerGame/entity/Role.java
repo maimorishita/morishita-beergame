@@ -11,12 +11,14 @@ import javax.jms.QueueSender;
 import javax.jms.QueueSession;
 import javax.jms.TextMessage;
 
+import jp.rough_diamond.commons.di.DIContainerFactory;
 import jp.rough_diamond.commons.extractor.Condition;
 import jp.rough_diamond.commons.extractor.Extractor;
 import jp.rough_diamond.commons.extractor.Order;
 import jp.rough_diamond.commons.extractor.Property;
 import jp.rough_diamond.commons.resource.MessagesIncludingException;
 import jp.rough_diamond.commons.service.BasicService;
+import jp.rough_diamond.commons.service.annotation.PrePersist;
 import jp.rough_diamond.framework.transaction.VersionUnmuchException;
 
 import org.apache.activemq.ActiveMQConnection;
@@ -179,23 +181,10 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		return (ret == null) ? null : ret.getText();
 	}
 
-	public void initAmount(long initStockAmount,long acceptOrderAmount) throws VersionUnmuchException, MessagesIncludingException, JMSException {
-		TradeTransaction tradeTransactionStock = new TradeTransaction();
-		tradeTransactionStock.setAmount(initStockAmount);
-		tradeTransactionStock.setRole(this);
-		tradeTransactionStock.setTransactionType(TransactionType.在庫.name());
-		tradeTransactionStock.setWeek(1L);
-		tradeTransactionStock.save();
-
-		// TODO 2009/12/08 imai 入荷トランザクションを作成する必要があるか確認する
-
-		TradeTransaction acceptOrder = new TradeTransaction();
-		acceptOrder.setAmount(acceptOrderAmount);
-		acceptOrder.setRole(this);
-		acceptOrder.setTransactionType(TransactionType.受注.name());
-		acceptOrder.setWeek(1L);
-		acceptOrder.save();
-
+	public void initAmount() throws VersionUnmuchException, MessagesIncludingException, JMSException {
+		this.createTransaction(TransactionType.在庫, DIContainerFactory.getDIContainer().getObject(Long.class, "initStockAmount"));
+		this.createTransaction(TransactionType.入荷, DIContainerFactory.getDIContainer().getObject(Long.class, "initInboundAmount"));
+		this.createTransaction(TransactionType.受注, DIContainerFactory.getDIContainer().getObject(Long.class, "initAcceptOrderAmount"));
 		this.outbound();
 	}
 
@@ -232,5 +221,10 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		e.addOrder(Order.desc(new Property(TradeTransaction.WEEK)));
 		List<TradeTransaction> list = service.findByExtractor(e);
 		return (list.size() == 0 ? null : list.get(0));
+	}
+
+	@PrePersist
+	public void savePlayer() throws VersionUnmuchException, MessagesIncludingException {
+		this.getPlayer().save();
 	}
 }

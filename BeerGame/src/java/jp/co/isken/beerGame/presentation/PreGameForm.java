@@ -36,40 +36,10 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 	}
 
 	public boolean addGame() {
-		Game game = Game.create(this.getTeamName());
-		
-		Role role = new Role();
-		role.setName("小売り");
-		Player player = new Player();
-		player.setName(getOwnerName());
-		player.setIsOwner(true);
-		player.setGame(game);
-		role.setPlayer(player);
-		
-		Role marcket = new Role();
-		marcket.setName("市場");
-		Player mPlayer = new Player();
-		mPlayer.setName("市場");
-		mPlayer.setIsOwner(false);
-		mPlayer.setGame(game);
-		marcket.setPlayer(mPlayer);
-		
-		Role factory = new Role();
-		factory.setName("工場");
-		Player fPlayer = new Player();
-		fPlayer.setName("工場");
-		fPlayer.setIsOwner(false);
-		fPlayer.setGame(game);
-		factory.setPlayer(fPlayer);
 		try {
+			Game game = Game.create(this.getTeamName(), this.getOwnerName());
 			game.save();
-			player.save();
-			mPlayer.save();
-			fPlayer.save();
-			role.save();
-			marcket.save();
-			factory.save();
-			this.setRole(role);
+			this.setRole(game.getRole(RoleType.小売り));
 			this.setGame(game);
 			return true;
 		} catch (VersionUnmuchException e) {
@@ -93,7 +63,6 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 			Role role = new Role();
 			role.setName(this.getRoleName());
 			role.setPlayer(player);
-			player.save();
 			role.save();
 			this.setGame(game);
 			this.setRole(role);
@@ -125,14 +94,8 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 	public boolean isEnableToStartGame() {
 		if (this.getGame().isEnableToStart()) {
 			try {
-				// orderSet();
-				this.getRole().initAmount(12L, 4L);
-				// TODO TradeTransactionから取得するよう変更しましょうね　中原＆森下
-				this.setStock(8L);
-				this.setAcceptOrder(4L);
-				this.setInbound(12L);
-				this.setOutbound(4L);
-				this.setRemain(0L);
+				this.getRole().initAmount();
+				this.refreshView();
 				return true;
 			} catch (VersionUnmuchException e) {
 				Messages msgs = new Messages();
@@ -155,11 +118,7 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 			this.getRole().inbound();
 			this.getRole().acceptOrder();
 			this.getRole().outbound();
-			this.setInbound(getRole().getTransaction(TransactionType.入荷).getAmount().longValue());
-			this.setOutbound(getRole().getTransaction(TransactionType.出荷).getAmount().longValue());
-			this.setAcceptOrder(getRole().getTransaction(TransactionType.受注).getAmount().longValue());
-			this.setRemain(TradeTransaction.calcAmountRemain(this.getRole().getWeek(TransactionType.受注.name()), this.getRole()));
-			this.setStock(TradeTransaction.calcAmountStock(this.getRole().getWeek(TransactionType.入荷.name()), this.getRole()));
+			this.refreshView();
 		} catch (NumberFormatException e) {
 			Messages msgs = new Messages();
 			msgs.add("", new Message("errors.invalid.orderamount"));
@@ -175,14 +134,21 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 		}
 	}
 
+	private void refreshView() {
+		this.setInbound(getRole().getTransaction(TransactionType.入荷).getAmount().longValue());
+		this.setOutbound(getRole().getTransaction(TransactionType.出荷).getAmount().longValue());
+		this.setAcceptOrder(getRole().getTransaction(TransactionType.受注).getAmount().longValue());
+		this.setRemain(TradeTransaction.calcAmountRemain(this.getRole().getWeek(TransactionType.受注.name()), this.getRole()));
+		this.setStock(TradeTransaction.calcAmountStock(this.getRole().getWeek(TransactionType.入荷.name()), this.getRole()));
+	}
+
 	public List<Game> getGameAll() {
 		return Game.getAll();
 	}
 
 	public boolean login() {
 		this.setGame(BasicService.getService().findByPK(Game.class, this.getGameId()));
-		RoleType type = RoleType.getRoleTypeByName(this.getRoleName());
-		this.setRole(Role.getRole(this.getGame(), type));
+		this.setRole(this.getGame().getRole(this.getRoleName()));
 		if (this.getRole() != null) {
 			//第１週からスタートする場合は、初期設定を行う　morishita
 			if (this.getRole().getWeek(TransactionType.出荷.name()) == 1L) {
