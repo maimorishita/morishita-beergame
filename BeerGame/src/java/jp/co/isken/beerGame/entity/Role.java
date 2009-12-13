@@ -227,4 +227,18 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	public void savePlayer() throws VersionUnmuchException, MessagesIncludingException {
 		this.getPlayer().save();
 	}
+
+	public static List<Role> getRoles(Game game) {
+		BasicService service = BasicService.getService();
+		Extractor extractor = new Extractor(Role.class);
+		extractor.add(Condition.eq(
+				new Property(Role.PLAYER + "." + Player.GAME), game));
+		extractor.add(Condition.notEq(
+				new Property(Role.NAME), "ésèÍ"));
+		extractor.add(Condition.notEq(
+				new Property(Role.NAME), "çHèÍ"));
+		extractor.addOrder(Order.asc(new Property(Role.ID)));
+		List<Role> roles = service.findByExtractor(extractor);
+		return roles;
+	}
 }

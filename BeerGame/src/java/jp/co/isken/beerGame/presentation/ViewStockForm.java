@@ -23,7 +23,7 @@ public class ViewStockForm extends jp.co.isken.beerGame.presentation.base.BaseVi
     }
     
     public List<Role> getRoles(){
-    	return Game.getRoles(Game.getGameByName(this.getTeamName()));
+    	return Role.getRoles(Game.getGameByName(this.getTeamName()));
     }
     
     public Map<Long, Long> getStockList(String gameName, String roleName){

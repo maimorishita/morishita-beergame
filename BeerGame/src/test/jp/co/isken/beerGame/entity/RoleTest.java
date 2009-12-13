@@ -268,4 +268,15 @@ public class RoleTest extends DataLoadingTestCase {
 			role.disposeAllMessage();
 		}
 	}
+	
+	public void testsê‚ÆHêˆÈŠO‚Ìƒ[ƒ‹‚ğæ“¾‚·‚é(){
+		BasicService service =  BasicService.getService();
+		Game game = service.findByPK(Game.class, 4L);
+		List<Role> roles = Role.getRoles(game);
+		assertEquals(4, roles.size());
+		assertEquals("¬”„‚è", roles.get(0).getName());
+		assertEquals("‰µ‚P", roles.get(1).getName());
+		assertEquals("‰µ‚Q", roles.get(2).getName());
+		assertEquals("ƒ[ƒJ", roles.get(3).getName());	
+	}
 }
