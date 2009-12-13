@@ -1,6 +1,7 @@
 //$Id: BeansTemplate.vm,v 1.1 2005/10/27 15:43:53 yamane Exp $
 package jp.co.isken.beerGame.presentation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -12,6 +13,10 @@ import jp.co.isken.beerGame.entity.Role;
 import jp.co.isken.beerGame.entity.RoleType;
 import jp.co.isken.beerGame.entity.TradeTransaction;
 import jp.co.isken.beerGame.entity.TransactionType;
+import jp.rough_diamond.commons.extractor.Condition;
+import jp.rough_diamond.commons.extractor.Extractor;
+import jp.rough_diamond.commons.extractor.Order;
+import jp.rough_diamond.commons.extractor.Property;
 import jp.rough_diamond.commons.resource.Message;
 import jp.rough_diamond.commons.resource.Messages;
 import jp.rough_diamond.commons.resource.MessagesIncludingException;
@@ -157,5 +162,24 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 			return this.getGame().isEnableToStart();
 		}
 		return false;
+	}
+	
+	
+	public List<List<TradeTransaction>> getDebagView() {
+		List<List<TradeTransaction>> ret = new ArrayList<List<TradeTransaction>>();
+		for (int i = 1; i < this.getRole().getWeek(TransactionType.ì¸â◊.name())
+				.intValue(); i++) {
+			ret.add(getTransaction(i));
+		}
+		return ret;
+	}
+
+	private List<TradeTransaction> getTransaction(int i) {
+		Extractor e = new Extractor(TradeTransaction.class);
+		e.add(Condition.eq(new Property(TradeTransaction.ROLE), this.getRole()));
+		e.add(Condition.notEq(new Property(TradeTransaction.TRANSACTION_TYPE), "ç›å…"));
+		e.add(Condition.eq(new Property(TradeTransaction.WEEK), new Long(i)));
+		e.addOrder(Order.asc(new Property(TradeTransaction.ID)));
+		return BasicService.getService().findByExtractor(e);
 	}
 }
