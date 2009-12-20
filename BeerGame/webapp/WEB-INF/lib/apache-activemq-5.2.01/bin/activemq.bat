@@ -1,5 +1,7 @@
 @echo off
 
+set SUNJMX=-Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
+
 REM ------------------------------------------------------------------------
 REM Licensed to the Apache Software Foundation (ASF) under one or more
 REM contributor license agreements.  See the NOTICE file distributed with

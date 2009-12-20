@@ -19,7 +19,7 @@
   <input type="hidden" name="command" />
   <div id="main">
     <h1>ビールゲーム</h1>
-    <p>ゲーム名：$form.game.name  第 $form.role.getWeek("発注") 週  ロール：$form.role.name プレイヤ：$form.role.player.name</p>
+    <p>ゲーム名：$form.game.name  第 $form.role.getCurrentWeek("発注") 週  ロール：$form.role.name プレイヤ：$form.role.player.name</p>
   <table border=2>
     <tr>
       <td>入荷</td>

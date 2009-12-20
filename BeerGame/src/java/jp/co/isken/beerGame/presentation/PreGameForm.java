@@ -143,8 +143,8 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 		this.setInbound(getRole().getTransaction(TransactionType.入荷).getAmount().longValue());
 		this.setOutbound(getRole().getTransaction(TransactionType.出荷).getAmount().longValue());
 		this.setAcceptOrder(getRole().getTransaction(TransactionType.受注).getAmount().longValue());
-		this.setRemain(TradeTransaction.calcAmountRemain(this.getRole().getWeek(TransactionType.受注.name()), this.getRole()));
-		this.setStock(TradeTransaction.calcAmountStock(this.getRole().getWeek(TransactionType.入荷.name()), this.getRole()));
+		this.setRemain(TradeTransaction.calcAmountRemain(this.getRole().getLastWeek(TransactionType.受注.name()), this.getRole()));
+		this.setStock(TradeTransaction.calcAmountStock(this.getRole().getLastWeek(TransactionType.入荷.name()), this.getRole()));
 	}
 
 	public List<Game> getGameAll() {
@@ -156,9 +156,10 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 		this.setRole(this.getGame().getRole(this.getRoleName()));
 		if (this.getRole() != null) {
 			//第１週からスタートする場合は、初期設定を行う　morishita
-			if (this.getRole().getWeek(TransactionType.出荷.name()) == 1L) {
+			if (this.getRole().getLastWeek(TransactionType.出荷.name()) == 1L) {
 				return this.isEnableToStartGame();
 			}
+			this.refreshView();
 			return this.getGame().isEnableToStart();
 		}
 		return false;
@@ -167,7 +168,7 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 	
 	public List<List<TradeTransaction>> getDebagView() {
 		List<List<TradeTransaction>> ret = new ArrayList<List<TradeTransaction>>();
-		for (int i = 1; i < this.getRole().getWeek(TransactionType.入荷.name())
+		for (int i = 1; i < this.getRole().getLastWeek(TransactionType.入荷.name())
 				.intValue(); i++) {
 			ret.add(getTransaction(i));
 		}

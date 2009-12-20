@@ -34,18 +34,18 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 
 	private final static Log log = LogFactory.getLog(Role.class);
 	
-	public Long getWeek(String transactionType) {
+	public Long getLastWeek(String transactionType) {
 		Extractor extractor = new Extractor(TradeTransaction.class);
 		extractor.add(Condition.eq(new Property(TradeTransaction.ROLE), this));
 		extractor.add(Condition.eq(new Property(TradeTransaction.TRANSACTION_TYPE), transactionType));
 		extractor.addOrder(Order.desc(new Property(TradeTransaction.WEEK)));
 		extractor.setLimit(1);
 		List<TradeTransaction> list = BasicService.getService().findByExtractor(extractor);
-		return (list.size() == 0) ? 1L : list.get(0).getWeek() + 1;
+		return (list.size() == 0) ? 0L : list.get(0).getWeek();
 	}
 
 	public Long getCurrentWeek(String transactionType) {
-		return this.getWeek(transactionType);
+		return this.getLastWeek(transactionType) + 1L;
 	}
 
 	public void send(TransactionType type, String message) throws JMSException {

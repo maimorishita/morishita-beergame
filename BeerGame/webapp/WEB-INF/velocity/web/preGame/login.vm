@@ -27,7 +27,7 @@
       <tr>
         <td>チーム名 </td>
         <td colspan=2>
-          <select name="gameId" ">
+          <select name="gameId">
 #foreach($game in $!currentForm.getGameAll())
                <option value="$game.id">$!{game.name}</option>
 #end
