@@ -23,8 +23,7 @@ public class TradeTransaction extends jp.co.isken.beerGame.entity.base.BaseTrade
 			String roleName) {
 		Game game = Game.getGameByName(gameName);
 		Role role = game.getRole(roleName);
-		//FIXME これでいいのか？　現在は仮で受注の最終週を取得している　2009/10/31
-		return getRemainList(role.getLastWeek(TransactionType.受注.name()), role);
+		return getRemainList(role.getLastWeek(TransactionType.出荷.name()), role);
 	}
 
 	private static Map<Long, Long> getRemainList(Long week, Role role) {
@@ -36,13 +35,13 @@ public class TradeTransaction extends jp.co.isken.beerGame.entity.base.BaseTrade
 	}
 
 	public static Long calcAmountRemain(Long week, Role role) {
-		return calcAmount(week, role, "受注") - calcAmount(week, role, "出荷");	}
+		return calcAmount(week, role, TransactionType.受注.name()) - calcAmount(week, role, TransactionType.出荷.name());
+	}
 
 	public static Map<Long, Long> getStockAmount(String gameName, String roleName) {
 		Game game = Game.getGameByName(gameName);
 		Role role = game.getRole(roleName);
-		//FIXME これでいいのか？　現在は仮で受注の最終週を取得している　2009/10/31
-		return getStockList(role.getLastWeek(TransactionType.入荷.name())-1, role);
+		return getStockList(role.getLastWeek(TransactionType.出荷.name()), role);
 	}
 
 	public static Map<Long, Long> getStockList(Long week, Role role) {

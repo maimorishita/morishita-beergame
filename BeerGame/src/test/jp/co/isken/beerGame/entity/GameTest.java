@@ -1,6 +1,7 @@
 package jp.co.isken.beerGame.entity;
 
 import java.util.List;
+import java.util.Set;
 
 import jp.rough_diamond.commons.service.BasicService;
 import jp.rough_diamond.commons.testing.DataLoadingTestCase;
@@ -16,12 +17,12 @@ public class GameTest extends DataLoadingTestCase {
 
 	public void test参加可能なゲームのリストを取得する() throws Exception {
 		List<Game> list = Game.getWaitingGameList();
-		assertEquals(0, list.size());
+		assertEquals("参加可能なゲームの数に誤りがあります", 1, list.size());
 	}
 
 	public void testすべてのチームを取得する() throws Exception {
 		List<Game> list = Game.getAll();
-		assertEquals(1, list.size());
+		assertEquals("すべてのチームの数に誤りがあります", 4, list.size());
 	}
 
 	public void testGameに紐づくすべてのロールを取得する() throws Exception {
@@ -52,15 +53,13 @@ public class GameTest extends DataLoadingTestCase {
 	public void testIsEnableToStartGame() throws Exception {
 		Game game1 = BasicService.getService().findByPK(Game.class, 1L);
 		assertTrue(game1.isEnableToStart());
-		//TODO 2009/12/20 imai,yoshioka テストデータ修正の為一時的にコメントアウト
-		//Game game2 = BasicService.getService().findByPK(Game.class, 6L);
-		//assertFalse(game2.isEnableToStart());
+		Game game2 = BasicService.getService().findByPK(Game.class, 3L);
+		assertFalse(game2.isEnableToStart());
 	}
 	
 	public void testゲームに紐づく未使用のロールを取得する() throws Exception {
-		//TODO 2009/12/20 imai,yoshioka テストデータ修正の為一時的にコメントアウト
-//		Game game = BasicService.getService().findByPK(Game.class, 1L);
-//		Set<RoleType> set = game.getUnusedRoles();
-//		assertEquals("未使用のロールが取得できていません",3, set.size());
+		Game game = BasicService.getService().findByPK(Game.class, 3L);
+		Set<RoleType> set = game.getUnusedRoles();
+		assertEquals("未使用のロールが取得できていません", 3, set.size());
 	}
 }

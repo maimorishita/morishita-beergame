@@ -18,7 +18,6 @@ public class QueueResetter {
 			QueueResetter resetter = new QueueResetter();
 			resetter.disposeAllMessage();
 		} catch (JMSException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -27,6 +26,7 @@ public class QueueResetter {
 	 * MQのメッセージを初期化します。
 	 * @throws JMSException
 	 */
+	@SuppressWarnings("deprecation")
 	public void disposeAllMessage() throws JMSException {
 		Extractor extractor = new Extractor(Role.class);
 		extractor.add(Condition.in(Role.NAME, RoleType.小売り.name(), RoleType.卸１.name(),RoleType.卸２.name(),RoleType.メーカ.name()));

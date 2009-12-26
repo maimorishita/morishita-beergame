@@ -1,13 +1,18 @@
 package jp.co.isken.beerGame.presentation;
 
 import java.util.List;
+import java.util.Set;
 
 import jp.co.isken.beerGame.entity.BusinessMasterLoader;
 import jp.co.isken.beerGame.entity.Game;
 import jp.co.isken.beerGame.entity.MasterLoader;
 import jp.co.isken.beerGame.entity.NumberingLoader;
+import jp.co.isken.beerGame.entity.Role;
+import jp.co.isken.beerGame.entity.RoleType;
+import jp.co.isken.beerGame.entity.TradeTransaction;
 import jp.co.isken.beerGame.entity.TransactionLoader;
 import jp.co.isken.beerGame.entity.TransactionType;
+import jp.rough_diamond.commons.service.BasicService;
 import jp.rough_diamond.commons.testing.DataLoadingTestCase;
 
 public class PreGameFormTest extends DataLoadingTestCase {
@@ -72,68 +77,39 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		assertFalse("ロールを選択しないで登録できています。", form.addPlayer());
 	}
 
-	// TODO 2009/12/20 imai,yoshioka テストデータ修正の為一時的にコメントアウト
-//	/**
-//	 * 待機画面からゲームの開始画面へ遷移するテスト
-//	 */
-//	public void testIsEnableToStartGame() throws Exception {
-//		BasicService service = BasicService.getService();
-//		Role role = service.findByPK(Role.class, 1L);
-//		Game game = service.findByPK(Game.class, 1L);
-//		// 正常系
-//		form.setGame(game);
-//		form.setRole(role);
-//		assertTrue("ゲームが開始できていません", form.isEnableToStartGame());
-//		// 小売りの第１週のテスト
-//		TradeTransaction transaction = form.getRole().getTransaction(TransactionType.在庫);
-//		assertEquals("在庫トランザクションが作成されていません", TransactionType.在庫.name(), transaction.getTransactionType());
-//		assertEquals("在庫数に誤りがあります", 12L, transaction.getAmount().longValue());
-//		transaction = form.getRole().getTransaction(TransactionType.入荷);
-//		assertEquals("入荷トランザクションが作成されていません", TransactionType.入荷.name(), transaction.getTransactionType());
-//		assertEquals("受注数に誤りがあります", 4L, transaction.getAmount().longValue());
-//		transaction = form.getRole().getTransaction(TransactionType.受注);
-//		assertEquals("受注トランザクションが作成されていません", TransactionType.受注.name(), transaction.getTransactionType());
-//		assertEquals("受注数に誤りがあります", 4L, transaction.getAmount().longValue());
-//		transaction = form.getRole().getTransaction(TransactionType.出荷);
-//		assertEquals("出荷トランザクションが作成されていません", TransactionType.出荷.name(), transaction.getTransactionType());
-//		assertEquals("出荷数に誤りがあります", 4L, transaction.getAmount().longValue());
-//		// 画面表示のテスト
-//		assertEquals("画面の入荷数に誤りがあります", 4L, form.getInbound().longValue());
-//		assertEquals("画面の受注数に誤りがあります", 4L, form.getAcceptOrder().longValue());
-//		assertEquals("画面の出荷数に誤りがあります", 4L, form.getOutbound().longValue());
-//		assertEquals("画面の注文残数に誤りがあります", 0L, form.getRemain().longValue());
-//		assertEquals("画面の在庫数に誤りがあります", 12L, form.getStock().longValue());
-//		// TODO 2009/12/20 imai,yoshioka テストデータ修正の為一時的にコメントアウト
-//		// 異常系
-//		// Game game2 = service.findByPK(Game.class, 6L);
-//		// form.setGame(game2);
-//		// assertFalse(form.isEnableToStartGame());
-//	}
-
-	// TODO 2009/12/20 imai,yoshioka テストデータ修正の為一時的にコメントアウト
-	// public void test初期設定を行う() throws Exception {
-	// BasicService service = BasicService.getService();
-	// Role role = service.findByPK(Role.class, 11L);
-	// Game game1 = service.findByPK(Game.class, 5L);
-	// // Game game2 = service.findByPK(Game.class, 6L);
-	// // 正常系
-	// form.setGame(game1);
-	// form.setRole(role);
-	// form.isEnableToStartGame();
-	//
-	// // 初期表示のテスト
-	// assertEquals(4L, form.getAcceptOrder().longValue());
-	// assertEquals(12L, form.getStock().longValue());
-	//
-	// // 初期在庫のテスト
-	// Extractor extractor = new Extractor(TradeTransaction.class);
-	// extractor.add(Condition.eq(new Property(TradeTransaction.ROLE), role));
-	// extractor.add(Condition.eq(new
-	// Property(TradeTransaction.TRANSACTION_TYPE), "在庫"));
-	// extractor.addOrder(Order.asc(new Property(TradeTransaction.ID)));
-	// List<TradeTransaction> list = service.findByExtractor(extractor);
-	// assertEquals(12L, list.get(0).getAmount().longValue());
-	// }
+	public void testIsEnableToStartGame() throws Exception {
+		// 待機画面からゲームの開始画面へ遷移するテスト
+		BasicService service = BasicService.getService();
+		Role role = service.findByPK(Role.class, 16L);
+		Game game = service.findByPK(Game.class, 4L);
+		// 正常系
+		form.setGame(game);
+		form.setRole(role);
+		assertTrue("ゲームが開始できていません", form.isEnableToStartGame());
+		// 小売りの第１週のテスト
+		TradeTransaction transaction = form.getRole().getTransaction(TransactionType.在庫);
+		assertEquals("在庫トランザクションが作成されていません", TransactionType.在庫.name(), transaction.getTransactionType());
+		assertEquals("在庫数に誤りがあります", 12L, transaction.getAmount().longValue());
+		transaction = form.getRole().getTransaction(TransactionType.入荷);
+		assertEquals("入荷トランザクションが作成されていません", TransactionType.入荷.name(), transaction.getTransactionType());
+		assertEquals("受注数に誤りがあります", 4L, transaction.getAmount().longValue());
+		transaction = form.getRole().getTransaction(TransactionType.受注);
+		assertEquals("受注トランザクションが作成されていません", TransactionType.受注.name(), transaction.getTransactionType());
+		assertEquals("受注数に誤りがあります", 4L, transaction.getAmount().longValue());
+		transaction = form.getRole().getTransaction(TransactionType.出荷);
+		assertEquals("出荷トランザクションが作成されていません", TransactionType.出荷.name(), transaction.getTransactionType());
+		assertEquals("出荷数に誤りがあります", 4L, transaction.getAmount().longValue());
+		// 画面表示のテスト
+		assertEquals("画面の入荷数に誤りがあります", 4L, form.getInbound().longValue());
+		assertEquals("画面の受注数に誤りがあります", 4L, form.getAcceptOrder().longValue());
+		assertEquals("画面の出荷数に誤りがあります", 4L, form.getOutbound().longValue());
+		assertEquals("画面の注文残数に誤りがあります", 0L, form.getRemain().longValue());
+		assertEquals("画面の在庫数に誤りがあります", 12L, form.getStock().longValue());
+		// 異常系
+		 Game game2 = service.findByPK(Game.class, 3L);
+		 form.setGame(game2);
+		 assertFalse(form.isEnableToStartGame());
+	}
 
 	// // FIXME 2009/11/22 imai yoshioka MQを使うようにしたので、下記の一時的なコーディングだと不具合が発生してます
 	// public void test一回目の発注処理テスト() throws Exception {
@@ -214,17 +190,15 @@ public class PreGameFormTest extends DataLoadingTestCase {
 	// assertEquals(3, form.getRemain().intValue());
 	// }
 
-	// TODO 2009/12/20 imai,yoshioka テストデータ修正の為一時的にコメントアウト
-	// public void test未選択のロールを取得する() throws Exception {
-	// form.setGameId(2L);
-	// Set<RoleType> set = form.getWaitingRoleList();
-	// assertEquals(3, set.size());
-	// }
+	public void test未選択のロールを取得する() throws Exception {
+		form.setGameId(3L);
+		Set<RoleType> set = form.getWaitingRoleList();
+		assertEquals("未選択のロールの数に誤りがあります", 3, set.size());
+	}
 
 	public void testgetGameAll() throws Exception {
 		List<Game> games = form.getGameAll();
-		assertEquals(1, games.size());
-		assertEquals("NOAH", games.get(0).getName());
+		assertEquals("すべてのゲームの数に誤りがあります", 4, games.size());
 	}
 
 	public void testチームとロールを選んでログインする() {
@@ -240,11 +214,10 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		// 初期在庫のテスト
 		assertEquals(12L, form.getRole().getTransaction(TransactionType.在庫).getAmount().longValue());
 
-		// TODO 2009/12/20 imai,yoshioka テストデータ修正の為一時的にコメントアウト
 		// 異常系
-		// form = new PreGameForm();
-		// form.setGameId(6L);
-		// form.setRoleName("メーカ");
-		// assertFalse(form.login());
+		form = new PreGameForm();
+		form.setGameId(3L);
+		form.setRoleName("メーカ");
+		assertFalse(form.login());
 	}
 }

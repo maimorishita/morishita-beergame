@@ -125,51 +125,50 @@ public class RoleTest extends DataLoadingTestCase {
 		assertEquals("発注数が誤っています。", 8L , supplier2.getOrderAmount().longValue());
 	}
 
-	//TODO 2009/12/20 imai yoshioka 時間がないので一時的にコメントアウト
-//	public void test入荷の取引記録を登録する() throws Exception {
-//		BasicService service = BasicService.getService();
-//		// 初期処理
-//		Role supplier2 = BasicService.getService().findByPK(Role.class, 3L);
-//		supplier2.disposeAllMessage();
-//		// 本処理
-//		Role maker = BasicService.getService().findByPK(Role.class, 4L);
-//		maker.outbound();
-//		// Role4Lの第4週から出荷数を受け取る
-//		// 入荷の取引記録を登録する
-//		long count = service.getCountByExtractor(new Extractor(TradeTransaction.class));
-//		supplier2 = BasicService.getService().findByPK(Role.class, 3L);
-//		supplier2.inbound();
-//		assertEquals("取得件数が誤っています。", count + 1, service.getCountByExtractor(new Extractor(TradeTransaction.class)));
-//		Extractor extractor = new Extractor(TradeTransaction.class);
-//		extractor.addOrder(Order.desc(new Property(TradeTransaction.ID)));
-//		List<TradeTransaction> list = service.findByExtractor(extractor);
-//		TradeTransaction tradeTransaction = list.get(0);
-//		assertEquals("数に誤りがあります", 4L, tradeTransaction.getAmount().longValue());
-//		assertEquals("ロールが間違ってます。", 9L, tradeTransaction.getRole().getId().longValue());
-//		assertEquals("週が間違ってます。", 4L, tradeTransaction.getWeek().longValue());
-//		assertEquals("取引種別が間違ってます。", TransactionType.入荷.name(), tradeTransaction.getTransactionType());
-//	}
+	public void test入荷の取引記録を登録する() throws Exception {
+		BasicService service = BasicService.getService();
+		// メーカーから卸2への入荷を想定する
+		// 初期処理
+		Role supplier2 = BasicService.getService().findByPK(Role.class, 9L);
+		supplier2.disposeAllMessage();
+		// 本処理
+		// メーカーが受注記録をもとに出荷する
+		Role maker = BasicService.getService().findByPK(Role.class, 10L);
+		maker.outbound();
+		// メーカーからの出荷データを受けて入荷の取引記録を登録する
+		long count = service.getCountByExtractor(new Extractor(TradeTransaction.class));
+		supplier2 = BasicService.getService().findByPK(Role.class, 9L);
+		supplier2.inbound();
+		assertEquals("取得件数が誤っています。", count + 1, service.getCountByExtractor(new Extractor(TradeTransaction.class)));
+		Extractor extractor = new Extractor(TradeTransaction.class);
+		extractor.addOrder(Order.desc(new Property(TradeTransaction.ID)));
+		List<TradeTransaction> list = service.findByExtractor(extractor);
+		TradeTransaction tradeTransaction = list.get(0);
+		// 入荷のトランザクションが正しく作られたか？
+		assertEquals("数に誤りがあります", 4L, tradeTransaction.getAmount().longValue());
+		assertEquals("ロールが間違ってます。", 9L, tradeTransaction.getRole().getId().longValue());
+		assertEquals("週が間違ってます。", 1L, tradeTransaction.getWeek().longValue());
+		assertEquals("取引種別が間違ってます。", TransactionType.入荷.name(), tradeTransaction.getTransactionType());
+	}
 
-	//TODO 2009/12/20 imai yoshioka 時間がないので一時的にコメントアウト
-//	public void test出荷の取引記録を登録する() throws Exception {
-//		BasicService service = BasicService.getService();
-//		// Role10Lの第三週から出荷数を受け取る 10L
-//		// 現在在庫を計算する 25L
-//		// Role8Lの発注数を受け取る 5L
-//		// 出荷の取引記録を登録する 5L
-//		long count = service.getCountByExtractor(new Extractor(TradeTransaction.class));
-//		Role role = BasicService.getService().findByPK(Role.class, 9L);
-//		role.outbound();
-//		assertEquals("取得件数が誤っています。", count + 1, service.getCountByExtractor(new Extractor(TradeTransaction.class)));
-//		Extractor extractor = new Extractor(TradeTransaction.class);
-//		extractor.addOrder(Order.desc(new Property(TradeTransaction.ID)));
-//		List<TradeTransaction> list = service.findByExtractor(extractor);
-//		TradeTransaction tradeTransaction = list.get(0);
-//		assertEquals("数に誤りがあります", -15L, tradeTransaction.getAmount().longValue());
-//		assertEquals("ロールが間違ってます。", 9L, tradeTransaction.getRole().getId().longValue());
-//		assertEquals("週が間違ってます。", 4L, tradeTransaction.getWeek().longValue());
-//		assertEquals("取引種別が間違ってます。", TransactionType.出荷.name(), tradeTransaction.getTransactionType());
-//	}
+	public void test出荷の取引記録を登録する() throws Exception {
+		BasicService service = BasicService.getService();
+		long count = service.getCountByExtractor(new Extractor(TradeTransaction.class));
+		// メーカーが受注記録をもとに出荷する
+		Role maker = BasicService.getService().findByPK(Role.class, 10L);
+		maker.outbound();
+		// トランザクションの数が1つ増えているか？
+		assertEquals("取得件数が誤っています。", count + 1, service.getCountByExtractor(new Extractor(TradeTransaction.class)));
+		Extractor extractor = new Extractor(TradeTransaction.class);
+		extractor.addOrder(Order.desc(new Property(TradeTransaction.ID)));
+		List<TradeTransaction> list = service.findByExtractor(extractor);
+		TradeTransaction tradeTransaction = list.get(0);
+		// 出荷のトランザクションが正しく作られたか？
+		assertEquals("数に誤りがあります", 4L, tradeTransaction.getAmount().longValue());
+		assertEquals("ロールが間違ってます。", 10L, tradeTransaction.getRole().getId().longValue());
+		assertEquals("週が間違ってます。", 1L, tradeTransaction.getWeek().longValue());
+		assertEquals("取引種別が間違ってます。", TransactionType.出荷.name(), tradeTransaction.getTransactionType());
+	}
 
 	public void test上流のロールを取得する() throws Exception {
 		BasicService service = BasicService.getService();

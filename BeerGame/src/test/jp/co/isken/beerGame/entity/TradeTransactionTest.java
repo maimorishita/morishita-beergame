@@ -56,13 +56,12 @@ public class TradeTransactionTest extends DataLoadingTestCase {
 		assertEquals("—İŒvİŒÉ‚ªŠÔˆá‚Á‚Ä‚¢‚Ü‚·B", 2, rltStock.get(5L).intValue());
 	}
 
-	//TODO 2009/12/20 imai,yoshioka ƒeƒXƒgƒf[ƒ^C³‚Ìˆ×ˆê“I‚ÉƒRƒƒ“ƒgƒAƒEƒg
-//	public void testƒ[ƒ‹‚ÆƒQ[ƒ€–¼‚ğˆø”‚É‚µ‚ÄİŒÉ‚ğæ“¾‚·‚é() throws Exception {
-//		// TODO ¬”„‚è‚ğ¬”„‚ÉC³‚·‚éH 10/4 X‰º
-//		Map<Long, Long> list = TradeTransaction.getStockAmount("test", "¬”„‚è");
-//		assertEquals(3, list.size());
-//		assertEquals(5, list.get(1L).intValue());
-//		assertEquals(10, list.get(2L).intValue());
-//		assertEquals(15, list.get(3L).intValue());
-//	}
+	public void testƒ[ƒ‹‚ÆƒQ[ƒ€–¼‚ğˆø”‚É‚µ‚ÄİŒÉ‚ğæ“¾‚·‚é() throws Exception {
+		Map<Long, Long> list = TradeTransaction.getStockAmount("NOAH", RoleType.‰µ‚Q.name());
+		assertEquals("İŒÉ‚ğZo‚·‚éT‚Ì”‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 4, list.size());
+		assertEquals("‚PT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 12, list.get(1L).intValue());
+		assertEquals("‚QT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 12, list.get(2L).intValue());
+		assertEquals("‚RT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 6, list.get(3L).intValue());
+		assertEquals("‚ST–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 0, list.get(4L).intValue());
+	}
 }
