@@ -52,4 +52,8 @@ velocimacro.library = @velocity.macro@
     <description>‰Šúó’—Ê</description>
     <constructor-arg index="0" type="java.lang.String"><value>4</value></constructor-arg>
   </bean>
+  <bean id="lastWeekOfGame" class="java.lang.Long">
+    <description>ƒQ[ƒ€ÅIT</description>
+    <constructor-arg index="0" type="java.lang.String"><value>36</value></constructor-arg>
+  </bean>
 </beans>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import jp.rough_diamond.commons.di.DIContainerFactory;
 import jp.rough_diamond.commons.extractor.Condition;
 import jp.rough_diamond.commons.extractor.Extractor;
 import jp.rough_diamond.commons.extractor.Order;
@@ -128,5 +129,9 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 		role.setName(type.name());
 		role.setPlayer(player);
 		role.save();
+	}
+
+	public boolean IsGameOver(Long week) {
+		return DIContainerFactory.getDIContainer().getObject(Long.class, "lastWeekOfGame") < week;
 	}
 }

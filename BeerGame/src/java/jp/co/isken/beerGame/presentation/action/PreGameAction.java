@@ -30,7 +30,7 @@ public class PreGameAction extends BaseAction {
 			HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
 		PreGameForm form = (PreGameForm) arg1;
 		form.init();
-			return arg0.findForward("login");
+		return arg0.findForward("login");
 	}
 	
 	public ActionForward loginCheck(ActionMapping arg0, ActionForm arg1,
@@ -94,7 +94,10 @@ public class PreGameAction extends BaseAction {
 	public ActionForward orderQuantity(ActionMapping arg0, ActionForm arg1,
 			HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
 		PreGameForm form = (PreGameForm) arg1;
-		form.order();
-		return arg0.findForward("gameStart");
+		if (form.order()) {
+			return arg0.findForward("gameStart");
+		} else {
+			return arg0.findForward("gameOver");
+		}
 	}
 }

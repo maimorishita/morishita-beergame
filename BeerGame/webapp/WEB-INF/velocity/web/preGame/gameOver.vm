@@ -1,0 +1,29 @@
+﻿#parse("web/header.vm")
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="./css/style.css" type="text/css" />
+  <title>BeerGame</title>
+  <script type="text/javascript" language="javascript">
+    <!--
+    function showResult(formObj) {
+      formObj.command.value='showResult';
+      formObj.submit();
+    }
+    -->
+  </script>
+</head>
+
+#parse("web/errorList.vm")
+#set($form = $currentForm)
+  <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
+  <input type="hidden" name="command" />
+  <div id="main">
+    <h1>ビールゲーム</h1>
+    <p>ゲーム名：$form.game.name ロール：$form.role.name プレイヤ：$form.role.player.name</p>
+    <h3>ゲーム終了画面</h3>
+    <p>
+      <input type="button" value="結果を見る" onClick="javascript:showResult(this.form);" />
+    </p>
+  </div>
+  </form>
+#parse("web/footer.vm")

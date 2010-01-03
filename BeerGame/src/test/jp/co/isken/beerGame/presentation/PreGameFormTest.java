@@ -81,6 +81,7 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		// 待機画面からゲームの開始画面へ遷移するテスト
 		BasicService service = BasicService.getService();
 		Role role = service.findByPK(Role.class, 16L);
+		role.disposeAllMessage();
 		Game game = service.findByPK(Game.class, 4L);
 		// 正常系
 		form.setGame(game);
@@ -111,85 +112,6 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		 assertFalse(form.isEnableToStartGame());
 	}
 
-	// // FIXME 2009/11/22 imai yoshioka MQを使うようにしたので、下記の一時的なコーディングだと不具合が発生してます
-	// public void test一回目の発注処理テスト() throws Exception {
-	// BasicService service = BasicService.getService();
-	// // 初期処理
-	// Role supplier1 = BasicService.getService().findByPK(Role.class, 11L);
-	// supplier1.disposeAllMessage();
-	// // 本処理
-	// // 小売りの第1週のテスト
-	// Role wholeSeller = service.findByPK(Role.class, 11L);
-	// Game game1 = service.findByPK(Game.class, 5L);
-	// form.setGame(game1);
-	// form.setRole(wholeSeller);
-	// // 初期在庫を投入する
-	// form.isEnableToStartGame();
-	// form.setOrder("126");
-	// form.order();
-	// Extractor extractor = new Extractor(TradeTransaction.class);
-	// extractor.add(Condition.eq(new Property(TradeTransaction.ROLE),
-	// wholeSeller));
-	// extractor.add(Condition.eq(new Property(TradeTransaction.WEEK), 1L));
-	// extractor.add(Condition.eq(new
-	// Property(TradeTransaction.TRANSACTION_TYPE), "発注"));
-	// List<TradeTransaction> list =
-	// BasicService.getService().findByExtractor(extractor);
-	// assertEquals(1, list.size());
-	// assertEquals(126L, list.get(0).getAmount().longValue());
-	// //小売りの第2週のテスト
-	// extractor = new Extractor(TradeTransaction.class);
-	// extractor.add(Condition.eq(new Property(TradeTransaction.ROLE),
-	// wholeSeller));
-	// extractor.add(Condition.eq(new Property(TradeTransaction.WEEK), 1L));
-	// extractor.addOrder(Order.asc(new Property(TradeTransaction.ID)));
-	// list = service.findByExtractor(extractor);
-	// assertEquals(4, list.size());
-	// assertEquals("発注", list.get(0).getTransactionType());
-	// assertEquals(126, list.get(0).getAmount().intValue());
-	// assertEquals("入荷", list.get(1).getTransactionType());
-	// assertEquals(10, list.get(1).getAmount().intValue());
-	// assertEquals("受注", list.get(2).getTransactionType());
-	// assertEquals(8, list.get(2).getAmount().intValue());
-	// assertEquals("出荷", list.get(3).getTransactionType());
-	// assertEquals(5, list.get(3).getAmount().intValue());
-	// // 画面表示のテスト
-	// assertEquals(10, form.getInbound().intValue());
-	// assertEquals(8, form.getAcceptOrder().intValue());
-	// assertEquals(5, form.getOutbound().intValue());
-	// assertEquals(3, form.getRemain().intValue());
-	// assertEquals(3, form.getRemain().intValue());
-	// }
-	//	
-	// public void test発注の処理のテスト() throws VersionUnmuchException,
-	// MessagesIncludingException, JMSException {
-	// BasicService service = BasicService.getService();
-	// Role role = service.findByPK(Role.class, 11L);
-	// Game game1 = service.findByPK(Game.class, 5L);
-	// form.setGame(game1);
-	// form.setRole(role);
-	// form.setOrder("126");
-	// form.orderSet();
-	// // 小売りの第１週のテスト
-	// Extractor extractor = new Extractor(TradeTransaction.class);
-	// extractor.add(Condition.eq(new Property(TradeTransaction.ROLE), role));
-	// extractor.add(Condition.eq(new Property(TradeTransaction.WEEK), 1L));
-	// extractor.addOrder(Order.asc(new Property(TradeTransaction.ID)));
-	// List<TradeTransaction> list = service.findByExtractor(extractor);
-	// assertEquals(3, list.size());
-	// assertEquals("入荷", list.get(0).getTransactionType());
-	// assertEquals(10, list.get(0).getAmount().intValue());
-	// assertEquals("受注", list.get(1).getTransactionType());
-	// assertEquals(8, list.get(1).getAmount().intValue());
-	// assertEquals("出荷", list.get(2).getTransactionType());
-	// assertEquals(5, list.get(2).getAmount().intValue());
-	// // 画面表示のテスト
-	// assertEquals(10, form.getInbound().intValue());
-	// assertEquals(8, form.getAcceptOrder().intValue());
-	// assertEquals(5, form.getOutbound().intValue());
-	// assertEquals(3, form.getRemain().intValue());
-	// }
-
 	public void test未選択のロールを取得する() throws Exception {
 		form.setGameId(3L);
 		Set<RoleType> set = form.getWaitingRoleList();
@@ -198,10 +120,10 @@ public class PreGameFormTest extends DataLoadingTestCase {
 
 	public void testgetGameAll() throws Exception {
 		List<Game> games = form.getGameAll();
-		assertEquals("すべてのゲームの数に誤りがあります", 4, games.size());
+		assertEquals("すべてのゲームの数に誤りがあります", 5, games.size());
 	}
 
-	public void testチームとロールを選んでログインする() {
+	public void testチームとロールを選んでログインする() throws Exception {
 		form.setGameId(1L);
 		form.setRoleName("卸１");
 		assertTrue(form.login());
@@ -219,5 +141,13 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		form.setGameId(3L);
 		form.setRoleName("メーカ");
 		assertFalse(form.login());
+	}
+	
+	public void testゲームの終了判定をする() throws Exception {
+		BasicService service = BasicService.getService();
+		form.setGame(service.findByPK(Game.class, 5L));
+		form.setOrder("10");
+		form.setRole(service.findByPK(Role.class, 22L));
+		assertFalse("ゲームが終了されていません。", form.order());
 	}
 }

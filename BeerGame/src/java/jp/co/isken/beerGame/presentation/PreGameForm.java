@@ -115,15 +115,19 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 		return false;
 	}
 
-	public void order() {
+	public boolean order() {
 		try {
 			//この週の発注
 			this.getRole().order(Long.parseLong(this.getOrder()));
-			//次の週の入荷、受注、出荷
-			this.getRole().inbound();
-			this.getRole().acceptOrder();
-			this.getRole().outbound();
-			this.refreshView();
+			if (this.getGame().IsGameOver(this.getRole().getCurrentWeek(TransactionType.発注.name()))) {
+				return false;
+			} else {
+				//次の週の入荷、受注、出荷
+				this.getRole().inbound();
+				this.getRole().acceptOrder();
+				this.getRole().outbound();
+				this.refreshView();
+			}
 		} catch (NumberFormatException e) {
 			Messages msgs = new Messages();
 			msgs.add("", new Message("errors.invalid.orderamount"));
@@ -137,6 +141,7 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 		} catch (JMSException e) {
 			throw new RuntimeException(e);
 		}
+		return true;
 	}
 
 	private void refreshView() {
@@ -155,7 +160,7 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 		this.setGame(BasicService.getService().findByPK(Game.class, this.getGameId()));
 		this.setRole(this.getGame().getRole(this.getRoleName()));
 		if (this.getRole() != null) {
-			//第１週からスタートする場合は、初期設定を行う　morishita
+			//第１週からスタートする場合は、初期設定を行う morishita
 			if (this.getRole().getLastWeek(TransactionType.出荷.name()) == 1L) {
 				return this.isEnableToStartGame();
 			}

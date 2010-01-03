@@ -43,17 +43,15 @@
   <input type="button" value="注文" onClick="javascript:orderQuantity(this.form);" /></p>
  </div>
 
-     <h1>取引表示</h1>
-　　<table border=1>
+  <h1>取引表示</h1>
+  <table border=1>
 #foreach($week in $!form.getDebagView())
-     <tr>
+    <tr>
 #foreach($tran in $!week)
-        <td>
-            <option value="$role.name">$tran.transactionType $tran.amount</option>
-        </td>
-         #end
+      <td>$tran.transactionType $tran.amount</td>
+#end
     </tr>
-　　#end
-    </table>　
+#end
+  </table>
   </form>
 #parse("web/footer.vm")

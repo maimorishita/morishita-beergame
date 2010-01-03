@@ -15,6 +15,7 @@ public class GameTest extends DataLoadingTestCase {
 		NumberingLoader.init();
 	}
 
+	// TODO 2010/01/03 yoshioka RoleTypeに修正する。引数もEnumにしたいなぁ。
 	public void test参加可能なゲームのリストを取得する() throws Exception {
 		List<Game> list = Game.getWaitingGameList();
 		assertEquals("参加可能なゲームの数に誤りがあります", 1, list.size());
@@ -22,7 +23,7 @@ public class GameTest extends DataLoadingTestCase {
 
 	public void testすべてのチームを取得する() throws Exception {
 		List<Game> list = Game.getAll();
-		assertEquals("すべてのチームの数に誤りがあります", 4, list.size());
+		assertEquals("すべてのチームの数に誤りがあります", 5, list.size());
 	}
 
 	public void testGameに紐づくすべてのロールを取得する() throws Exception {
@@ -56,10 +57,17 @@ public class GameTest extends DataLoadingTestCase {
 		Game game2 = BasicService.getService().findByPK(Game.class, 3L);
 		assertFalse(game2.isEnableToStart());
 	}
-	
+
 	public void testゲームに紐づく未使用のロールを取得する() throws Exception {
 		Game game = BasicService.getService().findByPK(Game.class, 3L);
 		Set<RoleType> set = game.getUnusedRoles();
 		assertEquals("未使用のロールが取得できていません", 3, set.size());
+	}
+
+	public void testゲームの終了判定をする() throws Exception {
+		Game game = BasicService.getService().findByPK(Game.class, 1L);
+		assertTrue("ゲームが終了していません", game.IsGameOver(37L));
+		assertFalse("ゲームが終了してしまいました。", game.IsGameOver(game.getRole(
+				RoleType.小売り.name()).getCurrentWeek(TransactionType.発注.name())));
 	}
 }
