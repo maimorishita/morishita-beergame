@@ -130,8 +130,8 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		assertEquals("卸１", form.getRole().getName());
 		assertEquals("小笠原", form.getRole().getPlayer().getName());
 		// 初期表示のテスト
-		assertEquals(18L, form.getAcceptOrder().longValue());
-		assertEquals(2L, form.getStock().longValue());
+		assertEquals(2L, form.getAcceptOrder().longValue());
+		assertEquals(17L, form.getStock().longValue());
 
 		// 初期在庫のテスト
 		assertEquals(12L, form.getRole().getTransaction(TransactionType.在庫).getAmount().longValue());

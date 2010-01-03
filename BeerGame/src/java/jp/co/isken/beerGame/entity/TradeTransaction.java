@@ -35,7 +35,8 @@ public class TradeTransaction extends jp.co.isken.beerGame.entity.base.BaseTrade
 	}
 
 	public static Long calcAmountRemain(Long week, Role role) {
-		return calcAmount(week, role, TransactionType.受注.name()) - calcAmount(week, role, TransactionType.出荷.name());
+		Long amount = calcAmount(week - 1, role, TransactionType.受注.name()) - calcAmount(week, role, TransactionType.出荷.name());
+		return (amount < 0L ? 0L : amount);
 	}
 
 	public static Map<Long, Long> getStockAmount(String gameName, String roleName) {

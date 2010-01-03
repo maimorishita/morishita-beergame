@@ -243,18 +243,18 @@ public class RoleTest extends DataLoadingTestCase {
 	public void test各トランザクションが取得できる() throws Exception {
 		Role role = BasicService.getService().findByPK(Role.class, 3L);
 		TradeTransaction tradeTransaction = role.getTransaction(TransactionType.入荷);
-		assertEquals("正しい数量が取得出来ていません。",14L,tradeTransaction.getAmount().longValue());
-		assertEquals("正しい週が取得出来ていません。",4L,tradeTransaction.getWeek().longValue());
+		assertEquals("正しい数量が取得出来ていません。", 6L, tradeTransaction.getAmount().longValue());
+		assertEquals("正しい週が取得出来ていません。", 4L, tradeTransaction.getWeek().longValue());
 		
 		tradeTransaction = role.getTransaction(TransactionType.受注);
-		assertEquals("正しい数量が取得出来ていません。",20L,tradeTransaction.getAmount().longValue());
-		assertEquals("正しい週が取得出来ていません。",4L,tradeTransaction.getWeek().longValue());
+		assertEquals("正しい数量が取得出来ていません。", 20L, tradeTransaction.getAmount().longValue());
+		assertEquals("正しい週が取得出来ていません。", 4L, tradeTransaction.getWeek().longValue());
 		
 		tradeTransaction = role.getTransaction(TransactionType.出荷);
-		assertEquals("正しい数量が取得出来ていません。",20L,tradeTransaction.getAmount().longValue());
-		assertEquals("正しい週が取得出来ていません。",4L,tradeTransaction.getWeek().longValue());
+		assertEquals("正しい数量が取得出来ていません。", 12L, tradeTransaction.getAmount().longValue());
+		assertEquals("正しい週が取得出来ていません。", 4L, tradeTransaction.getWeek().longValue());
 	}
-	
+
 	public void testゲームNOAHのロールのキューをすべて削除する() throws Exception {
 		BasicService service =  BasicService.getService();
 		List<Role> roles = new ArrayList<Role>();
@@ -266,7 +266,7 @@ public class RoleTest extends DataLoadingTestCase {
 			role.disposeAllMessage();
 		}
 	}
-	
+
 	public void test市場と工場以外のロールを取得する(){
 		BasicService service =  BasicService.getService();
 		Game game = service.findByPK(Game.class, 1L);
