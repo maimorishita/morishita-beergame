@@ -12,9 +12,6 @@ import jp.rough_diamond.commons.extractor.Property;
 import jp.rough_diamond.commons.extractor.Sum;
 import jp.rough_diamond.commons.service.BasicService;
 
-/**
- * ���L�^��Hibernate�}�b�s���O�N���X
-**/
 public class TradeTransaction extends jp.co.isken.beerGame.entity.base.BaseTradeTransaction {
 
 	private static final long serialVersionUID = 1L;

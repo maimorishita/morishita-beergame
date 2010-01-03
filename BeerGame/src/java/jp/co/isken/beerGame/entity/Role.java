@@ -18,6 +18,7 @@ import jp.rough_diamond.commons.extractor.Order;
 import jp.rough_diamond.commons.extractor.Property;
 import jp.rough_diamond.commons.resource.MessagesIncludingException;
 import jp.rough_diamond.commons.service.BasicService;
+import jp.rough_diamond.commons.service.annotation.PostPersist;
 import jp.rough_diamond.commons.service.annotation.PrePersist;
 import jp.rough_diamond.framework.transaction.VersionUnmuchException;
 
@@ -33,7 +34,7 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	private static final long serialVersionUID = 1L;
 
 	private final static Log log = LogFactory.getLog(Role.class);
-	
+
 	public Long getLastWeek(String transactionType) {
 		Extractor extractor = new Extractor(TradeTransaction.class);
 		extractor.add(Condition.eq(new Property(TradeTransaction.ROLE), this));
@@ -70,7 +71,7 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		Queue queue = session.createQueue(this.getQueueName(type));
 		QueueReceiver receiver = session.createReceiver(queue);
 		connection.start();
-		TextMessage ret = (TextMessage)receiver.receive();
+		TextMessage ret = (TextMessage) receiver.receive();
 		receiver.close();
 		session.close();
 		connection.close();
@@ -83,7 +84,7 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	private String getQueueName(TransactionType type) {
 		return this.getPlayer().getGame().getId().toString() + "." + type.getParty(this).getId() + "." + type.getQueue();
 	}
-	
+
 	public void order(Long amount) throws VersionUnmuchException, MessagesIncludingException, JMSException {
 		log.info("発注します: ロール名 = " + this.getName());
 		this.createTransaction(TransactionType.発注, amount);
@@ -101,10 +102,14 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		log.info("受注しました: ロール名 = " + this.getName());
 	}
 
-	//TODO 2009/11/29 imai&yoshioka 一時的に市場からの発注を固定値で返却する。
+	// TODO 2010/01/03 imai & yoshioka DIContainerから配列を取得できんかったとです。井上夫妻助けて！
 	public Long getOrderAmount() throws JMSException {
-		return (this.getName().equals("小売り")) ? 4L :Long.parseLong(this.receive(TransactionType.受注));
-		//return Long.parseLong(this.receive(TransactionType.受注));
+		if (this.getName().equals(RoleType.小売り.name())) {
+			String key = "wholeSallerAcceptOrderAmount" + this.getCurrentWeek(TransactionType.受注.name()).toString();
+			return DIContainerFactory.getDIContainer().getObject(Long.class, key);
+		} else {
+			return this.getDowner().getTransaction(TransactionType.発注).getAmount();
+		}
 	}
 
 	public void inbound() throws VersionUnmuchException, MessagesIncludingException, JMSException {
@@ -126,18 +131,24 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	}
 
 	public Long getOutboundAmount() {
-		Long week = this.getCurrentWeek(TransactionType.受注.name());
-		Long remain = TradeTransaction.calcAmountRemain(week, this);
-		Long stock = TradeTransaction.calcAmountStock(week, this);
-		return (remain <= stock) ? remain : stock;
+		Long lastWeek = this.getLastWeek(TransactionType.出荷.name());
+		Long acceptAmount = this.getTransaction(TransactionType.受注, lastWeek).getAmount();
+		Long remain = TradeTransaction.calcAmountRemain(lastWeek, this);
+		Long sum = acceptAmount + remain;
+		Long stock = TradeTransaction.calcAmountStock(this.getCurrentWeek(TransactionType.出荷.name()), this);
+		return (sum <= stock) ? sum : stock;
 	}
 
-	private void createTransaction(TransactionType type, Long amount) throws VersionUnmuchException, MessagesIncludingException, JMSException {
+	void createTransaction(TransactionType type, Long amount) throws VersionUnmuchException, MessagesIncludingException, JMSException {
+		this.createTransaction(type, amount, new Long(this.getCurrentWeek(type.name())));
+	}
+
+	void createTransaction(TransactionType type, Long amount, Long week) throws VersionUnmuchException, MessagesIncludingException {
 		TradeTransaction transaction = new TradeTransaction();
 		transaction.setAmount(amount);
 		transaction.setRole(this);
 		transaction.setTransactionType(type.name());
-		transaction.setWeek(new Long(this.getCurrentWeek(type.name())));
+		transaction.setWeek(week);
 		transaction.save();
 	}
 
@@ -149,9 +160,9 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 			this.disposeMessage(TransactionType.入荷);
 		}
 	}
-	
+
 	private void disposeMessage(TransactionType type) throws JMSException {
-		while(true) {
+		while (true) {
 			String ret = this.receiveNoWait(type);
 			if (ret == null) {
 				log.info("メッセージはありません。");
@@ -170,11 +181,11 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		QueueSession session = connection.createQueueSession(false, QueueSession.AUTO_ACKNOWLEDGE);
 		log.info("破棄するメッセージを受信します。Queue: " + this.getQueueName(type));
 		Queue queue = session.createQueue(this.getQueueName(type));
-		//MessageConsumerオブジェクトの作成（Queueと関連付け）
+		// MessageConsumerオブジェクトの作成（Queueと関連付け）
 		QueueReceiver receiver = session.createReceiver(queue);
 		connection.start();
 		// メッセージの受信
-		TextMessage ret = (TextMessage)receiver.receive(1);
+		TextMessage ret = (TextMessage) receiver.receive(1);
 		receiver.close();
 		session.close();
 		connection.close();
@@ -182,9 +193,8 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	}
 
 	public void initAmount() throws VersionUnmuchException, MessagesIncludingException, JMSException {
-		this.createTransaction(TransactionType.在庫, DIContainerFactory.getDIContainer().getObject(Long.class, "initStockAmount"));
-		this.createTransaction(TransactionType.入荷, DIContainerFactory.getDIContainer().getObject(Long.class, "initInboundAmount"));
-		this.createTransaction(TransactionType.受注, DIContainerFactory.getDIContainer().getObject(Long.class, "initAcceptOrderAmount"));
+		this.createTransaction(TransactionType.入荷, this.getUpper().getTransaction(TransactionType.出荷).getAmount(), 1L);
+		this.createTransaction(TransactionType.受注, this.getOrderAmount(), 1L);
 		this.outbound();
 	}
 
@@ -216,9 +226,19 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	public TradeTransaction getTransaction(TransactionType type) {
 		BasicService service = BasicService.getService();
 		Extractor e = new Extractor(TradeTransaction.class);
-		e.add(Condition.eq(new Property(TradeTransaction.ROLE),this));
-		e.add(Condition.eq(new Property(TradeTransaction.TRANSACTION_TYPE),type.name()));
+		e.add(Condition.eq(new Property(TradeTransaction.ROLE), this));
+		e.add(Condition.eq(new Property(TradeTransaction.TRANSACTION_TYPE), type.name()));
 		e.addOrder(Order.desc(new Property(TradeTransaction.WEEK)));
+		List<TradeTransaction> list = service.findByExtractor(e);
+		return (list.size() == 0 ? null : list.get(0));
+	}
+
+	public TradeTransaction getTransaction(TransactionType type, Long week) {
+		BasicService service = BasicService.getService();
+		Extractor e = new Extractor(TradeTransaction.class);
+		e.add(Condition.eq(new Property(TradeTransaction.ROLE), this));
+		e.add(Condition.eq(new Property(TradeTransaction.TRANSACTION_TYPE), type.name()));
+		e.add(Condition.eq(new Property(TradeTransaction.WEEK), week));
 		List<TradeTransaction> list = service.findByExtractor(e);
 		return (list.size() == 0 ? null : list.get(0));
 	}
@@ -228,15 +248,21 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		this.getPlayer().save();
 	}
 
+	@PostPersist
+	public void addInitialTransaction() throws VersionUnmuchException, MessagesIncludingException {
+		this.createTransaction(TransactionType.在庫, DIContainerFactory.getDIContainer().getObject(Long.class, "initStockAmount"), 0L);
+		this.createTransaction(TransactionType.入荷, DIContainerFactory.getDIContainer().getObject(Long.class, "initInboundAmount"), 0L);
+		this.createTransaction(TransactionType.受注, DIContainerFactory.getDIContainer().getObject(Long.class, "initAcceptOrderAmount"), 0L);
+		this.createTransaction(TransactionType.出荷, DIContainerFactory.getDIContainer().getObject(Long.class, "initOutboundAmount"), 0L);
+		this.createTransaction(TransactionType.発注, DIContainerFactory.getDIContainer().getObject(Long.class, "initOrderAmount"), 0L);
+	}
+
 	public static List<Role> getRoles(Game game) {
 		BasicService service = BasicService.getService();
 		Extractor extractor = new Extractor(Role.class);
-		extractor.add(Condition.eq(
-				new Property(Role.PLAYER + "." + Player.GAME), game));
-		extractor.add(Condition.notEq(
-				new Property(Role.NAME), "市場"));
-		extractor.add(Condition.notEq(
-				new Property(Role.NAME), "工場"));
+		extractor.add(Condition.eq(new Property(Role.PLAYER + "." + Player.GAME), game));
+		extractor.add(Condition.notEq(new Property(Role.NAME), "市場"));
+		extractor.add(Condition.notEq(new Property(Role.NAME), "工場"));
 		extractor.addOrder(Order.asc(new Property(Role.ID)));
 		List<Role> roles = service.findByExtractor(extractor);
 		return roles;
