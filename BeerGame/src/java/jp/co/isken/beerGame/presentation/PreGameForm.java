@@ -117,17 +117,23 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 
 	public boolean order() {
 		try {
-			//‚±‚ÌT‚Ì”­’
-			this.getRole().order(Long.parseLong(this.getOrder()));
-			if (this.getGame().IsGameOver(this.getRole().getCurrentWeek(TransactionType.”­’.name()))) {
-				return false;
-			} else {
-				//Ÿ‚ÌT‚Ì“ü‰×Aó’Ao‰×
-				this.getRole().inbound();
-				this.getRole().acceptOrder();
-				this.getRole().outbound();
-				this.refreshView();
-			}
+//			if (this.getRole().isOrder() == false) {
+//				Messages msgs = new Messages();
+//				msgs.add("", new Message("errors.invalid.isorder"));
+//				this.setMessage(msgs);
+//			} else {
+				// ‚±‚ÌT‚Ì”­’
+				this.getRole().order(Long.parseLong(this.getOrder()));
+				if (this.getGame().IsGameOver(this.getRole().getCurrentWeek(TransactionType.”­’.name()))) {
+					return false;
+				} else {
+					// Ÿ‚ÌT‚Ì“ü‰×Aó’Ao‰×
+					this.getRole().inbound();
+					this.getRole().acceptOrder();
+					this.getRole().outbound();
+					this.refreshView();
+				}
+//			}
 		} catch (NumberFormatException e) {
 			Messages msgs = new Messages();
 			msgs.add("", new Message("errors.invalid.orderamount"));

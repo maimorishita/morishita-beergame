@@ -308,4 +308,19 @@ public class RoleTest extends DataLoadingTestCase {
 		role.initAmount();
 		assertEquals("トランザクションが作成されていません。", count + 3, service.getCountByExtractor(new Extractor(TradeTransaction.class)));
 	}
+	
+	public void test発注の条件をチェックする() throws Exception {
+		BasicService service = BasicService.getService();
+		// 小売りはチェック対象外
+		Role wholeSeller = service.findByPK(Role.class, 34L);
+		assertTrue("小売りがチェックされています。", wholeSeller.isOrder()); 
+		
+		// 卸1ー発注できないロール
+		Role supplier = service.findByPK(Role.class, 35L);
+		assertFalse("不正に発注されています",supplier.isOrder());
+		
+		// メーカー　発注できるロール
+		Role maker = service.findByPK(Role.class, 37L);
+		assertTrue("発注ができません",maker.isOrder());
+	}
 }

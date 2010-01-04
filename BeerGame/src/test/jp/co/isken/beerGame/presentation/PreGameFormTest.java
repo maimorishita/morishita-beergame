@@ -124,7 +124,7 @@ public class PreGameFormTest extends DataLoadingTestCase {
 
 	public void testgetGameAll() throws Exception {
 		List<Game> games = form.getGameAll();
-		assertEquals("すべてのゲームの数に誤りがあります", 6, games.size());
+		assertEquals("すべてのゲームの数に誤りがあります", 7, games.size());
 	}
 
 	public void testチームとロールを選んでログインする() throws Exception {
@@ -152,4 +152,12 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		form.setRole(service.findByPK(Role.class, 22L));
 		assertFalse("ゲームが終了されていません。", form.order());
 	}
+	
+//	public void test発注の判定の動作を確認する() throws Exception {
+//		BasicService service = BasicService.getService();
+//		form.setGame(service.findByPK(Game.class, 7L));
+//		form.setOrder("10");
+//		form.setRole(service.findByPK(Role.class, 35L));
+//		assertFalse("発注判定が誤っています。", form.order());
+//	}
 }

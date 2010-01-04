@@ -259,12 +259,23 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 
 	public static List<Role> getRoles(Game game) {
 		BasicService service = BasicService.getService();
-		Extractor extractor = new Extractor(Role.class);
+		Extractor extractor = new Extractor(Role.class);	
 		extractor.add(Condition.eq(new Property(Role.PLAYER + "." + Player.GAME), game));
 		extractor.add(Condition.notEq(new Property(Role.NAME), "市場"));
 		extractor.add(Condition.notEq(new Property(Role.NAME), "工場"));
 		extractor.addOrder(Order.asc(new Property(Role.ID)));
 		List<Role> roles = service.findByExtractor(extractor);
 		return roles;
+	}
+
+	public boolean isOrder() {
+		if (this.getName().equals(RoleType.小売り.name())) return true;
+		//　前週かつ下流の発注が取得できる　＝　発注可能
+		TradeTransaction t = this.getDowner().getTransaction(TransactionType.発注,this.getLastWeek(TransactionType.受注.name()));
+        if (t == null){
+        	return false;	
+        }else{
+        	return true;
+        }
 	}
 }
