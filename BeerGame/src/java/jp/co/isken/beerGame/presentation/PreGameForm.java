@@ -178,8 +178,7 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 
 	public List<List<TradeTransaction>> getDebagView() {
 		List<List<TradeTransaction>> ret = new ArrayList<List<TradeTransaction>>();
-		for (int i = 1; i < this.getRole().getLastWeek(TransactionType.“ü‰×.name())
-				.intValue(); i++) {
+		for (int i = 1; i < this.getRole().getLastWeek(TransactionType.“ü‰×.name()).intValue(); i++) {
 			ret.add(getTransaction(i));
 		}
 		return ret;

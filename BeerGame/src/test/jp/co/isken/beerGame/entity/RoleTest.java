@@ -88,6 +88,23 @@ public class RoleTest extends DataLoadingTestCase {
 		assertEquals("週が間違ってます。", 4L, tradeTransaction.getWeek().longValue());
 		assertEquals("取引種別が間違ってます。", TransactionType.発注.name(), tradeTransaction.getTransactionType());
 	}
+	
+	public void test発注の取引記録を週指定で登録する() throws Exception {
+		BasicService service = BasicService.getService();
+		// 発注の取引記録を登録する
+		long count = service.getCountByExtractor(new Extractor(TradeTransaction.class));
+		Role role = BasicService.getService().findByPK(Role.class, 35L);
+		role.order(2L, 0L);
+		assertEquals("取得件数が誤っています。", count + 1, service.getCountByExtractor(new Extractor(TradeTransaction.class)));
+		Extractor extractor = new Extractor(TradeTransaction.class);
+		extractor.addOrder(Order.desc(new Property(TradeTransaction.ID)));
+		List<TradeTransaction> list = service.findByExtractor(extractor);
+		TradeTransaction tradeTransaction = list.get(0);
+		assertEquals("数に誤りがあります", 2L, tradeTransaction.getAmount().longValue());
+		assertEquals("ロールが間違ってます。", 35L, tradeTransaction.getRole().getId().longValue());
+		assertEquals("週が間違ってます。", 0L, tradeTransaction.getWeek().longValue());
+		assertEquals("取引種別が間違ってます。", TransactionType.発注.name(), tradeTransaction.getTransactionType());
+	}
 
 	public void test受注の取引記録を登録する() throws Exception {
 		BasicService service = BasicService.getService();
@@ -302,13 +319,16 @@ public class RoleTest extends DataLoadingTestCase {
 	
 	public void test初期設定確認() throws Exception {
 		BasicService service = BasicService.getService();
-		long count = service.getCountByExtractor(new Extractor(TradeTransaction.class));		
-		Role role = service.findByPK(Role.class, 16L);
-		role.disposeAllMessage();
-		role.initAmount();
+		long count = service.getCountByExtractor(new Extractor(TradeTransaction.class));
+		Role wholeSaller = service.findByPK(Role.class, 16L);
+		wholeSaller.disposeAllMessage();
+		Role supplier1 = service.findByPK(Role.class, 17L);
+		// TODO 2010/01/04 imai & ogasawara sendに数を渡さず、内部でTransactionから取得するように修正する
+		supplier1.send(TransactionType.出荷, "4");
+		wholeSaller.initAmount();
 		assertEquals("トランザクションが作成されていません。", count + 3, service.getCountByExtractor(new Extractor(TradeTransaction.class)));
 	}
-	
+
 	public void test発注の条件をチェックする() throws Exception {
 		BasicService service = BasicService.getService();
 		// 小売りはチェック対象外

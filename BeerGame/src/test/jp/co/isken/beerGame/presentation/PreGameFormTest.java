@@ -84,12 +84,15 @@ public class PreGameFormTest extends DataLoadingTestCase {
 	public void testIsEnableToStartGame() throws Exception {
 		// 待機画面からゲームの開始画面へ遷移するテスト
 		BasicService service = BasicService.getService();
-		Role role = service.findByPK(Role.class, 16L);
-		role.disposeAllMessage();
+		Role wholeSaller = service.findByPK(Role.class, 16L);
+		wholeSaller.disposeAllMessage();
+		Role supplier1 = service.findByPK(Role.class, 17L);
+		// TODO 2010/01/04 imai & ogasawara sendに数を渡さず、内部でTransactionから取得するように修正する
+		supplier1.send(TransactionType.出荷, "4");
 		Game game = service.findByPK(Game.class, 4L);
 		// 正常系
 		form.setGame(game);
-		form.setRole(role);
+		form.setRole(wholeSaller);
 		assertTrue("ゲームが開始できていません", form.isEnableToStartGame());
 		// 小売りの第１週のテスト
 		TradeTransaction transaction = form.getRole().getTransaction(TransactionType.在庫);

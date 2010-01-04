@@ -86,8 +86,12 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	}
 
 	public void order(Long amount) throws VersionUnmuchException, MessagesIncludingException, JMSException {
+		this.order(amount, new Long(this.getCurrentWeek(TransactionType.発注.name())));
+	}
+
+	public void order(Long amount, Long week) throws VersionUnmuchException, MessagesIncludingException, JMSException {
 		log.info("発注します: ロール名 = " + this.getName());
-		this.createTransaction(TransactionType.発注, amount);
+		this.createTransaction(TransactionType.発注, amount, week);
 		this.send(TransactionType.発注, amount.toString());
 		if (this.getName().equals(RoleType.メーカ.name())) {
 			Role factory = this.getUpper();
@@ -108,7 +112,7 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 			String key = "wholeSallerAcceptOrderAmount" + this.getCurrentWeek(TransactionType.受注.name()).toString();
 			return DIContainerFactory.getDIContainer().getObject(Long.class, key);
 		} else {
-			return this.getDowner().getTransaction(TransactionType.発注).getAmount();
+			return Long.parseLong(this.receive(TransactionType.受注));
 		}
 	}
 
@@ -193,8 +197,8 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	}
 
 	public void initAmount() throws VersionUnmuchException, MessagesIncludingException, JMSException {
-		this.createTransaction(TransactionType.入荷, this.getUpper().getTransaction(TransactionType.出荷).getAmount(), 1L);
-		this.createTransaction(TransactionType.受注, this.getOrderAmount(), 1L);
+		this.inbound();
+		this.acceptOrder();
 		this.outbound();
 	}
 
@@ -249,12 +253,16 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	}
 
 	@PostPersist
-	public void addInitialTransaction() throws VersionUnmuchException, MessagesIncludingException {
+	public void addInitialTransaction() throws VersionUnmuchException, MessagesIncludingException, JMSException {
 		this.createTransaction(TransactionType.在庫, DIContainerFactory.getDIContainer().getObject(Long.class, "initStockAmount"), 0L);
 		this.createTransaction(TransactionType.入荷, DIContainerFactory.getDIContainer().getObject(Long.class, "initInboundAmount"), 0L);
 		this.createTransaction(TransactionType.受注, DIContainerFactory.getDIContainer().getObject(Long.class, "initAcceptOrderAmount"), 0L);
-		this.createTransaction(TransactionType.出荷, DIContainerFactory.getDIContainer().getObject(Long.class, "initOutboundAmount"), 0L);
-		this.createTransaction(TransactionType.発注, DIContainerFactory.getDIContainer().getObject(Long.class, "initOrderAmount"), 0L);
+		Long outboundAmount = DIContainerFactory.getDIContainer().getObject(Long.class, "initOutboundAmount");
+		this.createTransaction(TransactionType.出荷, outboundAmount, 0L);
+		this.send(TransactionType.出荷, outboundAmount.toString());
+		Long orderAmount = DIContainerFactory.getDIContainer().getObject(Long.class, "initOrderAmount");
+		this.createTransaction(TransactionType.発注, orderAmount, 0L);
+		this.send(TransactionType.発注, orderAmount.toString());
 	}
 
 	public static List<Role> getRoles(Game game) {
