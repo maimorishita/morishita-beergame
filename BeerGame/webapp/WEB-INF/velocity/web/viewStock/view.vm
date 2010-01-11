@@ -3,68 +3,53 @@
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" href="./css/style.css" type="text/css" />
   <title>残高表示</title>
-  <script type="text/javascript" language="javascript">
-  <!--
-    function viewStock(formObj) {
-      formObj.command.value='viewStock';
-      formObj.submit();
-    }
-  -->
-  </script>
 </head>
 <body>
 #parse("web/errorList.vm")
   <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
-  <input type="hidden" name="command" />
-  <div id="main">
-    <h1>残高表示</h1>
-    <table border=4>
-      <tr>
-        <td>チーム名</td>
-        <td colspan=2>
-          $currentForm.teamName
-        </td>
-      </tr>
-      <tr>
-        <td> </td>
-        <td align=center></td>
-        <td align=center><input type="button" value="戻る" onClick="location = '$link.setAction('/top')'" /></td>
-      </tr>
-    </table>
-
-    <h1>在庫表示</h1>
-　　<table border=1>
+<script language="javascript" type="text/javascript" src="./js/jquery.js"></script>  
+<script language="javascript" type="text/javascript" src="./js/jquery.flot.js"></script>  
+  
+ <div id="placeholder" style="width:600px;height:300px;"></div>  
+   
+  <script language="javascript" type="text/javascript">
+$(function () {
+    //データ  
+     var roles = [];
     #foreach($role in $!currentForm.getRoles())
-     <tr>
-        <td>
-            <option value="$role.name">$role.name</option>
-        </td>
-         #foreach($stock in $!currentForm.getStockList($currentForm.teamName,$role.name))
-            <td>
-                $stock
-            </td>
-         #end
-    </tr>
-　　#end
-    </table>　
+      #set($map = $currentForm.getStockList($currentForm.teamName,$role.name))
+      #set($id = $role.id)
+      var d = [];
+        #foreach($key in $map.keySet())
+          d.push([$key, $map.get($key)]); 
+        #end
+      roles.push(d);
+    #end
 
-
-    <h1>注残表示</h1>
-　　<table border=1>
-    #foreach($role in $!currentForm.getRoles())
-     <tr>
-        <td>
-            <option value="$role.name">$role.name</option>
-        </td>
-         #foreach($stock in $!currentForm.getRemainList($currentForm.teamName,$role.name))
-            <td>
-                $stock
-            </td>
-         #end
-    </tr>
-　　#end
-    </table>　
-
+    //グラフ表示 
+    jQuery.plot($("#placeholder"), [
+        {
+	 label : "小売り",
+         data: roles[0],
+         lines: { show: true, fill: true }
+        },
+        {
+	 label : "卸２",
+         data: roles[1],
+         lines: { show: true, fill: true }
+        },
+        {
+	 label : "メーカー",
+         data: roles[2],
+         lines: { show: true, fill: true }
+        },
+        {
+	 label : "卸1",
+         data: roles[3],
+         lines: { show: true, fill: true }
+        }]);
+});
+ </script>
   </div>
   </form>
 #parse("web/footer.vm")

@@ -65,13 +65,29 @@ public class TradeTransactionTest extends DataLoadingTestCase {
 	}
 
 	public void testƒ[ƒ‹‚ÆƒQ[ƒ€–¼‚ğˆø”‚É‚µ‚ÄİŒÉ‚ğæ“¾‚·‚é() throws Exception {
-		Map<Long, Long> list = TradeTransaction.getStockAmount("NOAH",
+		Map<Long, Long> map = TradeTransaction.getStockAmount("NOAH",
 				RoleType.‰µ‚Q.name());
-		assertEquals("İŒÉ‚ğZo‚·‚éT‚Ì”‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 4, list.size());
-		assertEquals("‚PT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 12, list.get(1L).intValue());
-		assertEquals("‚QT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 12, list.get(2L).intValue());
-		assertEquals("‚RT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 12, list.get(3L).intValue());
-		assertEquals("‚ST–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 6, list.get(4L).intValue());
+		assertEquals("İŒÉ‚ğZo‚·‚éT‚Ì”‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 4, map.size());
+		assertEquals("‚PT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 12, map.get(1L).intValue());
+		assertEquals("‚QT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 12, map.get(2L).intValue());
+		assertEquals("‚RT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 12, map.get(3L).intValue());
+		assertEquals("‚ST–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 6, map.get(4L).intValue());
+		map = TradeTransaction.getStockAmount("NOAH",
+				RoleType.ƒ[ƒJ.name());
+		assertEquals("İŒÉ‚ğZo‚·‚éT‚Ì”‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 4, map.size());
+		assertEquals("‚PT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 12, map.get(1L).intValue());
+		assertEquals("‚QT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 12, map.get(2L).intValue());
+		assertEquals("‚RT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 10, map.get(3L).intValue());
+		assertEquals("‚ST–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 0, map.get(4L).intValue());
+//		map = TradeTransaction.getStockAmount("ƒOƒ‰ƒt‚ÌƒeƒXƒg—p",
+//				RoleType.‰µ‚Q.name());
+//		assertEquals("İŒÉ‚ğZo‚·‚éT‚Ì”‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 6, map.size());
+//		assertEquals("‚PT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 29, map.get(1L).intValue());
+//		assertEquals("‚QT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 29, map.get(2L).intValue());
+//		assertEquals("‚RT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 24, map.get(3L).intValue());
+//		assertEquals("‚ST–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 11, map.get(4L).intValue());
+//		assertEquals("‚TT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", -4, map.get(5L).intValue());
+//		assertEquals("‚UT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 9, map.get(6L).intValue());
 	}
 
 	public void test“ü‰×ó’o‰×”­’‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ğ‰i‘±‰»‚·‚é() throws Exception {
