@@ -22,7 +22,7 @@
     <p>ゲーム名：$form.game.name ロール：$form.role.name プレイヤ：$form.role.player.name</p>
     <h3>ゲーム終了画面</h3>
     <p>
-      <input type="button" value="結果を見る" onClick="javascript:showResult(this.form);" />
+      <p><a href="$link.setAction('/viewStock').addQueryData('command','init')">結果を見る</a></p>
     </p>
   </div>
   </form>
