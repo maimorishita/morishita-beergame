@@ -2,7 +2,7 @@
 <div id="errorMessage">
   #foreach($property in $currentForm.message.properties)
     #foreach($msg in $currentForm.message.get($property))
-    $msg<br>
+    <span style="color: red">$msg<br></span>
     #end  
   #end
 </div>  

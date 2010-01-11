@@ -72,9 +72,18 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		// プレイヤー名入力なし
 		form.setGameId(1L);
 		form.setPlayerName("");
-		form.setRoleName("小売り");
+		form.setRoleName(RoleType.小売り.name());
 		assertFalse("プレイヤー名を入力しないで登録できています。", form.addPlayer());
-		// プレイヤー名入力なし
+		// プレイヤー名半角スペース
+		form.setGameId(1L);
+		form.setPlayerName(" ");
+		form.setRoleName(RoleType.小売り.name());
+		// プレイヤー名全角スペース
+		form.setGameId(1L);
+		form.setPlayerName("　");
+		form.setRoleName(RoleType.小売り.name());
+		assertFalse("プレイヤー名が全角スペースで登録できています。", form.addPlayer());
+		// ロール名入力なし
 		form.setGameId(1L);
 		form.setPlayerName("今井智明");
 		form.setRoleName("");
@@ -147,7 +156,7 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		form.setRoleName("メーカ");
 		assertFalse(form.login());
 	}
-	
+
 	public void testゲームの終了判定をする() throws Exception {
 		BasicService service = BasicService.getService();
 		form.setGame(service.findByPK(Game.class, 5L));
@@ -155,12 +164,32 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		form.setRole(service.findByPK(Role.class, 22L));
 		assertFalse("ゲームが終了されていません。", form.order());
 	}
-	
-//	public void test発注の判定の動作を確認する() throws Exception {
-//		BasicService service = BasicService.getService();
-//		form.setGame(service.findByPK(Game.class, 7L));
-//		form.setOrder("10");
-//		form.setRole(service.findByPK(Role.class, 35L));
-//		assertFalse("発注判定が誤っています。", form.order());
-//	}
+
+	public void testゲーム登録時の検証をする() throws Exception {
+		form.setTeamName(" ");
+		form.setOwnerName("Ryoji Yoshioka");
+		assertFalse("ゲームが登録できています", form.addGame());
+		assertTrue("エラーが発生していません", form.getMessage().hasError());
+		form.setTeamName("Alliance of Valiant Arms");
+		form.setOwnerName(" ");
+		assertFalse("ゲームが登録できています", form.addGame());
+		assertTrue("エラーが発生していません", form.getMessage().hasError());
+	}
+
+	public void test発注時の検証をする() throws Exception {
+		BasicService service = BasicService.getService();
+		// 発注数がブランク
+		Game game = service.findByPK(Game.class, 1L);
+		form.setGame(game);
+		form.setRole(game.getRole(RoleType.小売り));
+		form.setOrder("");
+		form.order();
+		assertTrue("エラーが発生していません", form.getMessage().hasError());
+		// 発注数がマイナス
+		form.setGame(game);
+		form.setRole(game.getRole(RoleType.小売り));
+		form.setOrder("-1");
+		form.order();
+		assertTrue("エラーが発生していません", form.getMessage().hasError());
+	}
 }

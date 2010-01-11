@@ -7,7 +7,9 @@ import jp.co.isken.beerGame.entity.TradeTransaction.TradeTransactionService;
 import jp.rough_diamond.commons.extractor.Extractor;
 import jp.rough_diamond.commons.extractor.Order;
 import jp.rough_diamond.commons.extractor.Property;
+import jp.rough_diamond.commons.resource.Messages;
 import jp.rough_diamond.commons.service.BasicService;
+import jp.rough_diamond.commons.service.WhenVerifier;
 import jp.rough_diamond.commons.testing.DataLoadingTestCase;
 
 public class TradeTransactionTest extends DataLoadingTestCase {
@@ -125,5 +127,17 @@ public class TradeTransactionTest extends DataLoadingTestCase {
 		assertEquals("最終週を取得できていません", 1L, transactions.get(3).getWeek().longValue());
 		assertEquals("正しいTradeTransactionが取得できていません", TransactionType.入荷.name(), transactions.get(3).getTransactionType());
 		assertEquals("取得した入荷数に誤りがあります", 4L, transactions.get(3).getAmount().longValue());
+	}
+	
+	public void test永続化時の検証を行う() throws Exception {
+		BasicService service = BasicService.getService();
+		TradeTransaction transaction = new TradeTransaction();
+		transaction.setAmount(-1L);
+		Game game = service.findByPK(Game.class, 1L);
+		transaction.setRole(game.getRole(RoleType.小売り));
+		transaction.setTransactionType(TransactionType.入荷.name());
+		transaction.setWeek(1L);
+		Messages msgs = service.validate(transaction, WhenVerifier.INSERT);
+		assertTrue("Amountにマイナス値を入力できています", msgs.hasError());
 	}
 }

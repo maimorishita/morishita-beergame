@@ -12,8 +12,11 @@ import jp.rough_diamond.commons.extractor.ExtractValue;
 import jp.rough_diamond.commons.extractor.Extractor;
 import jp.rough_diamond.commons.extractor.Property;
 import jp.rough_diamond.commons.extractor.Sum;
+import jp.rough_diamond.commons.resource.Message;
+import jp.rough_diamond.commons.resource.Messages;
 import jp.rough_diamond.commons.resource.MessagesIncludingException;
 import jp.rough_diamond.commons.service.BasicService;
+import jp.rough_diamond.commons.service.annotation.Verifier;
 import jp.rough_diamond.framework.service.Service;
 import jp.rough_diamond.framework.service.ServiceLocator;
 import jp.rough_diamond.framework.transaction.VersionUnmuchException;
@@ -21,6 +24,15 @@ import jp.rough_diamond.framework.transaction.VersionUnmuchException;
 public class TradeTransaction extends jp.co.isken.beerGame.entity.base.BaseTradeTransaction {
 
 	private static final long serialVersionUID = 1L;
+
+	@Verifier
+	public Messages validate() {
+		Messages ret = new Messages();
+		if (this.getAmount() < 0L) {
+			ret.add("orderamount", new Message("errors.minus.orderamount"));
+		}
+		return ret;
+	}
 
 	public static Map<Long, Long> getRemainAmount(String gameName,
 			String roleName) {

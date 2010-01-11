@@ -42,7 +42,21 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 
 	public boolean addGame() {
 		try {
-			Game game = Game.create(this.getTeamName(), this.getOwnerName());
+			String teamName = FormUtil.trim(this.getTeamName());
+			if (FormUtil.isNullOrEmpty(teamName) == true) {
+				Messages msgs = new Messages();
+				msgs.add("", new Message("errors.required", "チーム名"));
+				this.setMessage(msgs);
+				return false;
+			}
+			String ownerName = FormUtil.trim(this.getOwnerName());
+			if (FormUtil.isNullOrEmpty(ownerName) == true) {
+				Messages msgs = new Messages();
+				msgs.add("", new Message("errors.required", "オーナー名"));
+				this.setMessage(msgs);
+				return false;
+			}
+			Game game = Game.create(teamName, ownerName);
 			game.save();
 			this.setRole(game.getRole(RoleType.小売り));
 			this.setGame(game);
@@ -62,7 +76,7 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 		try {
 			Game game = BasicService.getService().findByPK(Game.class, this.getGameId());
 			Player player = new Player();
-			player.setName(getPlayerName());
+			player.setName(FormUtil.trim(this.getPlayerName()));
 			player.setIsOwner(false);
 			player.setGame(game);
 			Role role = new Role();
@@ -117,23 +131,17 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 
 	public boolean order() {
 		try {
-//			if (this.getRole().isOrder() == false) {
-//				Messages msgs = new Messages();
-//				msgs.add("", new Message("errors.invalid.isorder"));
-//				this.setMessage(msgs);
-//			} else {
-				// この週の発注
-				this.getRole().order(Long.parseLong(this.getOrder()));
-				if (this.getGame().IsGameOver(this.getRole().getCurrentWeek(TransactionType.発注.name()))) {
-					return false;
-				} else {
-					// 次の週の入荷、受注、出荷
-					this.getRole().inbound();
-					this.getRole().acceptOrder();
-					this.getRole().outbound();
-					this.refreshView();
-				}
-//			}
+			// この週の発注
+			this.getRole().order(Long.parseLong(this.getOrder()));
+			if (this.getGame().IsGameOver(this.getRole().getCurrentWeek(TransactionType.発注.name()))) {
+				return false;
+			} else {
+				// 次の週の入荷、受注、出荷
+				this.getRole().inbound();
+				this.getRole().acceptOrder();
+				this.getRole().outbound();
+				this.refreshView();
+			}
 		} catch (NumberFormatException e) {
 			Messages msgs = new Messages();
 			msgs.add("", new Message("errors.invalid.orderamount"));
