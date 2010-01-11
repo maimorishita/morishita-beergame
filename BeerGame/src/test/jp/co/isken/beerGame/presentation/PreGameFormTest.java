@@ -127,7 +127,7 @@ public class PreGameFormTest extends DataLoadingTestCase {
 
 	public void testgetGameAll() throws Exception {
 		List<Game> games = form.getGameAll();
-		assertEquals("すべてのゲームの数に誤りがあります", 7, games.size());
+		assertEquals("すべてのゲームの数に誤りがあります", 8, games.size());
 	}
 
 	public void testチームとロールを選んでログインする() throws Exception {

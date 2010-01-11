@@ -46,12 +46,14 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 		return BasicService.getService().findByExtractor(extractor);
 	}
 
+	public List<Role> getRoles() {
+		return getRoles(this);
+	}
+
 	public static List<Role> getRoles(Game game) {
-		BasicService service = BasicService.getService();
 		Extractor extractor = new Extractor(Role.class);
-		extractor.add(Condition.eq(
-				new Property(Role.PLAYER + "." + Player.GAME), game));
-		List<Role> roles = service.findByExtractor(extractor);
+		extractor.add(Condition.eq(new Property(Role.PLAYER + "." + Player.GAME), game));
+		List<Role> roles = BasicService.getService().findByExtractor(extractor);
 		return roles;
 	}
 

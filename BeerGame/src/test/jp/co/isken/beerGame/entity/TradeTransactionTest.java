@@ -1,7 +1,12 @@
 package jp.co.isken.beerGame.entity;
 
+import java.util.List;
 import java.util.Map;
 
+import jp.co.isken.beerGame.entity.TradeTransaction.TradeTransactionService;
+import jp.rough_diamond.commons.extractor.Extractor;
+import jp.rough_diamond.commons.extractor.Order;
+import jp.rough_diamond.commons.extractor.Property;
 import jp.rough_diamond.commons.service.BasicService;
 import jp.rough_diamond.commons.testing.DataLoadingTestCase;
 
@@ -63,5 +68,27 @@ public class TradeTransactionTest extends DataLoadingTestCase {
 		assertEquals("２週目の在庫に誤りがあります", 12, list.get(2L).intValue());
 		assertEquals("３週目の在庫に誤りがあります", 12, list.get(3L).intValue());
 		assertEquals("４週目の在庫に誤りがあります", 6, list.get(4L).intValue());
+	}
+	
+	public void test入荷受注出荷発注のトランザクションを永続化する() throws Exception {
+		// 初期処理
+		BasicService service = BasicService.getService();
+		Game game = service.findByPK(Game.class, 8L);
+		for (Role role : game.getRoles()) {
+			if (role.isDisposable()) {
+				role.disposeAllMessage();
+			}
+		}
+		Role supplier1 = game.getRole(RoleType.卸１);
+		supplier1.send(TransactionType.出荷, "4");
+		long count = service.getCountByExtractor(new Extractor(TradeTransaction.class));
+		// 本処理
+		Role wholeSaller = game.getRole(RoleType.小売り);
+		TradeTransactionService.getService().addTransactions(wholeSaller, 2L);
+		Extractor e = new Extractor(TradeTransaction.class);
+		e.addOrder(Order.desc(new Property(TradeTransaction.ID)));
+		List<TradeTransaction> transactions = service.findByExtractor(e);
+		assertEquals("トランザクションの件数に誤りがあります", count + 4, transactions.size());
+		// TODO 2010/01/11 imai & yoshioka テストが足りないので書くこと！
 	}
 }

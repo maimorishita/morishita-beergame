@@ -276,14 +276,7 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		return roles;
 	}
 
-	public boolean isOrder() {
-		if (this.getName().equals(RoleType.小売り.name())) return true;
-		//　前週かつ下流の発注が取得できる　＝　発注可能
-		TradeTransaction t = this.getDowner().getTransaction(TransactionType.発注,this.getLastWeek(TransactionType.受注.name()));
-        if (t == null){
-        	return false;	
-        }else{
-        	return true;
-        }
+	public boolean isDisposable() {
+		return (this.getName().equals(RoleType.市場.name()) == false) && (this.getName().equals(RoleType.工場.name()) == false);
 	}
 }

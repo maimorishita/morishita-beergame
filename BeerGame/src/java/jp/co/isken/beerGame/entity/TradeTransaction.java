@@ -5,12 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.jms.JMSException;
+
 import jp.rough_diamond.commons.extractor.Condition;
 import jp.rough_diamond.commons.extractor.ExtractValue;
 import jp.rough_diamond.commons.extractor.Extractor;
 import jp.rough_diamond.commons.extractor.Property;
 import jp.rough_diamond.commons.extractor.Sum;
+import jp.rough_diamond.commons.resource.MessagesIncludingException;
 import jp.rough_diamond.commons.service.BasicService;
+import jp.rough_diamond.framework.service.Service;
+import jp.rough_diamond.framework.service.ServiceLocator;
+import jp.rough_diamond.framework.transaction.VersionUnmuchException;
 
 public class TradeTransaction extends jp.co.isken.beerGame.entity.base.BaseTradeTransaction {
 
@@ -56,12 +62,25 @@ public class TradeTransaction extends jp.co.isken.beerGame.entity.base.BaseTrade
 
 	public static Long calcAmount(Long week, Role role, String typeName) {
 		Extractor ext = new Extractor(TradeTransaction.class);
-		ext.addExtractValue(new ExtractValue(
-				"sum", new Sum(new Property(TradeTransaction.AMOUNT))));
+		ext.addExtractValue(new ExtractValue("sum", new Sum(new Property(TradeTransaction.AMOUNT))));
 		ext.add(Condition.eq(new Property(TradeTransaction.ROLE), role));
 		ext.add(Condition.le(new Property(TradeTransaction.WEEK), week));
 		ext.add(Condition.eq(new Property(TradeTransaction.TRANSACTION_TYPE), typeName));
 		List<Map<String, Long>> list = BasicService.getService().findByExtractor(ext);
 		return list.get(0).get("sum");	
+	}
+	
+	public static class TradeTransactionService implements Service {
+
+		public static TradeTransactionService getService() {
+			return ServiceLocator.getService(TradeTransactionService.class);
+		}
+
+		public void addTransactions(Role role ,Long orderAmount) throws VersionUnmuchException, MessagesIncludingException, JMSException {
+			role.inbound();
+			role.acceptOrder();
+			role.outbound();
+			role.order(orderAmount);
+		}
 	}
 }

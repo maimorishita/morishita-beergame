@@ -23,7 +23,7 @@ public class GameTest extends DataLoadingTestCase {
 
 	public void testすべてのチームを取得する() throws Exception {
 		List<Game> list = Game.getAll();
-		assertEquals("すべてのチームの数に誤りがあります", 7, list.size());
+		assertEquals("すべてのチームの数に誤りがあります", 8, list.size());
 	}
 
 	public void testGameに紐づくすべてのロールを取得する() throws Exception {

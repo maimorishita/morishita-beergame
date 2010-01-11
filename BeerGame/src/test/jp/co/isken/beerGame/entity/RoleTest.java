@@ -329,18 +329,13 @@ public class RoleTest extends DataLoadingTestCase {
 		assertEquals("トランザクションが作成されていません。", count + 3, service.getCountByExtractor(new Extractor(TradeTransaction.class)));
 	}
 
-	public void test発注の条件をチェックする() throws Exception {
+	public void testキューの削除を行えるロールか判断する() throws Exception {
 		BasicService service = BasicService.getService();
-		// 小売りはチェック対象外
-		Role wholeSeller = service.findByPK(Role.class, 34L);
-		assertTrue("小売りがチェックされています。", wholeSeller.isOrder()); 
-		
-		// 卸1ー発注できないロール
-		Role supplier = service.findByPK(Role.class, 35L);
-		assertFalse("不正に発注されています",supplier.isOrder());
-		
-		// メーカー　発注できるロール
-		Role maker = service.findByPK(Role.class, 37L);
-		assertTrue("発注ができません",maker.isOrder());
+		assertTrue("小売でキューの削除が行えないと言われています", service.findByPK(Role.class, 1L).isDisposable());
+		assertTrue("卸１でキューの削除が行えないと言われています", service.findByPK(Role.class, 2L).isDisposable());
+		assertTrue("卸２でキューの削除が行えないと言われています", service.findByPK(Role.class, 3L).isDisposable());
+		assertTrue("メーカでキューの削除が行えないと言われています", service.findByPK(Role.class, 4L).isDisposable());
+		assertFalse("市場でキューの削除が行えると言われています", service.findByPK(Role.class, 5L).isDisposable());
+		assertFalse("工場でキューの削除が行えると言われています", service.findByPK(Role.class, 6L).isDisposable());
 	}
 }
