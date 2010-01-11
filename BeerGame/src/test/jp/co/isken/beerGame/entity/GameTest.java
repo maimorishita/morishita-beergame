@@ -66,8 +66,8 @@ public class GameTest extends DataLoadingTestCase {
 
 	public void testゲームの終了判定をする() throws Exception {
 		Game game = BasicService.getService().findByPK(Game.class, 1L);
-		assertTrue("ゲームが終了していません", game.IsGameOver(37L));
-		assertFalse("ゲームが終了してしまいました。", game.IsGameOver(game.getRole(
-				RoleType.小売り.name()).getCurrentWeek(TransactionType.発注.name())));
+		assertTrue("ゲームが終了していません", game.IsGameOver(38L));
+		assertFalse("ゲームが終了しています", game.IsGameOver(37L));
+		assertFalse("ゲームが終了してしまいました。", game.IsGameOver(game.getRole(RoleType.小売り.name()).getCurrentWeek(TransactionType.発注.name())));
 	}
 }
