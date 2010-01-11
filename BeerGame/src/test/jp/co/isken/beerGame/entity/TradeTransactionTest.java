@@ -21,13 +21,15 @@ public class TradeTransactionTest extends DataLoadingTestCase {
 
 	public void test入荷量を計算する() throws Exception {
 		Role role = BasicService.getService().findByPK(Role.class, 1L);
-		Long result = TradeTransaction.calcAmount(10L, role, TransactionType.入荷.name());
+		Long result = TradeTransaction.calcAmount(10L, role, TransactionType.入荷
+				.name());
 		assertEquals("入荷数が誤っています。", 18, result.intValue());
 	}
 
 	public void test出荷量を計算する() throws Exception {
 		Role role = BasicService.getService().findByPK(Role.class, 1L);
-		Long result = TradeTransaction.calcAmount(10L, role, TransactionType.出荷.name());
+		Long result = TradeTransaction.calcAmount(10L, role, TransactionType.出荷
+				.name());
 		assertEquals("出荷数が誤っています。", 26, result.intValue());
 	}
 
@@ -39,7 +41,8 @@ public class TradeTransactionTest extends DataLoadingTestCase {
 
 	public void test受注量を計算する() throws Exception {
 		Role role = BasicService.getService().findByPK(Role.class, 1L);
-		Long rltOrdered = TradeTransaction.calcAmount(10L, role, TransactionType.受注.name());
+		Long rltOrdered = TradeTransaction.calcAmount(10L, role,
+				TransactionType.受注.name());
 		assertEquals("受注数が誤っています。", 30, rltOrdered.intValue());
 	}
 
@@ -62,14 +65,15 @@ public class TradeTransactionTest extends DataLoadingTestCase {
 	}
 
 	public void testロールとゲーム名を引数にして在庫を取得する() throws Exception {
-		Map<Long, Long> list = TradeTransaction.getStockAmount("NOAH", RoleType.卸２.name());
+		Map<Long, Long> list = TradeTransaction.getStockAmount("NOAH",
+				RoleType.卸２.name());
 		assertEquals("在庫を算出する週の数に誤りがあります", 4, list.size());
 		assertEquals("１週目の在庫に誤りがあります", 12, list.get(1L).intValue());
 		assertEquals("２週目の在庫に誤りがあります", 12, list.get(2L).intValue());
 		assertEquals("３週目の在庫に誤りがあります", 12, list.get(3L).intValue());
 		assertEquals("４週目の在庫に誤りがあります", 6, list.get(4L).intValue());
 	}
-	
+
 	public void test入荷受注出荷発注のトランザクションを永続化する() throws Exception {
 		// 初期処理
 		BasicService service = BasicService.getService();
@@ -89,6 +93,21 @@ public class TradeTransactionTest extends DataLoadingTestCase {
 		e.addOrder(Order.desc(new Property(TradeTransaction.ID)));
 		List<TradeTransaction> transactions = service.findByExtractor(e);
 		assertEquals("トランザクションの件数に誤りがあります", count + 4, transactions.size());
-		// TODO 2010/01/11 imai & yoshioka テストが足りないので書くこと！
+
+		assertEquals("最終週を取得できていません", 1L, transactions.get(0).getWeek().longValue());
+		assertEquals("正しいTradeTransactionが取得できていません", TransactionType.発注.name(), transactions.get(0).getTransactionType());
+		assertEquals("取得した発注数に誤りがあります", 2L, transactions.get(0).getAmount().longValue());
+
+		assertEquals("最終週を取得できていません", 1L, transactions.get(1).getWeek().longValue());
+		assertEquals("正しいTradeTransactionが取得できていません", TransactionType.出荷.name(), transactions.get(1).getTransactionType());
+		assertEquals("取得した出荷数に誤りがあります", 4L, transactions.get(1).getAmount().longValue());
+
+		assertEquals("最終週を取得できていません", 1L, transactions.get(2).getWeek().longValue());
+		assertEquals("正しいTradeTransactionが取得できていません", TransactionType.受注.name(), transactions.get(2).getTransactionType());
+		assertEquals("取得した受注数に誤りがあります", 5L, transactions.get(2).getAmount().longValue());
+
+		assertEquals("最終週を取得できていません", 1L, transactions.get(3).getWeek().longValue());
+		assertEquals("正しいTradeTransactionが取得できていません", TransactionType.入荷.name(), transactions.get(3).getTransactionType());
+		assertEquals("取得した入荷数に誤りがあります", 4L, transactions.get(3).getAmount().longValue());
 	}
 }
