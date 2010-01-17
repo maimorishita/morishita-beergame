@@ -13,6 +13,8 @@ import jp.co.isken.beerGame.entity.TradeTransaction;
 import jp.co.isken.beerGame.entity.TransactionLoader;
 import jp.co.isken.beerGame.entity.TransactionType;
 import jp.rough_diamond.commons.extractor.Extractor;
+import jp.rough_diamond.commons.extractor.Order;
+import jp.rough_diamond.commons.extractor.Property;
 import jp.rough_diamond.commons.service.BasicService;
 import jp.rough_diamond.commons.testing.DataLoadingTestCase;
 
@@ -191,5 +193,31 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		form.setOrder("-1");
 		form.order();
 		assertTrue("エラーが発生していません", form.getMessage().hasError());
+	}
+	
+	public void test発注を行う() throws Exception {
+		// TODO 2010/01/17 yoshioka Orderのテストを追加。AddTransactionMethodを使用する場合、テスト内容を変更する事。
+		BasicService service = BasicService.getService();
+		long count = service.getCountByExtractor(new Extractor(TradeTransaction.class));
+		Game game = service.findByPK(Game.class, 1L);
+		Role wholeSeller = game.getRole(RoleType.小売り);
+		wholeSeller.disposeAllMessage();
+		wholeSeller.getUpper().send(TransactionType.出荷, "1");
+		form.setGame(game);
+		form.setRole(wholeSeller);
+		form.setOrder("10");
+		form.order();
+		Extractor e = new Extractor(TradeTransaction.class);
+		e.addOrder(Order.desc(new Property(TradeTransaction.ID)));
+		List<TradeTransaction> transactions = service.findByExtractor(e);
+		assertEquals("取得数が誤っています", count + 4, transactions.size());
+		assertEquals("取引の種類が誤っています", TransactionType.出荷.name(), transactions.get(0).getTransactionType());
+		assertEquals("取引の値が誤っています", 5L, transactions.get(0).getAmount().longValue());
+		assertEquals("取引の種類が誤っています", TransactionType.受注.name(), transactions.get(1).getTransactionType());
+		assertEquals("取引の値が誤っています", 9L, transactions.get(1).getAmount().longValue());
+		assertEquals("取引の種類が誤っています", TransactionType.入荷.name(), transactions.get(2).getTransactionType());
+		assertEquals("取引の値が誤っています", 1L, transactions.get(2).getAmount().longValue());
+		assertEquals("取引の種類が誤っています", TransactionType.発注.name(), transactions.get(3).getTransactionType());
+		assertEquals("取引の値が誤っています", 10L, transactions.get(3).getAmount().longValue());
 	}
 }

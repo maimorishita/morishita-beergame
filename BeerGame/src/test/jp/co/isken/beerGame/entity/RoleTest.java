@@ -20,13 +20,13 @@ public class RoleTest extends DataLoadingTestCase {
 
 	public void testÅIT‚ğæ“¾‚·‚é() throws Exception {
 		Role role = BasicService.getService().findByPK(Role.class, 3L);
-		assertEquals("ÅIT‚Å‚È‚¢T‚ªæ“¾‚³‚ê‚Ü‚µ‚½B", 3L, role.getLastWeek("”­’").longValue());
+		assertEquals("ÅIT‚Å‚È‚¢T‚ªæ“¾‚³‚ê‚Ü‚µ‚½B", 4L, role.getLastWeek("”­’").longValue());
 	}
 
 	public void testŒ»İT‚ğæ“¾‚·‚éƒeƒXƒg() throws Exception {
 		BasicService service = BasicService.getService();
 		Role role = service.findByPK(Role.class, 1L);
-		assertEquals("Œ»İT‚Å‚È‚¢T‚ªæ“¾‚³‚ê‚Ü‚µ‚½B", 4L, role.getCurrentWeek("”­’").longValue());
+		assertEquals("Œ»İT‚Å‚È‚¢T‚ªæ“¾‚³‚ê‚Ü‚µ‚½B", 5L, role.getCurrentWeek("”­’").longValue());
 
 //		role = service.findByPK(Role.class, 6L);
 //		// ˆêT–Ú‚Ì‚½‚ßAæˆø‹L˜^‚ª‚È‚¢ê‡
@@ -85,7 +85,7 @@ public class RoleTest extends DataLoadingTestCase {
 		TradeTransaction tradeTransaction = list.get(0);
 		assertEquals("”‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 2L, tradeTransaction.getAmount().longValue());
 		assertEquals("ƒ[ƒ‹‚ªŠÔˆá‚Á‚Ä‚Ü‚·B", 3L, tradeTransaction.getRole().getId().longValue());
-		assertEquals("T‚ªŠÔˆá‚Á‚Ä‚Ü‚·B", 4L, tradeTransaction.getWeek().longValue());
+		assertEquals("T‚ªŠÔˆá‚Á‚Ä‚Ü‚·B", 5L, tradeTransaction.getWeek().longValue());
 		assertEquals("æˆøí•Ê‚ªŠÔˆá‚Á‚Ä‚Ü‚·B", TransactionType.”­’.name(), tradeTransaction.getTransactionType());
 	}
 	

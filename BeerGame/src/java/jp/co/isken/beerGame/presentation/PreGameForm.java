@@ -174,7 +174,7 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 		this.setGame(BasicService.getService().findByPK(Game.class, this.getGameId()));
 		this.setRole(this.getGame().getRole(this.getRoleName()));
 		if (this.getRole() != null) {
-			//第１週からスタートする場合は、初期設定を行う morishita
+			// 第１週からスタートする場合は、初期設定を行う morishita
 			if (this.getRole().getLastWeek(TransactionType.出荷.name()) == 1L) {
 				return this.isEnableToStartGame();
 			}
