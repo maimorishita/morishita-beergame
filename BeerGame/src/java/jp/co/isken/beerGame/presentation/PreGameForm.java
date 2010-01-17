@@ -13,6 +13,7 @@ import jp.co.isken.beerGame.entity.Role;
 import jp.co.isken.beerGame.entity.RoleType;
 import jp.co.isken.beerGame.entity.TradeTransaction;
 import jp.co.isken.beerGame.entity.TransactionType;
+import jp.co.isken.beerGame.entity.TradeTransaction.TradeTransactionService;
 import jp.rough_diamond.commons.extractor.Condition;
 import jp.rough_diamond.commons.extractor.Extractor;
 import jp.rough_diamond.commons.extractor.Order;
@@ -132,15 +133,15 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 	public boolean order() {
 		try {
 			// ‚±‚ÌT‚Ì”­’
-			this.getRole().order(Long.parseLong(this.getOrder()));
+			TradeTransactionService.getService().addTransactions(this.getRole(), Long.parseLong(this.getOrder()));
+			this.refreshView();
 			if (this.getGame().IsGameOver(this.getRole().getCurrentWeek(TransactionType.”­’.name()))) {
 				return false;
 			} else {
 				// Ÿ‚ÌT‚Ì“ü‰×Aó’Ao‰×
-				this.getRole().inbound();
-				this.getRole().acceptOrder();
-				this.getRole().outbound();
-				this.refreshView();
+//				this.getRole().inbound();
+//				this.getRole().acceptOrder();
+//				this.getRole().outbound();
 			}
 		} catch (NumberFormatException e) {
 			Messages msgs = new Messages();

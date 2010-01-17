@@ -97,12 +97,11 @@ public class TradeTransactionTest extends DataLoadingTestCase {
 				role.disposeAllMessage();
 			}
 		}
-		Role supplier1 = game.getRole(RoleType.âµÇP);
-		supplier1.send(TransactionType.èoâ◊, "4");
+		Role wholeSeller = game.getRole(RoleType.è¨îÑÇË);
+		wholeSeller.getUpper().send(TransactionType.èoâ◊, "4");
 		long count = service.getCountByExtractor(new Extractor(TradeTransaction.class));
 		// ñ{èàóù
-		Role wholeSaller = game.getRole(RoleType.è¨îÑÇË);
-		TradeTransactionService.getService().addTransactions(wholeSaller, 2L);
+		TradeTransactionService.getService().addTransactions(wholeSeller, 2L);
 		Extractor e = new Extractor(TradeTransaction.class);
 		e.addOrder(Order.desc(new Property(TradeTransaction.ID)));
 		List<TradeTransaction> transactions = service.findByExtractor(e);

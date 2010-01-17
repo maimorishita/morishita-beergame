@@ -161,9 +161,14 @@ public class PreGameFormTest extends DataLoadingTestCase {
 
 	public void testゲームの終了判定をする() throws Exception {
 		BasicService service = BasicService.getService();
+		// 初期処理
+		Role wholeSeller = service.findByPK(Role.class, 22L);
+		wholeSeller.disposeAllMessage();
+		wholeSeller.getUpper().send(TransactionType.出荷, "1");
+		// 本処理
 		form.setGame(service.findByPK(Game.class, 5L));
 		form.setOrder("10");
-		form.setRole(service.findByPK(Role.class, 22L));
+		form.setRole(wholeSeller);
 		assertFalse("ゲームが終了されていません。", form.order());
 	}
 
@@ -180,10 +185,15 @@ public class PreGameFormTest extends DataLoadingTestCase {
 
 	public void test発注時の検証をする() throws Exception {
 		BasicService service = BasicService.getService();
-		// 発注数がブランク
+		// 初期処理
 		Game game = service.findByPK(Game.class, 1L);
+		Role wholeSeller = game.getRole(RoleType.小売り);
+		wholeSeller.disposeAllMessage();
+		wholeSeller.getUpper().send(TransactionType.出荷, "1");
+		// 本処理
+		// 発注数がブランク
 		form.setGame(game);
-		form.setRole(game.getRole(RoleType.小売り));
+		form.setRole(wholeSeller);
 		form.setOrder("");
 		form.order();
 		assertTrue("エラーが発生していません", form.getMessage().hasError());
@@ -211,13 +221,13 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		e.addOrder(Order.desc(new Property(TradeTransaction.ID)));
 		List<TradeTransaction> transactions = service.findByExtractor(e);
 		assertEquals("取得数が誤っています", count + 4, transactions.size());
-		assertEquals("取引の種類が誤っています", TransactionType.出荷.name(), transactions.get(0).getTransactionType());
-		assertEquals("取引の値が誤っています", 4L, transactions.get(0).getAmount().longValue());
-		assertEquals("取引の種類が誤っています", TransactionType.受注.name(), transactions.get(1).getTransactionType());
+		assertEquals("取引の種類が誤っています", TransactionType.発注.name(), transactions.get(0).getTransactionType());
+		assertEquals("取引の値が誤っています", 10L, transactions.get(0).getAmount().longValue());
+		assertEquals("取引の種類が誤っています", TransactionType.出荷.name(), transactions.get(1).getTransactionType());
 		assertEquals("取引の値が誤っています", 4L, transactions.get(1).getAmount().longValue());
-		assertEquals("取引の種類が誤っています", TransactionType.入荷.name(), transactions.get(2).getTransactionType());
-		assertEquals("取引の値が誤っています", 1L, transactions.get(2).getAmount().longValue());
-		assertEquals("取引の種類が誤っています", TransactionType.発注.name(), transactions.get(3).getTransactionType());
-		assertEquals("取引の値が誤っています", 10L, transactions.get(3).getAmount().longValue());
+		assertEquals("取引の種類が誤っています", TransactionType.受注.name(), transactions.get(2).getTransactionType());
+		assertEquals("取引の値が誤っています", 4L, transactions.get(2).getAmount().longValue());
+		assertEquals("取引の種類が誤っています", TransactionType.入荷.name(), transactions.get(3).getTransactionType());
+		assertEquals("取引の値が誤っています", 1L, transactions.get(3).getAmount().longValue());
 	}
 }
