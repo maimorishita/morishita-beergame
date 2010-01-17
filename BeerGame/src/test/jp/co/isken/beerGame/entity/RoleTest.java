@@ -244,7 +244,7 @@ public class RoleTest extends DataLoadingTestCase {
 	public void test市場から小売りへの発注をDIから取得する() throws Exception {
 		BasicService service =  BasicService.getService();
 		Role wholeSeller = service.findByPK(Role.class, 28L);
-		assertEquals("第1週目の受注量が誤っています。", 5L, wholeSeller.getOrderAmount().longValue());
+		assertEquals("第1週目の受注量が誤っています。", 4L, wholeSeller.getOrderAmount().longValue());
 	}
 
 	//TODO 2009/11/29 imai&yoshioka 一時的なスタブだよーん☆
@@ -259,7 +259,7 @@ public class RoleTest extends DataLoadingTestCase {
 	public void test各トランザクションが取得できる() throws Exception {
 		Role role = BasicService.getService().findByPK(Role.class, 3L);
 		TradeTransaction tradeTransaction = role.getTransaction(TransactionType.入荷);
-		assertEquals("正しい数量が取得出来ていません。", 6L, tradeTransaction.getAmount().longValue());
+		assertEquals("正しい数量が取得出来ていません。", 14L, tradeTransaction.getAmount().longValue());
 		assertEquals("正しい週が取得出来ていません。", 4L, tradeTransaction.getWeek().longValue());
 		
 		tradeTransaction = role.getTransaction(TransactionType.受注);
@@ -267,7 +267,7 @@ public class RoleTest extends DataLoadingTestCase {
 		assertEquals("正しい週が取得出来ていません。", 4L, tradeTransaction.getWeek().longValue());
 		
 		tradeTransaction = role.getTransaction(TransactionType.出荷);
-		assertEquals("正しい数量が取得出来ていません。", 12L, tradeTransaction.getAmount().longValue());
+		assertEquals("正しい数量が取得出来ていません。", 20L, tradeTransaction.getAmount().longValue());
 		assertEquals("正しい週が取得出来ていません。", 4L, tradeTransaction.getWeek().longValue());
 	}
 

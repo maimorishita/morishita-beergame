@@ -62,23 +62,23 @@ velocimacro.library = @velocity.macro@
   </bean>
   <bean id="wholeSallerAcceptOrderAmount1" class="java.lang.Long">
     <description>小売り用受注量群</description>
-    <constructor-arg index="0" type="java.lang.String"><value>5</value></constructor-arg>
+    <constructor-arg index="0" type="java.lang.String"><value>4</value></constructor-arg>
   </bean>
   <bean id="wholeSallerAcceptOrderAmount2" class="java.lang.Long">
     <description>小売り用受注量群</description>
-    <constructor-arg index="0" type="java.lang.String"><value>6</value></constructor-arg>
+    <constructor-arg index="0" type="java.lang.String"><value>4</value></constructor-arg>
   </bean>
   <bean id="wholeSallerAcceptOrderAmount3" class="java.lang.Long">
     <description>小売り用受注量群</description>
-    <constructor-arg index="0" type="java.lang.String"><value>7</value></constructor-arg>
+    <constructor-arg index="0" type="java.lang.String"><value>4</value></constructor-arg>
   </bean>
   <bean id="wholeSallerAcceptOrderAmount4" class="java.lang.Long">
     <description>小売り用受注量群</description>
-    <constructor-arg index="0" type="java.lang.String"><value>8</value></constructor-arg>
+    <constructor-arg index="0" type="java.lang.String"><value>4</value></constructor-arg>
   </bean>
   <bean id="wholeSallerAcceptOrderAmount5" class="java.lang.Long">
     <description>小売り用受注量群</description>
-    <constructor-arg index="0" type="java.lang.String"><value>9</value></constructor-arg>
+    <constructor-arg index="0" type="java.lang.String"><value>4</value></constructor-arg>
   </bean>
   <bean id="wholeSallerAcceptOrderAmount6" class="java.lang.Long">
     <description>小売り用受注量群</description>

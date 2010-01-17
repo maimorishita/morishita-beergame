@@ -7,9 +7,9 @@
 <body>
 #parse("web/errorList.vm")
   <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
-<script language="javascript" type="text/javascript" src="./js/jquery.js"></script>  
-<script language="javascript" type="text/javascript" src="./js/jquery.flot.js"></script>  
-  
+  <script language="javascript" type="text/javascript" src="./js/jquery.js"></script>
+  <script language="javascript" type="text/javascript" src="./js/jquery.flot.js"></script>
+  <script language="javascript" type="text/javascript" src="./js/excanvas.min.js"></script>
  <div id="placeholder" style="width:600px;height:300px;"></div>  
    
   <script language="javascript" type="text/javascript">
