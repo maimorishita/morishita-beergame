@@ -10,7 +10,7 @@
   <script language="javascript" type="text/javascript" src="./js/jquery.js"></script>
   <script language="javascript" type="text/javascript" src="./js/jquery.flot.js"></script>
   <script language="javascript" type="text/javascript" src="./js/excanvas.min.js"></script>
- <div id="placeholder" style="width:600px;height:300px;"></div>  
+ <div id="placeholder" style="width:1024px;height:768px;"></div>  
    
   <script language="javascript" type="text/javascript">
 $(function () {
@@ -27,27 +27,50 @@ $(function () {
     #end
 
     //グラフ表示 
-    jQuery.plot($("#placeholder"), [
+    jQuery.plot($("#placeholder"),
+      [
         {
 	 label : "小売り",
          data: roles[0],
-         lines: { show: true, fill: true }
+         lines: { show: true, fill: true },
+         points: { show: true },
         },
         {
 	 label : "卸２",
          data: roles[1],
-         lines: { show: true, fill: true }
+         lines: { show: true, fill: true },
+         points: { show: true },
         },
         {
 	 label : "メーカー",
          data: roles[2],
-         lines: { show: true, fill: true }
+         lines: { show: true, fill: true },
+         points: { show: true },
         },
         {
 	 label : "卸1",
          data: roles[3],
-         lines: { show: true, fill: true }
-        }]);
+         lines: { show: true, fill: true },
+         points: { show: true },
+        }
+      ],
+        {
+          yaxis:
+          {
+            min: -100,
+            max: 100,
+            ticks: 20,
+            tickDecimals: 0,
+          },
+          xaxis:
+          {
+            min: 1,
+            max: 37,
+            ticks: 37,
+            tickDecimals: 0,
+          },
+        }
+);
 });
  </script>
   </div>
