@@ -206,7 +206,6 @@ public class PreGameFormTest extends DataLoadingTestCase {
 	}
 	
 	public void test発注を行う() throws Exception {
-		// TODO 2010/01/17 yoshioka Orderのテストを追加。AddTransactionMethodを使用する場合、テスト内容を変更する事。
 		BasicService service = BasicService.getService();
 		long count = service.getCountByExtractor(new Extractor(TradeTransaction.class));
 		Game game = service.findByPK(Game.class, 1L);
@@ -229,5 +228,10 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		assertEquals("取引の値が誤っています", 4L, transactions.get(2).getAmount().longValue());
 		assertEquals("取引の種類が誤っています", TransactionType.入荷.name(), transactions.get(3).getTransactionType());
 		assertEquals("取引の値が誤っています", 1L, transactions.get(3).getAmount().longValue());
+	}
+	
+	public void test初期状態が正しく作成されているか確認する() throws Exception {
+		//TODO 2010/01/19 yoshioka テスト作るか悩み中
+		assertTrue(true);
 	}
 }

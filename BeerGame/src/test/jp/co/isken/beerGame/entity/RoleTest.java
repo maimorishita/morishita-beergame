@@ -18,6 +18,24 @@ public class RoleTest extends DataLoadingTestCase {
 		NumberingLoader.init();
 	}
 
+	public void test永続化で初期トランザクションが作成されているかを確認する() throws Exception {
+		BasicService service = BasicService.getService();
+		long count = service.getCountByExtractor(new Extractor(TradeTransaction.class));
+		Game game = service.findByPK(Game.class, 3L);
+		Player player = new Player();
+		player.setName("今井");
+		player.setIsOwner(false);
+		player.setGame(game);
+		Role role = new Role();
+		role.setName(RoleType.卸１.name());
+		role.setPlayer(player);
+		role.save();
+		Extractor e = new Extractor(TradeTransaction.class);
+		e.addOrder(Order.desc(new Property(TradeTransaction.ID)));
+		List<TradeTransaction> transactions = service.findByExtractor(e);
+		assertEquals("取得件数が誤っています。", count + 5 , transactions.size());
+	}
+	
 	public void test最終週を取得する() throws Exception {
 		Role role = BasicService.getService().findByPK(Role.class, 3L);
 		assertEquals("最終週でない週が取得されました。", 4L, role.getLastWeek("発注").longValue());

@@ -30,17 +30,6 @@ import jp.rough_diamond.framework.transaction.VersionUnmuchException;
 public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreGameForm {
 	private static final long serialVersionUID = 1L;
 
-	public void init() {
-		this.setOwnerName(null);
-		this.setTeamName(null);
-		this.setPlayerName(null);
-		this.setGameId(0L);
-	}
-
-	public boolean judgeGameMode() {
-		return this.isNewGame();
-	}
-
 	public boolean addGame() {
 		try {
 			String teamName = FormUtil.trim(this.getTeamName());
@@ -98,6 +87,18 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 		}
 	}
 
+	public List<List<TradeTransaction>> getDebagView() {
+		List<List<TradeTransaction>> ret = new ArrayList<List<TradeTransaction>>();
+		for (int i = 1; i < this.getRole().getLastWeek(TransactionType.入荷.name()).intValue(); i++) {
+			ret.add(getTransaction(i));
+		}
+		return ret;
+	}
+
+	public List<Game> getGameAll() {
+		return Game.getAll();
+	}
+
 	public List<Game> getWaitingGameList() {
 		return Game.getWaitingGameList();
 	}
@@ -107,25 +108,35 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 		return (game == null) ? null : game.getUnusedRoles();
 	}
 
-	public void selectGame() {
-		// 画面から呼ばれるけど、いまのところ処理なし
+	public void init() {
+		this.setOwnerName(null);
+		this.setTeamName(null);
+		this.setPlayerName(null);
+		this.setGameId(0L);
 	}
 
 	public boolean isEnableToStartGame() {
 		if (this.getGame().isEnableToStart()) {
-			try {
-				this.getRole().initAmount();
-				this.refreshView();
-				return true;
-			} catch (VersionUnmuchException e) {
-				Messages msgs = new Messages();
-				msgs.add("", new Message("errors.duplicate"));
-				this.setMessage(msgs);
-			} catch (MessagesIncludingException e) {
-				this.setMessage(e.getMessages());
-			} catch (JMSException e) {
-				throw new RuntimeException(e);
+			this.refreshView();
+			return true;
+		}
+		return false;
+	}
+
+	public boolean judgeGameMode() {
+		return this.isNewGame();
+	}
+
+	public boolean login() {
+		this.setGame(BasicService.getService().findByPK(Game.class, this.getGameId()));
+		this.setRole(this.getGame().getRole(this.getRoleName()));
+		if (this.getRole() != null) {
+			// 第１週からスタートする場合は、初期設定を行う morishita
+			if (this.getRole().getLastWeek(TransactionType.出荷.name()) == 1L) {
+				return this.isEnableToStartGame();
 			}
+			this.refreshView();
+			return this.getGame().isEnableToStart();
 		}
 		return false;
 	}
@@ -137,11 +148,6 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 			this.refreshView();
 			if (this.getGame().IsGameOver(this.getRole().getCurrentWeek(TransactionType.発注.name()))) {
 				return false;
-			} else {
-				// 次の週の入荷、受注、出荷
-//				this.getRole().inbound();
-//				this.getRole().acceptOrder();
-//				this.getRole().outbound();
 			}
 		} catch (NumberFormatException e) {
 			Messages msgs = new Messages();
@@ -159,38 +165,8 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 		return true;
 	}
 
-	private void refreshView() {
-		this.setInbound(getRole().getTransaction(TransactionType.入荷).getAmount().longValue());
-		this.setOutbound(getRole().getTransaction(TransactionType.出荷).getAmount().longValue());
-		this.setAcceptOrder(getRole().getTransaction(TransactionType.受注).getAmount().longValue());
-		this.setRemain(TradeTransaction.calcAmountRemain(this.getRole().getLastWeek(TransactionType.受注.name()), this.getRole()));
-		this.setStock(TradeTransaction.calcAmountStock(this.getRole().getLastWeek(TransactionType.入荷.name()), this.getRole()));
-	}
-
-	public List<Game> getGameAll() {
-		return Game.getAll();
-	}
-
-	public boolean login() {
-		this.setGame(BasicService.getService().findByPK(Game.class, this.getGameId()));
-		this.setRole(this.getGame().getRole(this.getRoleName()));
-		if (this.getRole() != null) {
-			// 第１週からスタートする場合は、初期設定を行う morishita
-			if (this.getRole().getLastWeek(TransactionType.出荷.name()) == 1L) {
-				return this.isEnableToStartGame();
-			}
-			this.refreshView();
-			return this.getGame().isEnableToStart();
-		}
-		return false;
-	}
-
-	public List<List<TradeTransaction>> getDebagView() {
-		List<List<TradeTransaction>> ret = new ArrayList<List<TradeTransaction>>();
-		for (int i = 1; i < this.getRole().getLastWeek(TransactionType.入荷.name()).intValue(); i++) {
-			ret.add(getTransaction(i));
-		}
-		return ret;
+	public void selectGame() {
+		// 画面から呼ばれるけど、いまのところ処理なし
 	}
 
 	private List<TradeTransaction> getTransaction(int i) {
@@ -200,5 +176,13 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 		e.add(Condition.eq(new Property(TradeTransaction.WEEK), new Long(i)));
 		e.addOrder(Order.asc(new Property(TradeTransaction.ID)));
 		return BasicService.getService().findByExtractor(e);
+	}
+
+	private void refreshView() {
+		this.setInbound(getRole().getTransaction(TransactionType.入荷).getAmount().longValue());
+		this.setOutbound(getRole().getTransaction(TransactionType.出荷).getAmount().longValue());
+		this.setAcceptOrder(getRole().getTransaction(TransactionType.受注).getAmount().longValue());
+		this.setRemain(TradeTransaction.calcAmountRemain(this.getRole().getLastWeek(TransactionType.受注.name()), this.getRole()));
+		this.setStock(TradeTransaction.calcAmountStock(this.getRole().getLastWeek(TransactionType.入荷.name()), this.getRole()));
 	}
 }

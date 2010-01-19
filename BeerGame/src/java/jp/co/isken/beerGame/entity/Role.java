@@ -34,7 +34,27 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	private static final long serialVersionUID = 1L;
 
 	private final static Log log = LogFactory.getLog(Role.class);
-
+	
+	public static Role getRole(Game game, RoleType type) {
+		BasicService service = BasicService.getService();
+		Extractor e = new Extractor(Role.class);
+		e.add(Condition.eq(new Property(Role.PLAYER + "." + Player.GAME), game));
+		e.add(Condition.eq(new Property(Role.NAME), type.name()));
+		List<Role> roles = service.findByExtractor(e);
+		return (roles.size() == 0 ? null : roles.get(0));
+	}
+	
+	public static List<Role> getRoles(Game game) {
+		BasicService service = BasicService.getService();
+		Extractor extractor = new Extractor(Role.class);	
+		extractor.add(Condition.eq(new Property(Role.PLAYER + "." + Player.GAME), game));
+		extractor.add(Condition.notEq(new Property(Role.NAME), "市場"));
+		extractor.add(Condition.notEq(new Property(Role.NAME), "工場"));
+		extractor.addOrder(Order.asc(new Property(Role.ID)));
+		List<Role> roles = service.findByExtractor(extractor);
+		return roles;
+	}
+	
 	public Long getLastWeek(String transactionType) {
 		Extractor extractor = new Extractor(TradeTransaction.class);
 		extractor.add(Condition.eq(new Property(TradeTransaction.ROLE), this));
@@ -158,46 +178,6 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		transaction.save();
 	}
 
-	public void disposeAllMessage() throws JMSException {
-		if (RoleType.getRoleTypeByName(this.getName()).equals(RoleType.小売り) == false) {
-			this.disposeMessage(TransactionType.受注);
-		}
-		if (RoleType.getRoleTypeByName(this.getName()).equals(RoleType.メーカ) == false) {
-			this.disposeMessage(TransactionType.入荷);
-		}
-	}
-
-	private void disposeMessage(TransactionType type) throws JMSException {
-		while (true) {
-			String ret = this.receiveNoWait(type);
-			if (ret == null) {
-				log.info("メッセージはありません。");
-				break;
-			} else {
-				log.info("メッセージを破棄します。内容: " + ret);
-			}
-		}
-	}
-
-	private String receiveNoWait(TransactionType type) throws JMSException {
-		// Connectionオブジェクトの作成
-		ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_BROKER_URL);
-		QueueConnection connection = factory.createQueueConnection();
-		// セッションの作成
-		QueueSession session = connection.createQueueSession(false, QueueSession.AUTO_ACKNOWLEDGE);
-		log.info("破棄するメッセージを受信します。Queue: " + this.getQueueName(type));
-		Queue queue = session.createQueue(this.getQueueName(type));
-		// MessageConsumerオブジェクトの作成（Queueと関連付け）
-		QueueReceiver receiver = session.createReceiver(queue);
-		connection.start();
-		// メッセージの受信
-		TextMessage ret = (TextMessage) receiver.receive(1);
-		receiver.close();
-		session.close();
-		connection.close();
-		return (ret == null) ? null : ret.getText();
-	}
-
 	public void initAmount() throws VersionUnmuchException, MessagesIncludingException, JMSException {
 		Long inboundAmount = this.inbound();
 		Long acceptOrderAmount = this.acceptOrder();
@@ -217,15 +197,6 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		e.add(Condition.eq(new Property(Role.PLAYER + "." + Player.GAME), this.getPlayer().getGame()));
 		e.add(Condition.eq(new Property(Role.NAME), type.name()));
 		List<Role> roles = BasicService.getService().findByExtractor(e);
-		return (roles.size() == 0 ? null : roles.get(0));
-	}
-
-	public static Role getRole(Game game, RoleType type) {
-		BasicService service = BasicService.getService();
-		Extractor e = new Extractor(Role.class);
-		e.add(Condition.eq(new Property(Role.PLAYER + "." + Player.GAME), game));
-		e.add(Condition.eq(new Property(Role.NAME), type.name()));
-		List<Role> roles = service.findByExtractor(e);
 		return (roles.size() == 0 ? null : roles.get(0));
 	}
 
@@ -267,18 +238,47 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		this.send(TransactionType.発注, orderAmount.toString());
 	}
 
-	public static List<Role> getRoles(Game game) {
-		BasicService service = BasicService.getService();
-		Extractor extractor = new Extractor(Role.class);	
-		extractor.add(Condition.eq(new Property(Role.PLAYER + "." + Player.GAME), game));
-		extractor.add(Condition.notEq(new Property(Role.NAME), "市場"));
-		extractor.add(Condition.notEq(new Property(Role.NAME), "工場"));
-		extractor.addOrder(Order.asc(new Property(Role.ID)));
-		List<Role> roles = service.findByExtractor(extractor);
-		return roles;
-	}
-
 	public boolean isDisposable() {
 		return (this.getName().equals(RoleType.市場.name()) == false) && (this.getName().equals(RoleType.工場.name()) == false);
+	}
+	
+	public void disposeAllMessage() throws JMSException {
+		if (RoleType.getRoleTypeByName(this.getName()).equals(RoleType.小売り) == false) {
+			this.disposeMessage(TransactionType.受注);
+		}
+		if (RoleType.getRoleTypeByName(this.getName()).equals(RoleType.メーカ) == false) {
+			this.disposeMessage(TransactionType.入荷);
+		}
+	}
+
+	private void disposeMessage(TransactionType type) throws JMSException {
+		while (true) {
+			String ret = this.receiveNoWait(type);
+			if (ret == null) {
+				log.info("メッセージはありません。");
+				break;
+			} else {
+				log.info("メッセージを破棄します。内容: " + ret);
+			}
+		}
+	}
+
+	private String receiveNoWait(TransactionType type) throws JMSException {
+		// Connectionオブジェクトの作成
+		ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_BROKER_URL);
+		QueueConnection connection = factory.createQueueConnection();
+		// セッションの作成
+		QueueSession session = connection.createQueueSession(false, QueueSession.AUTO_ACKNOWLEDGE);
+		log.info("破棄するメッセージを受信します。Queue: " + this.getQueueName(type));
+		Queue queue = session.createQueue(this.getQueueName(type));
+		// MessageConsumerオブジェクトの作成（Queueと関連付け）
+		QueueReceiver receiver = session.createReceiver(queue);
+		connection.start();
+		// メッセージの受信
+		TextMessage ret = (TextMessage) receiver.receive(1);
+		receiver.close();
+		session.close();
+		connection.close();
+		return (ret == null) ? null : ret.getText();
 	}
 }
