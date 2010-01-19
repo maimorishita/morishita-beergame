@@ -114,11 +114,11 @@ public class RoleTest extends DataLoadingTestCase {
 		// 本処理
 		Role supplier1 = service.findByPK(Role.class, 2L);
 		supplier1.order(8L);
-		// Role8Lの第三週から発注数を受け取る
+		// Role3Lの第三週から発注数を受け取る
 		// 受注の取引記録を登録する
 		long count = service.getCountByExtractor(new Extractor(TradeTransaction.class));
 		supplier2 = BasicService.getService().findByPK(Role.class, 3L);
-		supplier2.acceptOrder();
+		assertEquals("受注数に誤りがあります", 8L, supplier2.acceptOrder().longValue());
 		assertEquals("取得件数が誤っています。", count + 1, service.getCountByExtractor(new Extractor(TradeTransaction.class)));
 		Extractor extractor = new Extractor(TradeTransaction.class);
 		extractor.addOrder(Order.desc(new Property(TradeTransaction.ID)));
@@ -144,36 +144,41 @@ public class RoleTest extends DataLoadingTestCase {
 
 	public void test入荷の取引記録を登録する() throws Exception {
 		BasicService service = BasicService.getService();
-		// メーカーから卸2への入荷を想定する
+		// 卸１から小売りへの入荷を想定する
 		// 初期処理
-		Role supplier2 = BasicService.getService().findByPK(Role.class, 9L);
-		supplier2.disposeAllMessage();
+		Role supplier1 = BasicService.getService().findByPK(Role.class, 8L);
+		supplier1.disposeAllMessage();
+		supplier1.send(TransactionType.出荷, "250");
 		// 本処理
-		// メーカーが受注記録をもとに出荷する
-		Role maker = BasicService.getService().findByPK(Role.class, 10L);
-		maker.outbound();
-		// メーカーからの出荷データを受けて入荷の取引記録を登録する
+		// 卸１からの出荷データを受けて小売りが入荷の取引記録を登録する
 		long count = service.getCountByExtractor(new Extractor(TradeTransaction.class));
-		supplier2 = BasicService.getService().findByPK(Role.class, 9L);
-		supplier2.inbound();
+		Role wholeSeller = BasicService.getService().findByPK(Role.class, 7L);
+		assertEquals("入荷数に誤りがあります", 250L, wholeSeller.inbound().longValue());
 		assertEquals("取得件数が誤っています。", count + 1, service.getCountByExtractor(new Extractor(TradeTransaction.class)));
 		Extractor extractor = new Extractor(TradeTransaction.class);
 		extractor.addOrder(Order.desc(new Property(TradeTransaction.ID)));
 		List<TradeTransaction> list = service.findByExtractor(extractor);
 		TradeTransaction tradeTransaction = list.get(0);
 		// 入荷のトランザクションが正しく作られたか？
-		assertEquals("数に誤りがあります", 4L, tradeTransaction.getAmount().longValue());
-		assertEquals("ロールが間違ってます。", 9L, tradeTransaction.getRole().getId().longValue());
-		assertEquals("週が間違ってます。", 1L, tradeTransaction.getWeek().longValue());
+		assertEquals("数に誤りがあります", 250L, tradeTransaction.getAmount().longValue());
+		assertEquals("ロールが間違ってます。", 7L, tradeTransaction.getRole().getId().longValue());
+		assertEquals("週が間違ってます。", 2L, tradeTransaction.getWeek().longValue());
 		assertEquals("取引種別が間違ってます。", TransactionType.入荷.name(), tradeTransaction.getTransactionType());
 	}
 
 	public void test出荷の取引記録を登録する() throws Exception {
+		// 小売りの第１週の在庫／注残が-80
 		BasicService service = BasicService.getService();
+		// 初期処理
+		// 卸１が受注記録をもとに出荷する
+		Role supplier1 = service.findByPK(Role.class, 8L);
+		supplier1.send(TransactionType.出荷, "200");
+		Role wholeSeller = service.findByPK(Role.class, 7L);
+		Long inboundAmount = wholeSeller.inbound();
+		Long acceptOrderAmount = wholeSeller.acceptOrder();
 		long count = service.getCountByExtractor(new Extractor(TradeTransaction.class));
-		// メーカーが受注記録をもとに出荷する
-		Role maker = BasicService.getService().findByPK(Role.class, 10L);
-		maker.outbound();
+		// 本処理
+		wholeSeller.outbound(inboundAmount, acceptOrderAmount);
 		// トランザクションの数が1つ増えているか？
 		assertEquals("取得件数が誤っています。", count + 1, service.getCountByExtractor(new Extractor(TradeTransaction.class)));
 		Extractor extractor = new Extractor(TradeTransaction.class);
@@ -181,10 +186,11 @@ public class RoleTest extends DataLoadingTestCase {
 		List<TradeTransaction> list = service.findByExtractor(extractor);
 		TradeTransaction tradeTransaction = list.get(0);
 		// 出荷のトランザクションが正しく作られたか？
-		assertEquals("数に誤りがあります", 4L, tradeTransaction.getAmount().longValue());
-		assertEquals("ロールが間違ってます。", 10L, tradeTransaction.getRole().getId().longValue());
-		assertEquals("週が間違ってます。", 1L, tradeTransaction.getWeek().longValue());
+		assertEquals("今週の受注数と異なった数を出荷しています", 4L, tradeTransaction.getAmount().longValue());
+		assertEquals("ロールが間違ってます。", 7L, tradeTransaction.getRole().getId().longValue());
+		assertEquals("週が間違ってます。", 2L, tradeTransaction.getWeek().longValue());
 		assertEquals("取引種別が間違ってます。", TransactionType.出荷.name(), tradeTransaction.getTransactionType());
+		// TODO 2010/01/19 imai & ogasawara 在庫を上回る受注に対する出荷のテストを行うこと
 	}
 
 	public void test上流のロールを取得する() throws Exception {

@@ -100,10 +100,12 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		log.info("発注しました: ロール名 = " + this.getName());
 	}
 
-	public void acceptOrder() throws VersionUnmuchException, MessagesIncludingException, JMSException {
+	public Long acceptOrder() throws VersionUnmuchException, MessagesIncludingException, JMSException {
+		Long ret = this.getOrderAmount();
 		log.info("受注します: ロール名 = " + this.getName());
-		this.createTransaction(TransactionType.受注, this.getOrderAmount());
+		this.createTransaction(TransactionType.受注, ret);
 		log.info("受注しました: ロール名 = " + this.getName());
+		return ret;
 	}
 
 	// TODO 2010/01/03 imai & yoshioka DIContainerから配列を取得できんかったとです。井上夫妻助けて！
@@ -116,31 +118,31 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 		}
 	}
 
-	public void inbound() throws VersionUnmuchException, MessagesIncludingException, JMSException {
+	public Long inbound() throws VersionUnmuchException, MessagesIncludingException, JMSException {
+		Long ret = this.getInboundAmount();
 		log.info("入荷します: ロール名 = " + this.getName());
-		this.createTransaction(TransactionType.入荷, this.getInboundAmount());
+		this.createTransaction(TransactionType.入荷, ret);
 		log.info("入荷しました: ロール名 = " + this.getName());
+		return ret;
 	}
 
 	public Long getInboundAmount() throws JMSException {
 		return Long.parseLong(this.receive(TransactionType.入荷));
 	}
 
-	public void outbound() throws VersionUnmuchException, MessagesIncludingException, JMSException {
+	public void outbound(Long inboundAmount, Long acceptOrderAmount) throws VersionUnmuchException, MessagesIncludingException, JMSException {
 		log.info("出荷します: ロール名 = " + this.getName());
-		Long amount = this.getOutboundAmount();
+		Long amount = this.getOutboundAmount(inboundAmount, acceptOrderAmount);
 		this.createTransaction(TransactionType.出荷, amount);
 		this.send(TransactionType.出荷, amount.toString());
 		log.info("出荷しました: ロール名 = " + this.getName());
 	}
 
-	public Long getOutboundAmount() {
+	public Long getOutboundAmount(Long inboundAmount, Long acceptOrderAmount) {
 		Long lastWeek = this.getLastWeek(TransactionType.出荷.name());
-		Long acceptAmount = this.getTransaction(TransactionType.受注, lastWeek).getAmount();
-		Long remain = TradeTransaction.calcAmountRemain(lastWeek, this);
-		Long sum = acceptAmount + remain;
-		Long stock = TradeTransaction.calcAmountStock(this.getCurrentWeek(TransactionType.出荷.name()), this);
-		return (sum <= stock) ? sum : stock;
+		Long stock = TradeTransaction.calcAmountStock(lastWeek, this);
+		Long currentStock = stock + inboundAmount;
+		return (acceptOrderAmount <= currentStock) ? acceptOrderAmount : currentStock;
 	}
 
 	void createTransaction(TransactionType type, Long amount) throws VersionUnmuchException, MessagesIncludingException, JMSException {
@@ -197,9 +199,9 @@ public class Role extends jp.co.isken.beerGame.entity.base.BaseRole {
 	}
 
 	public void initAmount() throws VersionUnmuchException, MessagesIncludingException, JMSException {
-		this.inbound();
-		this.acceptOrder();
-		this.outbound();
+		Long inboundAmount = this.inbound();
+		Long acceptOrderAmount = this.acceptOrder();
+		this.outbound(inboundAmount, acceptOrderAmount);
 	}
 
 	public Role getUpper() {

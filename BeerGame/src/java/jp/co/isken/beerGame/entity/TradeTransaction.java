@@ -93,9 +93,9 @@ public class TradeTransaction extends jp.co.isken.beerGame.entity.base.BaseTrade
 		}
 
 		public void addTransactions(Role role ,Long orderAmount) throws VersionUnmuchException, MessagesIncludingException, JMSException {
-			role.inbound();
-			role.acceptOrder();
-			role.outbound();
+			Long inboundAmount = role.inbound();
+			Long acceptOrderAmount = role.acceptOrder();
+			role.outbound(inboundAmount, acceptOrderAmount);
 			role.order(orderAmount);
 		}
 	}
