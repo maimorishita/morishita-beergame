@@ -180,9 +180,8 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 
 	private void refreshView() {
 		this.setInbound(getRole().getTransaction(TransactionType.“ü‰×).getAmount().longValue());
-		this.setOutbound(getRole().getTransaction(TransactionType.o‰×).getAmount().longValue());
 		this.setAcceptOrder(getRole().getTransaction(TransactionType.ó’).getAmount().longValue());
+		this.setOutbound(getRole().getTransaction(TransactionType.o‰×).getAmount().longValue());
 		this.setRemain(TradeTransaction.calcAmountRemain(this.getRole().getLastWeek(TransactionType.ó’.name()), this.getRole()));
-		this.setStock(TradeTransaction.calcAmountStock(this.getRole().getLastWeek(TransactionType.“ü‰×.name()), this.getRole()));
 	}
 }

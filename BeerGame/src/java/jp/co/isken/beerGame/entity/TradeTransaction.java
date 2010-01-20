@@ -50,8 +50,10 @@ public class TradeTransaction extends jp.co.isken.beerGame.entity.base.BaseTrade
 	}
 
 	public static Long calcAmountRemain(Long week, Role role) {
-		Long amount = calcAmount(week - 1, role, TransactionType.受注.name()) - calcAmount(week, role, TransactionType.出荷.name());
-		return (amount < 0L ? 0L : amount);
+		Long stock = calcAmountStock((week < 1 ? 0 : week - 1), role);
+		Long inbound = role.getTransaction(TransactionType.入荷, week).getAmount();
+		Long acceptOrder = role.getTransaction(TransactionType.受注, week).getAmount();
+		return ((stock + inbound) - acceptOrder);
 	}
 
 	public static Map<Long, Long> getStockAmount(String gameName, String roleName) {
@@ -63,11 +65,7 @@ public class TradeTransaction extends jp.co.isken.beerGame.entity.base.BaseTrade
 	public static Map<Long, Long> getStockList(Long week, Role role) {
 		Map<Long, Long> ret = new HashMap<Long, Long>();
 		for(Long i = 1L ; i <= week ; i++){
-			Long stock = calcAmountStock(i, role);
-			if(stock<=0){
-				stock = -calcAmountRemain(i, role);
-			}
-			ret.put(i, stock);
+			ret.put(i, calcAmountRemain(i, role));
 		}
 		return ret;
 	}

@@ -30,11 +30,7 @@
     <tr>
       <td>出荷</td>
       <td width="50">$form.outbound</td>
-      <td>在庫</td>
-      <td width="50">$form.stock</td>
-    </tr>
-    <tr>
-      <td>注文残</td>
+      <td>在庫／注残</td>
       <td width="50">$form.remain</td>
     </tr>
   </table>
@@ -47,6 +43,8 @@
   <table border=1>
 #foreach($week in $!form.getDebagView())
     <tr>
+#set($index = $velocityCount + 1)
+      <td>$index</td>
 #foreach($tran in $!week)
       <td>$tran.transactionType $tran.amount</td>
 #end

@@ -38,13 +38,13 @@ public class RoleTest extends DataLoadingTestCase {
 	
 	public void test最終週を取得する() throws Exception {
 		Role role = BasicService.getService().findByPK(Role.class, 3L);
-		assertEquals("最終週でない週が取得されました。", 4L, role.getLastWeek("発注").longValue());
+		assertEquals("最終週でない週が取得されました。", 5L, role.getLastWeek("発注").longValue());
 	}
 
 	public void test現在週を取得するテスト() throws Exception {
 		BasicService service = BasicService.getService();
 		Role role = service.findByPK(Role.class, 1L);
-		assertEquals("現在週でない週が取得されました。", 5L, role.getCurrentWeek("発注").longValue());
+		assertEquals("現在週でない週が取得されました。", 6L, role.getCurrentWeek("発注").longValue());
 
 //		role = service.findByPK(Role.class, 6L);
 //		// 一週目のため、取引記録がない場合
@@ -103,7 +103,7 @@ public class RoleTest extends DataLoadingTestCase {
 		TradeTransaction tradeTransaction = list.get(0);
 		assertEquals("数に誤りがあります", 2L, tradeTransaction.getAmount().longValue());
 		assertEquals("ロールが間違ってます。", 3L, tradeTransaction.getRole().getId().longValue());
-		assertEquals("週が間違ってます。", 5L, tradeTransaction.getWeek().longValue());
+		assertEquals("週が間違ってます。", 6L, tradeTransaction.getWeek().longValue());
 		assertEquals("取引種別が間違ってます。", TransactionType.発注.name(), tradeTransaction.getTransactionType());
 	}
 	
@@ -144,7 +144,7 @@ public class RoleTest extends DataLoadingTestCase {
 		TradeTransaction tradeTransaction = list.get(0);
 		assertEquals("数に誤りがあります", 8L, tradeTransaction.getAmount().longValue());
 		assertEquals("ロールが間違ってます。", 3L, tradeTransaction.getRole().getId().longValue());
-		assertEquals("週が間違ってます。", 5L, tradeTransaction.getWeek().longValue());
+		assertEquals("週が間違ってます。", 6L, tradeTransaction.getWeek().longValue());
 		assertEquals("取引種別が間違ってます。", TransactionType.受注.name(), tradeTransaction.getTransactionType());
 	}
 	
@@ -283,16 +283,16 @@ public class RoleTest extends DataLoadingTestCase {
 	public void test各トランザクションが取得できる() throws Exception {
 		Role role = BasicService.getService().findByPK(Role.class, 3L);
 		TradeTransaction tradeTransaction = role.getTransaction(TransactionType.入荷);
-		assertEquals("正しい数量が取得出来ていません。", 14L, tradeTransaction.getAmount().longValue());
-		assertEquals("正しい週が取得出来ていません。", 4L, tradeTransaction.getWeek().longValue());
+		assertEquals("正しい数量が取得出来ていません。", 22L, tradeTransaction.getAmount().longValue());
+		assertEquals("正しい週が取得出来ていません。", 5L, tradeTransaction.getWeek().longValue());
 		
 		tradeTransaction = role.getTransaction(TransactionType.受注);
-		assertEquals("正しい数量が取得出来ていません。", 20L, tradeTransaction.getAmount().longValue());
-		assertEquals("正しい週が取得出来ていません。", 4L, tradeTransaction.getWeek().longValue());
+		assertEquals("正しい数量が取得出来ていません。", 28L, tradeTransaction.getAmount().longValue());
+		assertEquals("正しい週が取得出来ていません。", 5L, tradeTransaction.getWeek().longValue());
 		
 		tradeTransaction = role.getTransaction(TransactionType.出荷);
-		assertEquals("正しい数量が取得出来ていません。", 20L, tradeTransaction.getAmount().longValue());
-		assertEquals("正しい週が取得出来ていません。", 4L, tradeTransaction.getWeek().longValue());
+		assertEquals("正しい数量が取得出来ていません。", 22L, tradeTransaction.getAmount().longValue());
+		assertEquals("正しい週が取得出来ていません。", 5L, tradeTransaction.getWeek().longValue());
 	}
 
 	public void testゲームNOAHのロールのキューをすべて削除する() throws Exception {

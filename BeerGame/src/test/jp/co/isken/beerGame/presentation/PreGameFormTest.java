@@ -122,8 +122,7 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		assertEquals("画面の入荷数に誤りがあります", 4L, form.getInbound().longValue());
 		assertEquals("画面の受注数に誤りがあります", 4L, form.getAcceptOrder().longValue());
 		assertEquals("画面の出荷数に誤りがあります", 4L, form.getOutbound().longValue());
-		assertEquals("画面の注文残数に誤りがあります", 0L, form.getRemain().longValue());
-		assertEquals("画面の在庫数に誤りがあります", 12L, form.getStock().longValue());
+		assertEquals("画面の注残数に誤りがあります", 12L, form.getRemain().longValue());
 		// 異常系
 		Game game2 = service.findByPK(Game.class, 3L);
 		form.setGame(game2);
@@ -148,10 +147,10 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		assertEquals("卸１", form.getRole().getName());
 		assertEquals("小笠原", form.getRole().getPlayer().getName());
 		// 初期表示のテスト
-		assertEquals(18L, form.getAcceptOrder().longValue());
-		assertEquals(2L, form.getStock().longValue());
-		// 初期在庫のテスト
-		assertEquals(12L, form.getRole().getTransaction(TransactionType.在庫).getAmount().longValue());
+		assertEquals(20L, form.getInbound().longValue());
+		assertEquals(26L, form.getAcceptOrder().longValue());
+		assertEquals(22L, form.getOutbound().longValue());
+		assertEquals(-4L, form.getRemain().longValue());
 		// 異常系
 		form = new PreGameForm();
 		form.setGameId(3L);
