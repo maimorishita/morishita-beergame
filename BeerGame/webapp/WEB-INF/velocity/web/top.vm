@@ -2,11 +2,12 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" href="./css/style.css" type="text/css" />
+  <script language="javascript" type="text/javascript" src="./js/main.js"></script>
   <title>ビールゲーム</title>
 </head>
 <body>
   <div id="main">
-    <h1>ビールゲーム</h1>
+    <h1 onclick="javascript:adjustBrowserSize();">ビールゲーム</h1>
     <h2><a href="$link.setAction('/preGame').addQueryData('command','init')">ゲームを開始する</a></h2>
     <h2><a href="$link.setAction('/viewStock').addQueryData('command','init')">残高の確認</a></h2>
     <h2><a href="$link.setAction('/preGame').addQueryData('command','login')">ログイン</a></h2>

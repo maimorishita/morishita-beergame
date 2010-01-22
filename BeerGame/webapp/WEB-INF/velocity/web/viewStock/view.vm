@@ -2,20 +2,19 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" href="./css/style.css" type="text/css" />
+  <script language="javascript" type="text/javascript" src="./js/jquery.js"></script>
+  <script language="javascript" type="text/javascript" src="./js/jquery.flot.js"></script>
+  <script language="javascript" type="text/javascript" src="./js/excanvas.min.js"></script>
   <title>残高表示</title>
 </head>
 <body>
 #parse("web/errorList.vm")
   <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
-  <script language="javascript" type="text/javascript" src="./js/jquery.js"></script>
-  <script language="javascript" type="text/javascript" src="./js/jquery.flot.js"></script>
-  <script language="javascript" type="text/javascript" src="./js/excanvas.min.js"></script>
- <div id="placeholder" style="width:1024px;height:768px;"></div>  
-   
+  <div id="placeholder" style="width:1024px;height:768px;"></div>
   <script language="javascript" type="text/javascript">
-$(function () {
+  $(function () {
     //データ  
-     var roles = [];
+    var roles = [];
     #foreach($role in $!currentForm.getRoles())
       #set($map = $currentForm.getStockList($currentForm.teamName,$role.name))
       #set($id = $role.id)
@@ -30,25 +29,25 @@ $(function () {
     jQuery.plot($("#placeholder"),
       [
         {
-	 label : "小売り",
+         label : "小売り",
          data: roles[0],
          lines: { show: true, fill: true },
          points: { show: true },
         },
         {
-	 label : "卸２",
+         label : "卸２",
          data: roles[1],
          lines: { show: true, fill: true },
          points: { show: true },
         },
         {
-	 label : "メーカー",
+         label : "メーカー",
          data: roles[2],
          lines: { show: true, fill: true },
          points: { show: true },
         },
         {
-	 label : "卸1",
+         label : "卸1",
          data: roles[3],
          lines: { show: true, fill: true },
          points: { show: true },
