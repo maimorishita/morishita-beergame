@@ -151,11 +151,22 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		assertEquals(26L, form.getAcceptOrder().longValue());
 		assertEquals(22L, form.getOutbound().longValue());
 		assertEquals(-4L, form.getRemain().longValue());
-		// 異常系
+		// 異常系  ロールが作成されていないのに、ログインしようとした場合
 		form = new PreGameForm();
 		form.setGameId(3L);
 		form.setRoleName("メーカ");
 		assertFalse(form.login());
+		assertTrue("エラーが発生していません", form.getMessage().hasError());
+		assertEquals("エラーメッセージが誤っています。", "errors.invalid.login", 
+				form.getMessage().get("").get(0).getKey());
+		// 異常系  ４つのロールが揃っていないときに、ログインしようとした場合
+		form = new PreGameForm();
+		form.setGameId(3L);
+		form.setRoleName("小売り");
+		assertFalse(form.login());
+		assertTrue("エラーが発生していません", form.getMessage().hasError());
+		assertEquals("エラーメッセージが誤っています。", "errors.invalid.start", 
+				form.getMessage().get("").get(0).getKey());
 	}
 
 	public void testゲームの終了判定をする() throws Exception {

@@ -128,17 +128,24 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 	}
 
 	public boolean login() {
-		this.setGame(BasicService.getService().findByPK(Game.class, this.getGameId()));
+		this.setGame(BasicService.getService().findByPK(Game.class,
+				this.getGameId()));
 		this.setRole(this.getGame().getRole(this.getRoleName()));
-		if (this.getRole() != null) {
-			// 第１週からスタートする場合は、初期設定を行う morishita
-			if (this.getRole().getLastWeek(TransactionType.出荷.name()) == 1L) {
-				return this.isEnableToStartGame();
-			}
-			this.refreshView();
-			return this.getGame().isEnableToStart();
+		if (this.getRole() == null) {
+			Messages msgs = new Messages();
+			msgs.add("", new Message("errors.invalid.login"));
+			this.setMessage(msgs);
+			return false;
 		}
-		return false;
+		// this.refreshView();
+		if(this.isEnableToStartGame()){
+			return true;
+		}else{
+			Messages msgs = new Messages();
+			msgs.add("", new Message("errors.invalid.start"));
+			this.setMessage(msgs);
+			return false;
+		}
 	}
 
 	public boolean order() {
