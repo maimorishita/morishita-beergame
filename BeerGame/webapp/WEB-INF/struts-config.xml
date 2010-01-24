@@ -70,8 +70,9 @@
           name="ViewStockForm"
           validate="false"
           scope="session">
-        <forward name="top"                path="web/viewStock/top.vm"  redirect="false" />
-        <forward name="view"                path="web/viewStock/view.vm"  redirect="false" />
+        <forward name="top"                path="web/viewStock/top.vm"      redirect="false" />
+        <forward name="view"               path="web/viewStock/view.vm"     redirect="false" />
+        <forward name="result"             path="web/viewStock/result.vm"   redirect="false" />
       </action>
     </action-mappings>
 

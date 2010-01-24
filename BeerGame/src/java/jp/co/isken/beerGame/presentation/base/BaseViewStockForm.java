@@ -10,9 +10,22 @@ import java.util.*;
 @SuppressWarnings("all")
 abstract public class BaseViewStockForm extends jp.rough_diamond.framework.web.struts.BaseForm implements Serializable {
     /**
+     * ゲームID
+    **/
+    private  Long   gameId;
+
+    /**
      * チーム名
     **/
     private  String   teamName;
+
+    /**
+     * ゲームIDを取得する
+     * @return ゲームID
+    **/
+    public Long getGameId() {
+        return this.gameId;
+    }
 
     /**
      * チーム名を取得する
@@ -24,6 +37,14 @@ abstract public class BaseViewStockForm extends jp.rough_diamond.framework.web.s
 
 
     /**
+     * ゲームIDを設定する
+     * @param gameId ゲームID
+    **/
+    public void setGameId(Long gameId) {
+        this.gameId = gameId;
+    }
+
+    /**
      * チーム名を設定する
      * @param teamName チーム名
     **/
@@ -33,6 +54,8 @@ abstract public class BaseViewStockForm extends jp.rough_diamond.framework.web.s
 
     public String toString() {
       StringBuffer buf = new StringBuffer();
+      buf.append("[ゲームID:");
+      buf.append(gameId + "]");
       buf.append("[チーム名:");
       buf.append(teamName + "]");
       return buf.toString();
