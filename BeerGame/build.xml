@@ -27,4 +27,10 @@
     <native2ascii src="${resource.dir}" dest="${src.dir}" includes="**/*.properties" encoding="windows-31j" />
     <echo message="Eclipse上で実行している場合は、F5を押して最新状態にしてください。" />
   </target>
+  
+  <target name="makeBeerGameConfig" description="beergameのbeans.xmlを作成する">
+    <property name="filtering.filename" value="${conf.dir}/filtering.beergame.properties" />
+    <antcall target="makeConfig" />
+  </target>
+  
 </project>
