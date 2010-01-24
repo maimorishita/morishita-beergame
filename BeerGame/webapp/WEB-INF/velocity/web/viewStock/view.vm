@@ -5,12 +5,6 @@
   <script language="javascript" type="text/javascript" src="./js/jquery.js"></script>
   <script language="javascript" type="text/javascript" src="./js/jquery.flot.js"></script>
   <script language="javascript" type="text/javascript" src="./js/excanvas.min.js"></script>
-  <title>残高表示</title>
-</head>
-<body>
-#parse("web/errorList.vm")
-  <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
-  <div id="placeholder" style="width:1024px;height:768px;"></div>
   <script language="javascript" type="text/javascript">
   $(function () {
     //データ  
@@ -26,52 +20,123 @@
     #end
 
     //グラフ表示 
-    jQuery.plot($("#placeholder"),
-      [
-        {
+    jQuery.plot($("#wholeSeller"),
+    [
+      {
          label : "小売り",
          data: roles[0],
          lines: { show: true, fill: true },
          points: { show: true },
-        },
+      }
+    ],
+      {
+        yaxis:
         {
-         label : "卸２",
-         data: roles[1],
-         lines: { show: true, fill: true },
-         points: { show: true },
+          min: -100,
+          max: 100,
+          ticks: 20,
+          tickDecimals: 0,
         },
+        xaxis:
         {
-         label : "メーカー",
-         data: roles[2],
-         lines: { show: true, fill: true },
-         points: { show: true },
+          min: 1,
+          max: 37,
+          ticks: 37,
+          tickDecimals: 0,
         },
-        {
+      }
+    );
+    //グラフ表示 
+    jQuery.plot($("#supplier1"),
+    [
+      {
          label : "卸1",
          data: roles[3],
          lines: { show: true, fill: true },
          points: { show: true },
-        }
-      ],
+      }
+    ],
+      {
+        yaxis:
         {
-          yaxis:
-          {
-            min: -100,
-            max: 100,
-            ticks: 20,
-            tickDecimals: 0,
-          },
-          xaxis:
-          {
-            min: 1,
-            max: 37,
-            ticks: 37,
-            tickDecimals: 0,
-          },
-        }
-);
-});
- </script>
-  </div>
+          min: -100,
+          max: 100,
+          ticks: 20,
+          tickDecimals: 0,
+        },
+        xaxis:
+        {
+          min: 1,
+          max: 37,
+          ticks: 37,
+          tickDecimals: 0,
+        },
+      }
+    );
+    //グラフ表示 
+    jQuery.plot($("#supplier2"),
+    [
+      {
+         label : "卸２",
+         data: roles[1],
+         lines: { show: true, fill: true },
+         points: { show: true },
+      }
+    ],
+      {
+        yaxis:
+        {
+          min: -100,
+          max: 100,
+          ticks: 20,
+          tickDecimals: 0,
+        },
+        xaxis:
+        {
+          min: 1,
+          max: 37,
+          ticks: 37,
+          tickDecimals: 0,
+        },
+      }
+    );
+    //グラフ表示 
+    jQuery.plot($("#maker"),
+    [
+      {
+         label : "メーカー",
+         data: roles[2],
+         lines: { show: true, fill: true },
+         points: { show: true },
+      }
+    ],
+      {
+        yaxis:
+        {
+          min: -100,
+          max: 100,
+          ticks: 20,
+          tickDecimals: 0,
+        },
+        xaxis:
+        {
+          min: 1,
+          max: 37,
+          ticks: 37,
+          tickDecimals: 0,
+        },
+      }
+    );
+  });
+  </script>
+  <title>残高表示</title>
+</head>
+<body>
+#parse("web/errorList.vm")
+  <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
+    <div id="wholeSeller" style="width:1024px;height:768px;"></div>
+    <div id="supplier1" style="width:1024px;height:768px;"></div>
+    <div id="supplier2" style="width:1024px;height:768px;"></div>
+    <div id="maker" style="width:1024px;height:768px;"></div>
   </form>
 #parse("web/footer.vm")
