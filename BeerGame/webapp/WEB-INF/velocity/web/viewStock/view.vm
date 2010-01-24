@@ -132,15 +132,34 @@
       }
     );
   });
+  function init(formObj) {
+    formObj.command.value='init';
+    formObj.submit();
+  }
   </script>
   <title>残高表示</title>
 </head>
 <body>
 #parse("web/errorList.vm")
   <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
-    <div id="wholeSeller" style="width:1024px;height:768px;"></div>
-    <div id="supplier1" style="width:1024px;height:768px;"></div>
-    <div id="supplier2" style="width:1024px;height:768px;"></div>
-    <div id="maker" style="width:1024px;height:768px;"></div>
+    <input type="hidden" name="command" />
+    <div id="main">
+      <h2>BeerGame</h2>
+      <table>
+        <tr>
+          <td><div id="wholeSeller" style="width:512px;height:384px;"></div></td>
+          <td><div id="supplier1" style="width:512px;height:384px;"></div></td>
+        </tr>
+        <tr>
+          <td><div id="supplier2" style="width:512px;height:384px;"></div></td>
+          <td><div id="maker" style="width:512px;height:384px;"></div></td>
+        </tr>
+      </table>
+      <table>
+        <tr>
+          <td align=center><input type="button" value="ｷｬﾝｾﾙ" onClick="javascript:init(this.form);" /></td>
+        </tr>
+      </table>
+    </div>
   </form>
 #parse("web/footer.vm")

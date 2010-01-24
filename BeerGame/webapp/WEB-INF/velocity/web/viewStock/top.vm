@@ -17,7 +17,7 @@
   <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
   <input type="hidden" name="command" />
   <div id="main">
-    <h1>残高表示</h1>
+    <h2>BeerGame</h2>
     <table border=4>
       <tr>
         <td>チーム名</td>
