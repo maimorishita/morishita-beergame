@@ -41,7 +41,7 @@
       <td>発注数&nbsp<input type="text" name="order" /></td>
       <td><input type="button" value="注文" onClick="javascript:orderQuantity(this.form);" /></td>
 #if($form.isOwner())
-      <td><a href="$link.setAction('/viewStock').addQueryData('command','result').addQueryData('gameId',$form.game.id)">結果を見る</a></td>
+      <td><a href="$link.setAction('/viewStock').addQueryData('command','result').addQueryData('gameId',$form.game.id).addQueryData('roleId',$form.role.id)">結果を見る</a></td>
 #end
     </tr>
   </table>

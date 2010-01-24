@@ -143,13 +143,13 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 				"lastWeekOfGame") < week;
 	}
 
-	public Long getRemain(Long week) {
+	public Long getRemain() {
 		long sum = 0;
 		for (Role role : this.getRoles()) {
 			if (role.getName().equals(RoleType.Hê.name()) || role.getName().equals(RoleType.Žsê.name())) {
 				// TODO 2010/01/24 If•¶‚ÌðŒ‚ð”½“]‚³‚¹‚Ä‚«‚ê‚¢‚É‚µ‚Ä‚ËB
 			} else {
-				for (Long value : TradeTransaction.getStockList(week, role).values()) {
+				for (Long value : TradeTransaction.getStockList(role.getLastWeek(TransactionType.”­’.name()), role).values()) {
 					if (value < 0) {
 						sum += value;
 					}
@@ -159,13 +159,13 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 		return sum;
 	}
 
-	public Long getStock(Long week) {
+	public Long getStock() {
 		long sum = 0;
 		for (Role role : this.getRoles()) {
 			if (role.getName().equals(RoleType.Hê.name()) || role.getName().equals(RoleType.Žsê.name())) {
 				// TODO 2010/01/24 If•¶‚ÌðŒ‚ð”½“]‚³‚¹‚Ä‚«‚ê‚¢‚É‚µ‚Ä‚ËB
 			} else {
-				for (Long value : TradeTransaction.getStockList(week, role).values()) {
+				for (Long value : TradeTransaction.getStockList(role.getLastWeek(TransactionType.”­’.name()), role).values()) {
 					if (0 < value) {
 						sum += value;
 					}

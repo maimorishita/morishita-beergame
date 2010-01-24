@@ -73,11 +73,11 @@ public class GameTest extends DataLoadingTestCase {
 	
 	public void test累計発注残数を取得する() throws Exception {
 		Game game = BasicService.getService().findByPK(Game.class, 1L);
-		assertEquals("累計発注残数が誤っています", -10L, game.getRemain(5L).longValue());
+		assertEquals("累計発注残数が誤っています", -10L, game.getRemain().longValue());
 	}
 
 	public void test累計在庫数を取得する() throws Exception {
 		Game game = BasicService.getService().findByPK(Game.class, 1L);
-		assertEquals("累計在庫数が誤っています", 226L, game.getStock(5L).longValue());
+		assertEquals("累計在庫数が誤っています", 226L, game.getStock().longValue());
 	}
 }

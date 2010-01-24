@@ -27,8 +27,8 @@
         <td>累計発注残数</td>
       </tr>
       <tr>
-        <td>ほげ</td>
-        <td>hoge</td>
+        <td>$form.getGame().getStock()</td>
+        <td>$form.getGame().getRemain()</td>
       </tr>
     </table>
   </div>
