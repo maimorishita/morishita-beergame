@@ -7,6 +7,7 @@ import java.util.Map;
 import jp.co.isken.beerGame.entity.Game;
 import jp.co.isken.beerGame.entity.Role;
 import jp.co.isken.beerGame.entity.TradeTransaction;
+import jp.rough_diamond.commons.service.BasicService;
 
 /**
  * @see jp.co.isken.beerGame.presentation.BaseViewStockForm
@@ -37,5 +38,11 @@ public class ViewStockForm extends
 
 	public Map<Long, Long> getRemainList(String gameName, String roleName) {
 		return TradeTransaction.getRemainAmount(gameName, roleName);
+	}
+
+	public void result() {
+		BasicService service = BasicService.getService();
+		this.setGame(service.findByPK(Game.class, this.getGameId()));
+		this.setRole(service.findByPK(Role.class, this.getRoleId()));
 	}
 }

@@ -34,13 +34,14 @@ public class TradeTransaction extends jp.co.isken.beerGame.entity.base.BaseTrade
 		return ret;
 	}
 
-	public static Map<Long, Long> getRemainAmount(String gameName,
-			String roleName) {
+	// TODO 2010/01/24 yoshioka 同じ内容のメソッドが存在している。
+	public static Map<Long, Long> getRemainAmount(String gameName, String roleName) {
 		Game game = Game.getGameByName(gameName);
 		Role role = game.getRole(roleName);
 		return getRemainList(role.getLastWeek(TransactionType.出荷.name()), role);
 	}
 
+	// TODO 2010/01/24 yoshioka 同じ内容のメソッドが存在している。
 	private static Map<Long, Long> getRemainList(Long week, Role role) {
 		Map<Long, Long> ret = new HashMap<Long, Long>();
 		for(Long i = 1L ; i <= week ; i++){

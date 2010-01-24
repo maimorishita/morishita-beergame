@@ -23,7 +23,7 @@ public class GameTest extends DataLoadingTestCase {
 
 	public void testすべてのチームを取得する() throws Exception {
 		List<Game> list = Game.getAll();
-		assertEquals("すべてのチームの数に誤りがあります", 8, list.size());
+		assertEquals("すべてのチームの数に誤りがあります", 9, list.size());
 	}
 
 	public void testGameに紐づくすべてのロールを取得する() throws Exception {
@@ -69,5 +69,15 @@ public class GameTest extends DataLoadingTestCase {
 		assertTrue("ゲームが終了していません", game.IsGameOver(38L));
 		assertFalse("ゲームが終了しています", game.IsGameOver(37L));
 		assertFalse("ゲームが終了してしまいました。", game.IsGameOver(game.getRole(RoleType.小売り.name()).getCurrentWeek(TransactionType.発注.name())));
+	}
+	
+	public void test累計発注残数を取得する() throws Exception {
+		Game game = BasicService.getService().findByPK(Game.class, 1L);
+		assertEquals("累計発注残数が誤っています", -10L, game.getRemain(5L).longValue());
+	}
+
+	public void test累計在庫数を取得する() throws Exception {
+		Game game = BasicService.getService().findByPK(Game.class, 1L);
+		assertEquals("累計在庫数が誤っています", 226L, game.getStock(5L).longValue());
 	}
 }

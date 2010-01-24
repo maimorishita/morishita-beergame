@@ -35,6 +35,8 @@ public class ViewStockAction extends BaseAction {
 	
 	public ActionForward result(ActionMapping arg0, ActionForm arg1,
 			HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
+		ViewStockForm form = (ViewStockForm) arg1;
+		form.result();
 		return arg0.findForward("result");
 	}
 }

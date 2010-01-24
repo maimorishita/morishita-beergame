@@ -52,7 +52,8 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 
 	public static List<Role> getRoles(Game game) {
 		Extractor extractor = new Extractor(Role.class);
-		extractor.add(Condition.eq(new Property(Role.PLAYER + "." + Player.GAME), game));
+		extractor.add(Condition.eq(
+				new Property(Role.PLAYER + "." + Player.GAME), game));
 		List<Role> roles = BasicService.getService().findByExtractor(extractor);
 		return roles;
 	}
@@ -75,7 +76,9 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 	public Role getRole(RoleType type) {
 		BasicService service = BasicService.getService();
 		Extractor e = new Extractor(Role.class);
-		e.add(Condition.eq(new Property(Role.PLAYER + "." + Player.GAME), this));
+		e
+				.add(Condition.eq(
+						new Property(Role.PLAYER + "." + Player.GAME), this));
 		e.add(Condition.eq(new Property(Role.NAME), type.name()));
 		List<Role> roles = service.findByExtractor(e);
 		return (roles.size() == 0 ? null : roles.get(0));
@@ -110,19 +113,21 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 		return set;
 	}
 
-	
 	@PostPersist
-	public void CreateOwner() throws VersionUnmuchException, MessagesIncludingException {
+	public void CreateOwner() throws VersionUnmuchException,
+			MessagesIncludingException {
 		this.getOwner().save();
 	}
 
 	@PostPersist
-	public void saveRoles() throws VersionUnmuchException, MessagesIncludingException {
+	public void saveRoles() throws VersionUnmuchException,
+			MessagesIncludingException {
 		this.saveRole(RoleType.ésèÍ);
 		this.saveRole(RoleType.çHèÍ);
 	}
 
-	private void saveRole(RoleType type) throws VersionUnmuchException, MessagesIncludingException {
+	private void saveRole(RoleType type) throws VersionUnmuchException,
+			MessagesIncludingException {
 		Player player = new Player();
 		player.setName(type.name());
 		player.setIsOwner(false);
@@ -134,6 +139,39 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 	}
 
 	public boolean IsGameOver(Long week) {
-		return DIContainerFactory.getDIContainer().getObject(Long.class, "lastWeekOfGame") < week;
+		return DIContainerFactory.getDIContainer().getObject(Long.class,
+				"lastWeekOfGame") < week;
+	}
+
+	public Long getRemain(Long week) {
+		long sum = 0;
+		for (Role role : this.getRoles()) {
+			if (role.getName().equals(RoleType.çHèÍ.name()) || role.getName().equals(RoleType.ésèÍ.name())) {
+				// TODO 2010/01/24 Ifï∂ÇÃèåèÇîΩì]Ç≥ÇπÇƒÇ´ÇÍÇ¢Ç…ÇµÇƒÇÀÅB
+			} else {
+				for (Long value : TradeTransaction.getStockList(week, role).values()) {
+					if (value < 0) {
+						sum += value;
+					}
+				}
+			}
+		}
+		return sum;
+	}
+
+	public Long getStock(Long week) {
+		long sum = 0;
+		for (Role role : this.getRoles()) {
+			if (role.getName().equals(RoleType.çHèÍ.name()) || role.getName().equals(RoleType.ésèÍ.name())) {
+				// TODO 2010/01/24 Ifï∂ÇÃèåèÇîΩì]Ç≥ÇπÇƒÇ´ÇÍÇ¢Ç…ÇµÇƒÇÀÅB
+			} else {
+				for (Long value : TradeTransaction.getStockList(week, role).values()) {
+					if (0 < value) {
+						sum += value;
+					}
+				}
+			}
+		}
+		return sum;
 	}
 }

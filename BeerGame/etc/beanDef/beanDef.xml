@@ -47,5 +47,8 @@
   <bean className="jp.co.isken.beerGame.presentation.ViewStockForm" extends="jp.rough_diamond.framework.web.struts.BaseForm" description="残高を参照する">
     <property name="teamName"   type="String"                                 description="チーム名" />
     <property name="gameId"     type="Long"                                   description="ゲームID" />
+    <property name="roleId"     type="Long"                                   description="ロールID" />
+    <property name="game"       type="jp.co.isken.beerGame.entity.Game"       description="ゲーム" />
+    <property name="role"       type="jp.co.isken.beerGame.entity.Role"      description="ロール" />
   </bean>
 </beans>

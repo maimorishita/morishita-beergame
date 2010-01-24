@@ -19,7 +19,7 @@
   <input type="hidden" name="command" />
   <div id="main">
     <h1>ビールゲーム</h1>
-    <p>ゲーム名：$form.gameId ロール：$form.roleId プレイヤ：$form.role.player.name</p>
+    <p>ゲーム名：$form.game.name ロール：$form.role.name プレイヤ：$form.role.player.name</p>
     <h3>結果表示画面</h3>
     <table border=1>
       <tr>

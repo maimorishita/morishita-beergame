@@ -22,7 +22,7 @@
     <p>ゲーム名：$form.game.name ロール：$form.role.name プレイヤ：$form.role.player.name</p>
     <h3>ゲーム終了画面</h3>
     <p>
-      <p><a href="$link.setAction('/viewStock').addQueryData('command','result').addQueryData('gameId',$form.game.id)">結果を見る</a></p>
+      <p><a href="$link.setAction('/viewStock').addQueryData('command','result').addQueryData('gameId',$form.game.id).addQueryData('roleId',$form.role.id)">結果を見る</a></p>
     </p>
   </div>
   </form>
