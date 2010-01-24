@@ -233,4 +233,15 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		//TODO 2010/01/19 yoshioka テスト作るか悩み中
 		assertTrue(true);
 	}
+	
+	public void test途中結果表示用にOwnerかどうか判定する(){
+		BasicService service = BasicService.getService();
+		Game game = service.findByPK(Game.class, 1L);
+		Role wholeSeller = game.getRole(RoleType.小売り);
+		form.setRole(wholeSeller);
+		assertTrue("Ownerとして判定されていません。",form.isOwner());
+		Role maker = game.getRole(RoleType.メーカ);
+		form.setRole(maker);
+		assertFalse("Ownerとして判定されてしまっています。",form.isOwner());
+	}
 }

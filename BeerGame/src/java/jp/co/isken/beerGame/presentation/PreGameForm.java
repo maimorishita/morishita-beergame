@@ -184,4 +184,8 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 		this.setOutbound(getRole().getTransaction(TransactionType.èoâ◊).getAmount().longValue());
 		this.setRemain(TradeTransaction.calcAmountRemain(this.getRole().getLastWeek(TransactionType.éÛíç.name()), this.getRole()));
 	}
+
+	public boolean isOwner() {
+		return this.getRole().getPlayer().getIsOwner();
+	}
 }
