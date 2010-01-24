@@ -23,6 +23,7 @@
     jQuery.plot($("#wholeSeller"),
     [
       {
+         color  : "red",
          label : "小売り",
          data: roles[0],
          lines: { show: true, fill: true },
@@ -50,10 +51,11 @@
     jQuery.plot($("#supplier1"),
     [
       {
-         label : "卸1",
-         data: roles[3],
-         lines: { show: true, fill: true },
-         points: { show: true },
+         color  : "blue",
+         label  : "卸1",
+         data   : roles[3],
+         lines  : { show: true, fill: true },
+         points : { show: true },
       }
     ],
       {
@@ -77,6 +79,7 @@
     jQuery.plot($("#supplier2"),
     [
       {
+         color  : "green",
          label : "卸２",
          data: roles[1],
          lines: { show: true, fill: true },
@@ -104,6 +107,7 @@
     jQuery.plot($("#maker"),
     [
       {
+         color  : "orange",
          label : "メーカー",
          data: roles[2],
          lines: { show: true, fill: true },
