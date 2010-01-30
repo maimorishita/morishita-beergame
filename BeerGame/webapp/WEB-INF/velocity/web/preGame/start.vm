@@ -15,6 +15,7 @@
 
 #parse("web/errorList.vm")
 #set($form = $currentForm)
+#set($stock=$form.remain)
   <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
   <input type="hidden" name="command" />
   <div id="main">
@@ -22,16 +23,33 @@
     <p>ゲーム名：$form.game.name  ロール：$form.role.name   プレイヤ：$form.role.player.name</p>
   <table border=2>
     <tr>
-      <td>入荷</td>
-      <td width="50">$form.inbound</td>
       <td>受注</td>
-      <td width="50">$form.acceptOrder</td>
+      <td style="width:50px; text-align:center;">$form.acceptOrder</td>
+      <td>入荷</td>
+      <td style="width:50px; text-align:center;">$form.inbound</td>
+      <td>出荷</td>
+      <td style="width:50px; text-align:center;">$form.outbound</td>
     </tr>
     <tr>
-      <td>出荷</td>
-      <td width="50">$form.outbound</td>
-      <td>在庫／注残</td>
-      <td width="50">$form.remain</td>
+      <td>在庫</td>
+      <td style="width:50px; text-align:center;">
+#if($stock>=0)
+$stock
+#else
+0
+#end
+      </td>
+      <td>注残</td>
+      <td style="width:50px; text-align:center;">
+#if($stock<0)
+#set($remain=0-$stock)
+$remain
+#else
+0
+#end
+      </td>
+      <td></td>
+      <td style="width:50px; text-align:center;"></td>
     </tr>
   </table>
   <br />
