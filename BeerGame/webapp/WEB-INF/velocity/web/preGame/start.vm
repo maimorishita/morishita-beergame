@@ -18,8 +18,8 @@
   <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
   <input type="hidden" name="command" />
   <div id="main">
-    <h1>ビールゲーム</h1>
-    <p>ゲーム名：$form.game.name  第 $form.role.getCurrentWeek("発注") 週  ロール：$form.role.name プレイヤ：$form.role.player.name</p>
+    <h1>第 $form.role.getCurrentWeek("発注") 週</h1>
+    <p>ゲーム名：$form.game.name  ロール：$form.role.name   プレイヤ：$form.role.player.name</p>
   <table border=2>
     <tr>
       <td>入荷</td>
@@ -41,6 +41,7 @@
       <td>発注数&nbsp<input type="text" name="order" /></td>
       <td><input type="button" value="注文" onClick="javascript:orderQuantity(this.form);" /></td>
 #if($form.isOwner())
+      <BR/>
       <td><a href="$link.setAction('/viewStock').addQueryData('command','result').addQueryData('gameId',$form.game.id).addQueryData('roleId',$form.role.id)">結果を見る</a></td>
 #end
     </tr>
