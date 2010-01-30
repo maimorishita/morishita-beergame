@@ -47,7 +47,7 @@
   </table>
  </div>
 
-
+<!--
   <h1>取引表示</h1>
   <table border=1>
 #foreach($week in $!form.getDebagView())
@@ -60,5 +60,6 @@
     </tr>
 #end
   </table>
+-->
   </form>
 #parse("web/footer.vm")

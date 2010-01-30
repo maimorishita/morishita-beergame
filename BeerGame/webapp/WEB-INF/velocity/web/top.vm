@@ -10,6 +10,6 @@
     <h1 onclick="javascript:adjustBrowserSize();">ビールゲーム</h1>
     <h2><a href="$link.setAction('/preGame').addQueryData('command','init')">ゲームを開始する</a></h2>
     <h2><a href="$link.setAction('/viewStock').addQueryData('command','init')">残高の確認</a></h2>
-    <h2><a href="$link.setAction('/preGame').addQueryData('command','login')">ログイン</a></h2>
+    <!-- <h2><a href="$link.setAction('/preGame').addQueryData('command','login')">ログイン</a></h2> -->
   </div>
 #parse("web/footer.vm")

@@ -18,21 +18,21 @@ public class ViewStockAction extends BaseAction {
 			HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
 		return arg0.findForward("top");
 	}
-	
+
 	public ActionForward init(ActionMapping arg0, ActionForm arg1,
 			HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
 		ViewStockForm form = (ViewStockForm) arg1;
 		form.init();
 		return arg0.findForward("top");
 	}
-	
+
 	public ActionForward viewStock(ActionMapping arg0, ActionForm arg1,
 			HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
 		ViewStockForm form = (ViewStockForm) arg1;
 		form.viewStock();
 		return arg0.findForward("view");
 	}
-	
+
 	public ActionForward result(ActionMapping arg0, ActionForm arg1,
 			HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
 		ViewStockForm form = (ViewStockForm) arg1;
