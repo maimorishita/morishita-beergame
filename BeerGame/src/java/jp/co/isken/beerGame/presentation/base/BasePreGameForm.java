@@ -70,6 +70,11 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     private  jp.co.isken.beerGame.entity.Role   role;
 
     /**
+     * ロールID
+    **/
+    private  Long   roleId;
+
+    /**
      * ロール名
     **/
     private  String   roleName;
@@ -178,6 +183,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     **/
     public jp.co.isken.beerGame.entity.Role getRole() {
         return this.role;
+    }
+
+    /**
+     * ロールIDを取得する
+     * @return ロールID
+    **/
+    public Long getRoleId() {
+        return this.roleId;
     }
 
     /**
@@ -302,6 +315,14 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
     }
 
     /**
+     * ロールIDを設定する
+     * @param roleId ロールID
+    **/
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
+
+    /**
      * ロール名を設定する
      * @param roleName ロール名
     **/
@@ -351,6 +372,8 @@ abstract public class BasePreGameForm extends jp.rough_diamond.framework.web.str
       buf.append(remain + "]");
       buf.append("[ロール:");
       buf.append(role + "]");
+      buf.append("[ロールID:");
+      buf.append(roleId + "]");
       buf.append("[ロール名:");
       buf.append(roleName + "]");
       buf.append("[在庫:");

@@ -27,7 +27,8 @@ import jp.rough_diamond.framework.transaction.VersionUnmuchException;
 /**
  * @see jp.co.isken.beerGame.presentation.BasePreGameForm
  **/
-public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreGameForm {
+public class PreGameForm extends
+		jp.co.isken.beerGame.presentation.base.BasePreGameForm {
 	private static final long serialVersionUID = 1L;
 
 	public boolean addGame() {
@@ -64,7 +65,8 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 
 	public boolean addPlayer() {
 		try {
-			Game game = BasicService.getService().findByPK(Game.class, this.getGameId());
+			Game game = BasicService.getService().findByPK(Game.class,
+					this.getGameId());
 			Player player = new Player();
 			player.setName(FormUtil.trim(this.getPlayerName()));
 			player.setIsOwner(false);
@@ -89,7 +91,8 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 
 	public List<List<TradeTransaction>> getDebagView() {
 		List<List<TradeTransaction>> ret = new ArrayList<List<TradeTransaction>>();
-		for (int i = 1; i < this.getRole().getLastWeek(TransactionType.ì¸â◊.name()).intValue(); i++) {
+		for (int i = 1; i < this.getRole().getLastWeek(
+				TransactionType.ì¸â◊.name()).intValue(); i++) {
 			ret.add(getTransaction(i));
 		}
 		return ret;
@@ -104,7 +107,8 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 	}
 
 	public Set<RoleType> getWaitingRoleList() {
-		Game game = BasicService.getService().findByPK(Game.class, this.getGameId());
+		Game game = BasicService.getService().findByPK(Game.class,
+				this.getGameId());
 		return (game == null) ? null : game.getUnusedRoles();
 	}
 
@@ -128,9 +132,13 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 	}
 
 	public boolean login() {
-		this.setGame(BasicService.getService().findByPK(Game.class,
-				this.getGameId()));
-		this.setRole(this.getGame().getRole(this.getRoleName()));
+		BasicService service = BasicService.getService();
+		this.setGame(service.findByPK(Game.class, this.getGameId()));
+		if (this.getRoleId() == null) {
+			this.setRole(this.getGame().getRole(this.getRoleName()));		
+		} else {
+			this.setRole(service.findByPK(Role.class, this.getRoleId()));
+		}		
 		if (this.getRole() == null) {
 			Messages msgs = new Messages();
 			msgs.add("", new Message("errors.invalid.login"));
@@ -138,9 +146,9 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 			return false;
 		}
 		// this.refreshView();
-		if(this.isEnableToStartGame()){
+		if (this.isEnableToStartGame()) {
 			return true;
-		}else{
+		} else {
 			Messages msgs = new Messages();
 			msgs.add("", new Message("errors.invalid.start"));
 			this.setMessage(msgs);
@@ -151,9 +159,11 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 	public boolean order() {
 		try {
 			// Ç±ÇÃèTÇÃî≠íç
-			TradeTransactionService.getService().addTransactions(this.getRole(), Long.parseLong(this.getOrder()));
+			TradeTransactionService.getService().addTransactions(
+					this.getRole(), Long.parseLong(this.getOrder()));
 			this.refreshView();
-			if (this.getGame().IsGameOver(this.getRole().getCurrentWeek(TransactionType.î≠íç.name()))) {
+			if (this.getGame().IsGameOver(
+					this.getRole().getCurrentWeek(TransactionType.î≠íç.name()))) {
 				return false;
 			}
 		} catch (NumberFormatException e) {
@@ -178,18 +188,25 @@ public class PreGameForm extends jp.co.isken.beerGame.presentation.base.BasePreG
 
 	private List<TradeTransaction> getTransaction(int i) {
 		Extractor e = new Extractor(TradeTransaction.class);
-		e.add(Condition.eq(new Property(TradeTransaction.ROLE), this.getRole()));
-		e.add(Condition.notEq(new Property(TradeTransaction.TRANSACTION_TYPE), "ç›å…"));
+		e
+				.add(Condition.eq(new Property(TradeTransaction.ROLE), this
+						.getRole()));
+		e.add(Condition.notEq(new Property(TradeTransaction.TRANSACTION_TYPE),
+				"ç›å…"));
 		e.add(Condition.eq(new Property(TradeTransaction.WEEK), new Long(i)));
 		e.addOrder(Order.asc(new Property(TradeTransaction.ID)));
 		return BasicService.getService().findByExtractor(e);
 	}
 
 	private void refreshView() {
-		this.setInbound(getRole().getTransaction(TransactionType.ì¸â◊).getAmount().longValue());
-		this.setAcceptOrder(getRole().getTransaction(TransactionType.éÛíç).getAmount().longValue());
-		this.setOutbound(getRole().getTransaction(TransactionType.èoâ◊).getAmount().longValue());
-		this.setRemain(TradeTransaction.calcAmountRemain(this.getRole().getLastWeek(TransactionType.éÛíç.name()), this.getRole()));
+		this.setInbound(getRole().getTransaction(TransactionType.ì¸â◊)
+				.getAmount().longValue());
+		this.setAcceptOrder(getRole().getTransaction(TransactionType.éÛíç)
+				.getAmount().longValue());
+		this.setOutbound(getRole().getTransaction(TransactionType.èoâ◊)
+				.getAmount().longValue());
+		this.setRemain(TradeTransaction.calcAmountRemain(this.getRole()
+				.getLastWeek(TransactionType.éÛíç.name()), this.getRole()));
 	}
 
 	public boolean isOwner() {

@@ -44,5 +44,10 @@ public class ViewStockForm extends
 		BasicService service = BasicService.getService();
 		this.setGame(service.findByPK(Game.class, this.getGameId()));
 		this.setRole(service.findByPK(Role.class, this.getRoleId()));
+		this.setTeamName(this.getGame().getName());
+	}
+	
+	public boolean isOwner() {
+		return this.getRole().getPlayer().getIsOwner();
 	}
 }
