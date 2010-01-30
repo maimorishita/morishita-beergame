@@ -9,15 +9,31 @@
   $(function () {
     //データ  
     var roles = [];
+    #set($max = 0)
+    #set($min = 0)
     #foreach($role in $!currentForm.getRoles())
       #set($map = $currentForm.getStockList($currentForm.teamName,$role.name))
       #set($id = $role.id)
       var d = [];
         #foreach($key in $map.keySet())
-          d.push([$key, $map.get($key)]); 
+          #set($amount = $map.get($key))
+
+          d.push([$key, $amount]);
+          #if($amount > $max)
+            #set($max = $amount)
+          #end
+
+          #if($amount < $min)
+            #set($min = $amount)
+          #end
+
         #end
       roles.push(d);
     #end
+
+    //スケールに10%の余裕を持たせる
+    #set($min = $min * 1.1)
+    #set($max = $max * 1.1)
 
     //グラフ表示 
     jQuery.plot($("#wholeSeller"),
@@ -33,8 +49,8 @@
       {
         yaxis:
         {
-          min: -100,
-          max: 100,
+          min: $min,
+          max: $max,
           ticks: 20,
           tickDecimals: 0,
         },
@@ -61,8 +77,8 @@
       {
         yaxis:
         {
-          min: -100,
-          max: 100,
+          min: $min,
+          max: $max,
           ticks: 20,
           tickDecimals: 0,
         },
@@ -89,8 +105,8 @@
       {
         yaxis:
         {
-          min: -100,
-          max: 100,
+          min: $min,
+          max: $max,
           ticks: 20,
           tickDecimals: 0,
         },
@@ -117,8 +133,8 @@
       {
         yaxis:
         {
-          min: -100,
-          max: 100,
+          min: $min,
+          max: $max,
           ticks: 20,
           tickDecimals: 0,
         },

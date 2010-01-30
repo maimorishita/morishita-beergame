@@ -64,7 +64,6 @@ public abstract class BaseTradeTransaction  implements Serializable {
         }
         return false;
     }
-
     protected boolean isLoaded;
     @jp.rough_diamond.commons.service.annotation.PostLoad
     @jp.rough_diamond.commons.service.annotation.PostPersist
@@ -86,11 +85,20 @@ public abstract class BaseTradeTransaction  implements Serializable {
      * @throws MessagesIncludingException 検証例外
     **/
     public void save() throws jp.rough_diamond.framework.transaction.VersionUnmuchException, jp.rough_diamond.commons.resource.MessagesIncludingException {
-        if(isLoaded) {
+        if(isThisObjectAnUpdateObject()) {
             update();
         } else {
             insert();
         }
+    }
+
+    /**
+     * このオブジェクトを永続化する方法を返却する。
+     * 永続化処理実行時、本メソッドがtrueを返却された場合は更新(UPDATE)、falseの場合は登録(INSERT)して振る舞う
+     * @return trueの場合は更新、falseの場合は登録として振る舞う
+    **/
+    protected boolean isThisObjectAnUpdateObject() {
+        return isLoaded;
     }
 
     /**
@@ -109,6 +117,27 @@ public abstract class BaseTradeTransaction  implements Serializable {
     protected void update() throws jp.rough_diamond.framework.transaction.VersionUnmuchException, jp.rough_diamond.commons.resource.MessagesIncludingException {
         jp.rough_diamond.commons.service.BasicService.getService().update(this);
     }
+
+    /**
+     * オブジェクトの永続可能性を検証する
+     * @return 検証結果。msgs.hasError()==falseが成立する場合は検証成功とみなす
+    */
+    public jp.rough_diamond.commons.resource.Messages validateObject() {
+        if(isThisObjectAnUpdateObject()) {
+            return validateObject(jp.rough_diamond.commons.service.WhenVerifier.UPDATE);
+        } else {
+            return validateObject(jp.rough_diamond.commons.service.WhenVerifier.INSERT);
+        }
+    }
+
+    /**
+     * オブジェクトの永続可能性を検証する
+     * @return 検証結果。msgs.hasError()==falseが成立する場合は検証成功とみなす
+    */
+    protected jp.rough_diamond.commons.resource.Messages validateObject(jp.rough_diamond.commons.service.WhenVerifier when) {
+        return jp.rough_diamond.commons.service.BasicService.getService().validate(this, when);
+    }
+
     /**
      * 取引種別
     **/ 
@@ -150,6 +179,7 @@ public abstract class BaseTradeTransaction  implements Serializable {
      *    length="20"
      * @return 週
     **/
+    @jp.rough_diamond.commons.service.annotation.NotNull(property="TradeTransaction.week")
     public Long getWeek() {
         return week;
     }
@@ -175,6 +205,7 @@ public abstract class BaseTradeTransaction  implements Serializable {
      *    length="20"
      * @return 数
     **/
+    @jp.rough_diamond.commons.service.annotation.NotNull(property="TradeTransaction.amount")
     public Long getAmount() {
         return amount;
     }
