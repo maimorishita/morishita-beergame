@@ -12,8 +12,7 @@
     #set($max = 0)
     #set($min = 0)
     #foreach($role in $!currentForm.getRoles())
-      #set($map = $currentForm.getStockList($currentForm.teamName,$role.name))
-      #set($id = $role.id)
+      #set($map = $currentForm.getStockList($currentForm.teamName, $role.name))
       var d = [];
         #foreach($key in $map.keySet())
           #set($amount = $map.get($key))
@@ -28,7 +27,6 @@
           #end
 
         #end
-      alert(d);
       roles.push(d);
     #end
 
