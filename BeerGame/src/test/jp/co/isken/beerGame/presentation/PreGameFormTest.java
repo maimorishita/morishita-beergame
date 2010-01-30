@@ -233,9 +233,9 @@ public class PreGameFormTest extends DataLoadingTestCase {
 		assertEquals("取引の種類が誤っています", TransactionType.発注.name(), transactions.get(0).getTransactionType());
 		assertEquals("取引の値が誤っています", 10L, transactions.get(0).getAmount().longValue());
 		assertEquals("取引の種類が誤っています", TransactionType.出荷.name(), transactions.get(1).getTransactionType());
-		assertEquals("取引の値が誤っています", 4L, transactions.get(1).getAmount().longValue());
+		assertEquals("取引の値が誤っています", 8L, transactions.get(1).getAmount().longValue());
 		assertEquals("取引の種類が誤っています", TransactionType.受注.name(), transactions.get(2).getTransactionType());
-		assertEquals("取引の値が誤っています", 4L, transactions.get(2).getAmount().longValue());
+		assertEquals("取引の値が誤っています", 8L, transactions.get(2).getAmount().longValue());
 		assertEquals("取引の種類が誤っています", TransactionType.入荷.name(), transactions.get(3).getTransactionType());
 		assertEquals("取引の値が誤っています", 1L, transactions.get(3).getAmount().longValue());
 	}
