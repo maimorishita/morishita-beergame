@@ -8,97 +8,30 @@
   <script language="javascript" type="text/javascript" src="./js/excanvas.min.js"></script>
   <script language="javascript" type="text/javascript">
   $(function () {
-    //データ  
-    var roles = [];
-    #set($max = 0)
-    #set($min = 0)
-    #foreach($role in $!currentForm.getRoles())
-      #set($map = $currentForm.getStockList($currentForm.teamName,$role.name))
-      #set($id = $role.id)
-      var d = [];
-        #foreach($key in $map.keySet())
-          #set($amount = $map.get($key))
-
-          d.push([$key, $amount]);
-          #if($amount > $max)
-            #set($max = $amount)
-          #end
-
-          #if($amount < $min)
-            #set($min = $amount)
-          #end
-
-        #end
-      roles.push(d);
+    //データ
+    var stock = [];
+    #foreach($amount in $!currentForm.getGame().getWeeklyStock())
+      stock.push([$velocityCount, $amount]);
     #end
 
-    //スケールに10%の余裕を持たせる
-    #set($min = $min * 1.1)
-    #set($max = $max * 1.1)
-
+    var remain = [];
+    #foreach($amount in $!currentForm.getGame().getWeeklyRemain())
+      remain.push([$velocityCount, $amount]);
+    #end
     //グラフ表示 
-    jQuery.plot($("#wholeSeller"),
-    [
-      {
-         color  : "red",
-         label : "小売り",
-         data: roles[0],
-         lines: { show: true, fill: true },
-         points: { show: true },
-      }
-    ],
-      {
-        yaxis:
-        {
-          min: $min,
-          max: $max,
-          ticks: 20,
-          tickDecimals: 0,
-        },
-        xaxis:
-        {
-          min: 1,
-          max: 37,
-          ticks: 37,
-          tickDecimals: 0,
-        },
-      }
-    );
-    //グラフ表示 
-    jQuery.plot($("#supplier1"),
+    jQuery.plot($("#weeklyResult"),
     [
       {
          color  : "blue",
-         label  : "卸1",
-         data   : roles[3],
-         lines  : { show: true, fill: true },
-         points : { show: true },
-      }
-    ],
+         label : "各週の在庫合計",
+         data: stock,
+         lines: { show: true, fill: true },
+         points: { show: true },
+      },
       {
-        yaxis:
-        {
-          min: $min,
-          max: $max,
-          ticks: 20,
-          tickDecimals: 0,
-        },
-        xaxis:
-        {
-          min: 1,
-          max: 37,
-          ticks: 37,
-          tickDecimals: 0,
-        },
-      }
-    );
-    //グラフ表示 
-    jQuery.plot($("#supplier2"),
-    [
-      {
-         color  : "green",
-         label : "卸２",
-         data: roles[1],
+         color  : "red",
+         label : "各週の注文残合計",
+         data: remain,
          lines: { show: true, fill: true },
          points: { show: true },
       }
@@ -106,36 +39,6 @@
       {
         yaxis:
         {
-          min: $min,
-          max: $max,
-          ticks: 20,
-          tickDecimals: 0,
-        },
-        xaxis:
-        {
-          min: 1,
-          max: 37,
-          ticks: 37,
-          tickDecimals: 0,
-        },
-      }
-    );
-    //グラフ表示 
-    jQuery.plot($("#maker"),
-    [
-      {
-         color  : "orange",
-         label : "メーカー",
-         data: roles[2],
-         lines: { show: true, fill: true },
-         points: { show: true },
-      }
-    ],
-      {
-        yaxis:
-        {
-          min: $min,
-          max: $max,
           ticks: 20,
           tickDecimals: 0,
         },
@@ -157,6 +60,7 @@
   <title>BeerGame</title>
 </head>
 <body>
+
 #parse("web/errorList.vm")
 #set($form = $currentForm)
   <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
@@ -175,16 +79,11 @@
         <td>$form.getGame().getRemain()</td>
       </tr>
     </table>
-    <table>
+      <table>
         <tr>
-          <td><div id="wholeSeller" style="width:512px;height:384px;"></div></td>
-          <td><div id="supplier1" style="width:512px;height:384px;"></div></td>
+          <td><div id="weeklyResult" style="width:512px;height:384px;"></div></td>
         </tr>
-        <tr>
-          <td><div id="supplier2" style="width:512px;height:384px;"></div></td>
-          <td><div id="maker" style="width:512px;height:384px;"></div></td>
-        </tr>
-    </table>
+      </table>
 #if($form.isOwner())
 #set($a=$form.role.name)
     <input type="button" value="発注画面に戻る" onClick="location = '$link.setAction('/preGame').addQueryData('command','loginCheck').addQueryData('gameId',$form.game.id).addQueryData('roleId',$form.role.id)'; this.disabled = true;" >

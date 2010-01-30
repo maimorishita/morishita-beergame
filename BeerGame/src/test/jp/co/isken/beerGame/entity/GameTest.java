@@ -1,6 +1,7 @@
 package jp.co.isken.beerGame.entity;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import jp.rough_diamond.commons.service.BasicService;
@@ -76,8 +77,38 @@ public class GameTest extends DataLoadingTestCase {
 		assertEquals("累計発注残数が誤っています", -10L, game.getRemain().longValue());
 	}
 
+	public void testゲーム単位で週ごとの発注残を取得する() throws Exception {
+		Game game = BasicService.getService().findByPK(Game.class, 10L);
+		long[] weeklyRemain = game.getWeeklyRemain();
+		assertEquals("発注残が誤っています", 38, weeklyRemain.length);
+		assertEquals("発注残が誤っています", 0L, weeklyRemain[0]);
+		assertEquals("発注残が誤っています", 0L, weeklyRemain[1]);
+		assertEquals("発注残が誤っています", -10L, weeklyRemain[5]);
+	}
+
 	public void test累計在庫数を取得する() throws Exception {
 		Game game = BasicService.getService().findByPK(Game.class, 1L);
 		assertEquals("累計在庫数が誤っています", 274L, game.getStock().longValue());
+	}
+	
+	public void testゲーム単位で週ごとの在庫数を取得する() throws Exception {
+		Game game = BasicService.getService().findByPK(Game.class, 10L);
+		long[] weeklyStock = game.getWeeklyStock();
+		assertEquals("在庫数が誤っています", 38, weeklyStock.length);
+		assertEquals("在庫数が誤っています", 48L, weeklyStock[0]);
+		assertEquals("在庫数が誤っています", 48L, weeklyStock[1]);
+		assertEquals("在庫数が誤っています", 50L, weeklyStock[5]);
+		assertEquals("在庫数が誤っています", 186L, weeklyStock[36]);
+		assertEquals("在庫数が誤っています", 185L, weeklyStock[37]);
+	}
+	
+	public void testGetBalance() throws Exception {
+		Game game = BasicService.getService().findByPK(Game.class, 10L);
+		Map<RoleType, long[]> balance = game.getBalance();
+		assertEquals("ロールの数に誤りがあります", 4, balance.keySet().size());
+		assertEquals("週の数に誤りがあります", 38, balance.get(RoleType.小売り).length);
+		assertEquals("週の数に誤りがあります", 38, balance.get(RoleType.卸１).length);
+		assertEquals("週の数に誤りがあります", 38, balance.get(RoleType.卸２).length);
+		assertEquals("週の数に誤りがあります", 38, balance.get(RoleType.メーカ).length);
 	}
 }

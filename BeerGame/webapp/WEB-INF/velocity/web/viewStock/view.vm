@@ -28,6 +28,7 @@
           #end
 
         #end
+      alert(d);
       roles.push(d);
     #end
 

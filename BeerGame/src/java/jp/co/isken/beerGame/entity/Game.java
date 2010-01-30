@@ -1,7 +1,9 @@
 package jp.co.isken.beerGame.entity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import jp.rough_diamond.commons.di.DIContainerFactory;
@@ -21,6 +23,8 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 	private static final long serialVersionUID = 1L;
 
 	private Role owner;
+
+	private Map<RoleType, long[]> balance;
 
 	public Role getOwner() {
 		return owner;
@@ -52,8 +56,7 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 
 	public static List<Role> getRoles(Game game) {
 		Extractor extractor = new Extractor(Role.class);
-		extractor.add(Condition.eq(
-				new Property(Role.PLAYER + "." + Player.GAME), game));
+		extractor.add(Condition.eq(new Property(Role.PLAYER + "." + Player.GAME), game));
 		List<Role> roles = BasicService.getService().findByExtractor(extractor);
 		return roles;
 	}
@@ -76,9 +79,7 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 	public Role getRole(RoleType type) {
 		BasicService service = BasicService.getService();
 		Extractor e = new Extractor(Role.class);
-		e
-				.add(Condition.eq(
-						new Property(Role.PLAYER + "." + Player.GAME), this));
+		e.add(Condition.eq(new Property(Role.PLAYER + "." + Player.GAME), this));
 		e.add(Condition.eq(new Property(Role.NAME), type.name()));
 		List<Role> roles = service.findByExtractor(e);
 		return (roles.size() == 0 ? null : roles.get(0));
@@ -114,20 +115,17 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 	}
 
 	@PostPersist
-	public void CreateOwner() throws VersionUnmuchException,
-			MessagesIncludingException {
+	public void CreateOwner() throws VersionUnmuchException, MessagesIncludingException {
 		this.getOwner().save();
 	}
 
 	@PostPersist
-	public void saveRoles() throws VersionUnmuchException,
-			MessagesIncludingException {
+	public void saveRoles() throws VersionUnmuchException, MessagesIncludingException {
 		this.saveRole(RoleType.ésèÍ);
 		this.saveRole(RoleType.çHèÍ);
 	}
 
-	private void saveRole(RoleType type) throws VersionUnmuchException,
-			MessagesIncludingException {
+	private void saveRole(RoleType type) throws VersionUnmuchException, MessagesIncludingException {
 		Player player = new Player();
 		player.setName(type.name());
 		player.setIsOwner(false);
@@ -139,38 +137,65 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 	}
 
 	public boolean IsGameOver(Long week) {
-		return DIContainerFactory.getDIContainer().getObject(Long.class,
-				"lastWeekOfGame") < week;
+		return DIContainerFactory.getDIContainer().getObject(Long.class, "lastWeekOfGame") < week;
 	}
 
 	public Long getRemain() {
 		long sum = 0;
-		for (Role role : this.getRoles()) {
-			if (role.getName().equals(RoleType.çHèÍ.name()) || role.getName().equals(RoleType.ésèÍ.name())) {
-				// TODO 2010/01/24 Ifï∂ÇÃèåèÇîΩì]Ç≥ÇπÇƒÇ´ÇÍÇ¢Ç…ÇµÇƒÇÀÅB
-			} else {
-				for (Long value : TradeTransaction.getStockList(role.getLastWeek(TransactionType.î≠íç.name()), role).values()) {
-					if (value < 0) {
-						sum += value;
-					}
-				}
-			}
+		for (long value : getWeeklyRemain()) {
+			sum += value;
 		}
 		return sum;
 	}
 
 	public Long getStock() {
 		long sum = 0;
-		for (Role role : this.getRoles()) {
-			if (!(role.getName().equals(RoleType.çHèÍ.name()) || role.getName().equals(RoleType.ésèÍ.name()))) {
-				for (Long value : TradeTransaction.getStockList(
-						role.getLastWeek(TransactionType.î≠íç.name()), role).values()) {
-					if (0 < value) {
-						sum += value;
-					}
+		for (long value : getWeeklyStock()) {
+			sum += value;
+		}
+		return sum;
+	}
+
+	public long[] getWeeklyRemain() {
+		long[] ret = new long[38];
+		for (long[] values : this.getBalance().values()) {
+			for (int i = 0; i < values.length; i++) {
+				if (values[i] < 0) {
+					ret[i] += values[i];
 				}
 			}
 		}
-		return sum;
+		return ret;
+	}
+
+	public long[] getWeeklyStock() {
+		long[] ret = new long[38];
+		for (long[] values : this.getBalance().values()) {
+			for (int i = 0; i < values.length; i++) {
+				if (0 <= values[i]) {
+					ret[i] += values[i];
+				}
+			}
+		}
+		return ret;
+	}
+
+	public Map<RoleType, long[]> getBalance() {
+		if (this.balance == null) { 
+			balance = new HashMap<RoleType, long[]>();
+			for (Role role : this.getRoles()) {
+				if (!(role.getName().equals(RoleType.çHèÍ.name()) || role.getName().equals(RoleType.ésèÍ.name()))) {
+					long[] amounts = new long[38];
+					int i = 0;
+					Map<Long, Long> stockList = TradeTransaction.getStockList(role.getLastWeek(TransactionType.î≠íç.name()), role);
+					for (Long value : stockList.values()) {
+						amounts[i] = value;
+						i++;
+					}
+					balance.put(RoleType.getRoleTypeByName(role.getName()), amounts);
+				}
+			}
+		}
+		return this.balance;
 	}
 }
