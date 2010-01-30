@@ -18,7 +18,7 @@
   <input type="hidden" name="command" />
   <div id="main">
     <p>次へボタンを押して、プレイヤーが4人そろうまでお待ちください</p>
- <td align=center><input type="button" value="次へ" onClick="javascript:isEnableToStartGame(this.form);" /></td>
+ <td align=center><input type="button" value="次へ" onClick="javascript:isEnableToStartGame(this.form); this.disabled = true;" /></td>
   </div>
   </form>
 #parse("web/footer.vm")

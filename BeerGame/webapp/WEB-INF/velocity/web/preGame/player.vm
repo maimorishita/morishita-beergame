@@ -73,7 +73,7 @@
       <tr>
         <td>&nbsp;</td>
         <td align=center>
-            <input type="button" value="登録" $!{disabled} onClick="javascript:addPlayer(this.form);" />
+            <input type="button" value="登録" $!{disabled} onClick="javascript:addPlayer(this.form); this.disabled = true;" />
         </td>
         <td align=center>
             <input type="button" value="ｷｬﾝｾﾙ" onClick="javascript:init(this.form);" />

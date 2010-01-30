@@ -47,8 +47,8 @@
       </tr>
       <tr>
         <td></td>
-        <td align=center><input type="button" value="ログイン" onClick="javascript:loginCheck(this.form);" /></td>
-        <td align=center><input type="button" value="ｷｬﾝｾﾙ" onClick="location = '$link.setAction('/top')'" /></td>
+        <td align=center><input type="button" value="ログイン" onClick="javascript:loginCheck(this.form); this.disabled = true;" /></td>
+        <td align=center><input type="button" value="ｷｬﾝｾﾙ" onClick="location = '$link.setAction('/top')'; this.disabled = true;" /></td>
       </tr>
     </table>
   </div>

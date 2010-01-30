@@ -31,8 +31,8 @@
       </tr>
       <tr>
         <td></td>
-        <td align=center><input type="button" value="残高を見る" onClick="javascript:viewStock(this.form);" /></td>
-        <td align=center><input type="button" value="ｷｬﾝｾﾙ" onClick="location = '$link.setAction('/top')'" /></td>
+        <td align=center><input type="button" value="残高を見る" onClick="javascript:viewStock(this.form); this.disabled = true;" /></td>
+        <td align=center><input type="button" value="ｷｬﾝｾﾙ" onClick="location = '$link.setAction('/top')'; this.disabled = true;" /></td>
       </tr>
     </table>
   </div>

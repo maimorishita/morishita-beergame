@@ -26,8 +26,8 @@
         <td colspan=2><input type="radio" name="newGame" value="false">&nbsp;既存ゲームへ参加</td>
       </tr>
       <tr>
-        <td align=center><input type="button" value="実行" onClick="javascript:judgeGameMode(this.form);" /></td>
-        <td align=center><input type="button" value="ｷｬﾝｾﾙ" onClick="location = '$link.setAction('/top')'" /></td>
+        <td align=center><input type="button" value="実行" onClick="javascript:judgeGameMode(this.form); this.disabled = true;" /></td>
+        <td align=center><input type="button" value="ｷｬﾝｾﾙ" onClick="location = '$link.setAction('/top')'; this.disabled = true;" /></td>
       </tr>
     </table>
   </div>
