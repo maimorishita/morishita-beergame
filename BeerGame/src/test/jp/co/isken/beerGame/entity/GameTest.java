@@ -78,6 +78,6 @@ public class GameTest extends DataLoadingTestCase {
 
 	public void test—İŒvİŒÉ”‚ğæ“¾‚·‚é() throws Exception {
 		Game game = BasicService.getService().findByPK(Game.class, 1L);
-		assertEquals("—İŒvİŒÉ”‚ªŒë‚Á‚Ä‚¢‚Ü‚·", 226L, game.getStock().longValue());
+		assertEquals("—İŒvİŒÉ”‚ªŒë‚Á‚Ä‚¢‚Ü‚·", 274L, game.getStock().longValue());
 	}
 }

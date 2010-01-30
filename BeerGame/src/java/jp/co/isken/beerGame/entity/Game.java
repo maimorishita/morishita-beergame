@@ -162,10 +162,9 @@ public class Game extends jp.co.isken.beerGame.entity.base.BaseGame {
 	public Long getStock() {
 		long sum = 0;
 		for (Role role : this.getRoles()) {
-			if (role.getName().equals(RoleType.Hê.name()) || role.getName().equals(RoleType.sê.name())) {
-				// TODO 2010/01/24 If•¶‚ÌğŒ‚ğ”½“]‚³‚¹‚Ä‚«‚ê‚¢‚É‚µ‚Ä‚ËB
-			} else {
-				for (Long value : TradeTransaction.getStockList(role.getLastWeek(TransactionType.”­’.name()), role).values()) {
+			if (!(role.getName().equals(RoleType.Hê.name()) || role.getName().equals(RoleType.sê.name()))) {
+				for (Long value : TradeTransaction.getStockList(
+						role.getLastWeek(TransactionType.”­’.name()), role).values()) {
 					if (0 < value) {
 						sum += value;
 					}

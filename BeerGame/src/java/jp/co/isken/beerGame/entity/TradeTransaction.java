@@ -65,7 +65,7 @@ public class TradeTransaction extends jp.co.isken.beerGame.entity.base.BaseTrade
 
 	public static Map<Long, Long> getStockList(Long week, Role role) {
 		Map<Long, Long> ret = new HashMap<Long, Long>();
-		for(Long i = 1L ; i <= week ; i++){
+		for(Long i = 0L ; i <= week ; i++){
 			ret.put(i, calcAmountRemain(i, role));
 		}
 		return ret;

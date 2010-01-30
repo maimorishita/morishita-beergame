@@ -43,6 +43,8 @@ public class TradeTransactionTest extends DataLoadingTestCase {
 		Role role = BasicService.getService().findByPK(Role.class, 1L);
 		Long rltStock = TradeTransaction.calcAmountStock(10L, role);
 		assertEquals("İŒÉ”‚ªŒë‚Á‚Ä‚¢‚Ü‚·B", 30, rltStock.intValue());
+		rltStock = TradeTransaction.calcAmountStock(0L, role);
+		assertEquals("İŒÉ”‚ªŒë‚Á‚Ä‚¢‚Ü‚·B", 12, rltStock.intValue());
 	}
 
 	public void testó’c—Ê‚ğZo‚·‚é() throws Exception {
@@ -54,7 +56,8 @@ public class TradeTransactionTest extends DataLoadingTestCase {
 	public void testİŒÉ—Ê‚ğƒŠƒXƒg‚Åæ“¾‚·‚é() throws Exception {
 		Role role = BasicService.getService().findByPK(Role.class, 2L);
 		Map<Long, Long> rltStock = TradeTransaction.getStockList(5L, role);
-		assertEquals("ƒŠƒXƒgo—Í‚ªŒë‚Á‚Ä‚¢‚Ü‚·B", 5, rltStock.size());
+		assertEquals("ƒŠƒXƒgo—Í‚ªŒë‚Á‚Ä‚¢‚Ü‚·B", 6, rltStock.size());
+		assertEquals("—İŒvİŒÉ‚ªŠÔˆá‚Á‚Ä‚¢‚Ü‚·B", 12, rltStock.get(0L).intValue());
 		assertEquals("—İŒvİŒÉ‚ªŠÔˆá‚Á‚Ä‚¢‚Ü‚·B", 12, rltStock.get(1L).intValue());
 		assertEquals("—İŒvİŒÉ‚ªŠÔˆá‚Á‚Ä‚¢‚Ü‚·B", 14, rltStock.get(2L).intValue());
 		assertEquals("—İŒvİŒÉ‚ªŠÔˆá‚Á‚Ä‚¢‚Ü‚·B", 8, rltStock.get(3L).intValue());
@@ -65,7 +68,8 @@ public class TradeTransactionTest extends DataLoadingTestCase {
 
 	public void testƒ[ƒ‹‚ÆƒQ[ƒ€–¼‚ğˆø”‚É‚µ‚ÄİŒÉ‚ğæ“¾‚·‚é() throws Exception {
 		Map<Long, Long> map = TradeTransaction.getStockAmount("NOAH",RoleType.‰µ‚Q.name());
-		assertEquals("İŒÉ‚ğZo‚·‚éT‚Ì”‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 5, map.size());
+		assertEquals("İŒÉ‚ğZo‚·‚éT‚Ì”‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 6, map.size());
+		assertEquals("‰ŠúİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 12, map.get(0L).intValue());
 		assertEquals("‚PT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 12, map.get(1L).intValue());
 		assertEquals("‚QT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 12, map.get(2L).intValue());
 		assertEquals("‚RT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 6, map.get(3L).intValue());
@@ -73,21 +77,13 @@ public class TradeTransactionTest extends DataLoadingTestCase {
 		assertEquals("‚TT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", -6, map.get(5L).intValue());
 		
 		map = TradeTransaction.getStockAmount("NOAH", RoleType.ƒ[ƒJ.name());
-		assertEquals("İŒÉ‚ğZo‚·‚éT‚Ì”‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 5, map.size());
+		assertEquals("İŒÉ‚ğZo‚·‚éT‚Ì”‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 6, map.size());
+		assertEquals("‰ŠúİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 12, map.get(0L).intValue());
 		assertEquals("‚PT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 12, map.get(1L).intValue());
 		assertEquals("‚QT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 14, map.get(2L).intValue());
 		assertEquals("‚RT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 16, map.get(3L).intValue());
 		assertEquals("‚ST–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 18, map.get(4L).intValue());
 		assertEquals("‚TT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 20, map.get(5L).intValue());
-//		map = TradeTransaction.getStockAmount("ƒOƒ‰ƒt‚ÌƒeƒXƒg—p",
-//				RoleType.‰µ‚Q.name());
-//		assertEquals("İŒÉ‚ğZo‚·‚éT‚Ì”‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 6, map.size());
-//		assertEquals("‚PT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 29, map.get(1L).intValue());
-//		assertEquals("‚QT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 29, map.get(2L).intValue());
-//		assertEquals("‚RT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 24, map.get(3L).intValue());
-//		assertEquals("‚ST–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 11, map.get(4L).intValue());
-//		assertEquals("‚TT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", -4, map.get(5L).intValue());
-//		assertEquals("‚UT–Ú‚ÌİŒÉ‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·", 9, map.get(6L).intValue());
 	}
 
 	public void test“ü‰×ó’o‰×”­’‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ğ‰i‘±‰»‚·‚é() throws Exception {
