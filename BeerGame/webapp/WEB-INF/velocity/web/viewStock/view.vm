@@ -14,20 +14,20 @@
     #foreach($role in $!currentForm.getRoles())
       #set($map = $currentForm.getStockList($currentForm.teamName, $role.name))
       var d = [];
-        #foreach($key in $map.keySet())
-          #set($amount = $map.get($key))
+      #foreach($key in $map.keySet())
+        #set($amount = $map.get($key))
 
-          d.push([$key, $amount]);
-          #if($amount > $max)
-            #set($max = $amount)
-          #end
-
-          #if($amount < $min)
-            #set($min = $amount)
-          #end
-
+        d.push([$key, $amount]);
+        #if($amount > $max)
+          #set($max = $amount)
         #end
-      roles.push(d);
+
+        #if($amount < $min)
+          #set($min = $amount)
+        #end
+
+      #end
+      roles["$role.name"] = d;
     #end
 
     //スケールに10%の余裕を持たせる
@@ -40,7 +40,7 @@
       {
          color  : "red",
          label : "小売り",
-         data: roles[0],
+         data: roles["小売り"],
          lines: { show: true, fill: true },
          points: { show: true },
       }
@@ -67,8 +67,8 @@
     [
       {
          color  : "blue",
-         label  : "卸1",
-         data   : roles[3],
+         label  : "卸１",
+         data   : roles["卸１"],
          lines  : { show: true, fill: true },
          points : { show: true },
       }
@@ -96,7 +96,7 @@
       {
          color  : "green",
          label : "卸２",
-         data: roles[1],
+         data: roles["卸２"],
          lines: { show: true, fill: true },
          points: { show: true },
       }
@@ -123,8 +123,8 @@
     [
       {
          color  : "orange",
-         label : "メーカー",
-         data: roles[2],
+         label : "メーカ",
+         data: roles["メーカ"],
          lines: { show: true, fill: true },
          points: { show: true },
       }
