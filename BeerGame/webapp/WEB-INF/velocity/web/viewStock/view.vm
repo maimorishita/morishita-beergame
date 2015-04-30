@@ -7,27 +7,30 @@
   <script language="javascript" type="text/javascript" src="./js/excanvas.min.js"></script>
   <script language="javascript" type="text/javascript">
   $(function () {
-    //データ  
-    var roles = [];
+    //データ
+    var roles = new Object();
     #set($max = 0)
     #set($min = 0)
     #foreach($role in $!currentForm.getRoles())
-      #set($map = $currentForm.getStockList($currentForm.teamName, $role.name))
+      #set($map = $currentForm.getStockList($currentForm.teamName,$role.name))
+      #set($id = $role.id)
+      //rolename
+      var roleName = "$role.name" ;
       var d = [];
-      #foreach($key in $map.keySet())
-        #set($amount = $map.get($key))
+        #foreach($key in $map.keySet())
+          #set($amount = $map.get($key))
 
-        d.push([$key, $amount]);
-        #if($amount > $max)
-          #set($max = $amount)
+          d.push([$key, $amount]);
+          #if($amount > $max)
+            #set($max = $amount)
+          #end
+
+          #if($amount < $min)
+            #set($min = $amount)
+          #end
         #end
-
-        #if($amount < $min)
-          #set($min = $amount)
-        #end
-
-      #end
-      roles["$role.name"] = d;
+      //roles.push(d);
+      roles[roleName] = d;
     #end
 
     //スケールに10%の余裕を持たせる
@@ -67,7 +70,7 @@
     [
       {
          color  : "blue",
-         label  : "卸１",
+         label  : "卸1",
          data   : roles["卸１"],
          lines  : { show: true, fill: true },
          points : { show: true },
@@ -123,7 +126,7 @@
     [
       {
          color  : "orange",
-         label : "メーカ",
+         label : "メーカー",
          data: roles["メーカ"],
          lines: { show: true, fill: true },
          points: { show: true },
@@ -156,6 +159,7 @@
 </head>
 <body>
 #parse("web/errorList.vm")
+#set($form = $currentForm)
   <form action="$link.setAction($currentPath)" method="post" id="hiddenForm">
     <input type="hidden" name="command" />
     <div id="main">
@@ -168,6 +172,21 @@
         <tr>
           <td><div id="supplier2" style="width:512px;height:384px;"></div></td>
           <td><div id="maker" style="width:512px;height:384px;"></div></td>
+        </tr>
+      </table>
+    <table border=1>
+      <tr>
+        <td>累計在庫数</td>
+        <td>累計発注残数</td>
+      </tr>
+      <tr>
+        <td>$form.getGame().getStock()</td>
+        <td>$form.getGame().getRemain()</td>
+      </tr>
+    </table>
+      <table>
+        <tr>
+          <td><div id="weeklyResult" style="width:512px;height:384px;"></div></td>
         </tr>
       </table>
       <table>
